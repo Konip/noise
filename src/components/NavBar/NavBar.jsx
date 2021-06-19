@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './NavBar.css'
 import sound from '../../assets/sound.svg'
+import sound1 from '../../assets/sound1.svg'
 
 export class NavBar extends Component {
     render() {
@@ -12,6 +13,9 @@ export class NavBar extends Component {
                 <div className="rightSection">
                     <div className="sound">
                         <img src={sound} alt="" />
+                    </div>
+                    <div className="sound1">
+                        <img src={sound1} alt="" />
                     </div>
                     <a className="burger">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fill-rule="evenodd"><path fill="currentColor" fill-rule="nonzero" d="M1 2a1 1 0 1 1 0-2h16a1 1 0 0 1 0 2H1zm0 5a1 1 0 1 1 0-2h13.09a1 1 0 0 1 0 2H1zm0 5a1 1 0 0 1 0-2h16a1 1 0 0 1 0 2H1zm0 5a1 1 0 0 1 0-2h8.182a1 1 0 0 1 0 2H1z"></path><path d="M0 0h18v18H0z"></path></g></svg>

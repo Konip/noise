@@ -1,9 +1,10 @@
 import React from 'react'
+import './Card.css'
 
-export default function Card() {
+export function Card({ img, name }) {
     return (
-        <div>
-            
+        <div className='card'>
+            <img src={img} alt="" />
         </div>
     )
 }

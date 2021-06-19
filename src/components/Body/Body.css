@@ -1,0 +1,10 @@
+.body {
+    height: 100vh;
+}
+
+.container {
+    max-width: 592px;
+    display: flex;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}

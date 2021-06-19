@@ -4,6 +4,7 @@
     height: 76px;
     padding: 0 16px;
     align-items: center;
+    box-shadow: rgb(0 0 0 / 10%) 0px 1px 2px;
 }
 .nav p {
     color: white;
@@ -13,7 +14,8 @@
     display: flex;
     align-items: center;
 }
-.sound,.burger,.office{
+.sound,.sound1,.burger,.office{
     margin: 0 6px;
     color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
 }
