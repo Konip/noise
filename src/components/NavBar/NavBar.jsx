@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import './NavBar.css'
-import sound from '../../assets/sound.svg'
-import sound1 from '../../assets/sound1.svg'
 
 export class NavBar extends Component {
+    constructor() {
+        super()
+        this.state = {
+            soundToggle: true,
+        }
+    }
     render() {
         return (
             <div className='nav'>
@@ -11,11 +15,24 @@ export class NavBar extends Component {
                     <p>Noise</p>
                 </div>
                 <div className="rightSection">
-                    <div className="sound">
-                        <img src={sound} alt="" />
-                    </div>
-                    <div className="sound1">
-                        <img src={sound1} alt="" />
+                    <div className="sound" onClick={() => this.setState({ soundToggle: !this.state.soundToggle })}>
+                        {this.state.soundToggle
+                            ?
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="currentColor" fill-rule="nonzero" d="M14.217 3.622a1 1 0 1 1 1.566-1.244C17.26 4.24 18 6.46 18 9c0 2.54-.74 4.76-2.217 6.622a1 1 0 1 1-1.566-1.244C15.407 12.878 16 11.098 16 9c0-2.099-.593-3.879-1.783-5.378z"></path>
+                                    <path fill="currentColor" fill-rule="nonzero" d="M12.168 6.555a1 1 0 1 1 1.664-1.11C14.603 6.602 15 7.792 15 9c0 1.208-.397 2.398-1.168 3.555a1 1 0 1 1-1.664-1.11C12.73 10.602 13 9.792 13 9c0-.792-.27-1.602-.832-2.445zM3.586 5l4-4A2 2 0 0 1 11 2.414v13.172A2 2 0 0 1 7.586 17l-4-4H2a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h1.586zm1.121 1.707A1 1 0 0 1 4 7H2v4h2a1 1 0 0 1 .707.293L9 15.586V2.414L4.707 6.707z"></path>
+                                    <path d="M0 0h18v18H0z"></path>
+                                </g>
+                            </svg>
+                            :
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                                <g fill="none" fill-rule="evenodd">
+                                    <path fill="#ffffff" fill-rule="nonzero" d="M16.834 14.006l-1.502-1.502C15.778 11.45 16 10.284 16 9c0-2.099-.593-3.879-1.783-5.378a1 1 0 1 1 1.566-1.244C17.26 4.24 18 6.46 18 9c0 1.842-.389 3.516-1.166 5.006zm-2.439-2.439l-1.544-1.544c.1-.345.149-.686.149-1.023 0-.792-.27-1.602-.832-2.445a1 1 0 1 1 1.664-1.11C14.603 6.602 15 7.792 15 9c0 .867-.204 1.724-.605 2.567zM5.707 2.879L7.586 1A2 2 0 0 1 11 2.414v5.758l-2-2V2.414L7.121 4.293 5.707 2.879zM11 13.829v1.757A2 2 0 0 1 7.586 17l-4-4H2a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h.172l1.987 1.987A1 1 0 0 1 4 7H2v4h2a1 1 0 0 1 .707.293L9 15.586v-3.758l2 2zM.293 1.706A1 1 0 1 1 1.707.293l16 16a1 1 0 0 1-1.414 1.414l-16-16z"></path>
+                                    <path d="M0 0h18v18H0z"></path>
+                                </g>
+                            </svg>
+                        }
                     </div>
                     <a className="burger">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fill-rule="evenodd"><path fill="currentColor" fill-rule="nonzero" d="M1 2a1 1 0 1 1 0-2h16a1 1 0 0 1 0 2H1zm0 5a1 1 0 1 1 0-2h13.09a1 1 0 0 1 0 2H1zm0 5a1 1 0 0 1 0-2h16a1 1 0 0 1 0 2H1zm0 5a1 1 0 0 1 0-2h8.182a1 1 0 0 1 0 2H1z"></path><path d="M0 0h18v18H0z"></path></g></svg>

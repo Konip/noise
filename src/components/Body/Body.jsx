@@ -19,7 +19,7 @@ import forest from '../../assets/forest.svg'
 const obj = [
     {
         img: rain,
-        name: 'Rain'
+        name: 'Rain',
     },
     {
         img: thunderstorm,

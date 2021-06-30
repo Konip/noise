@@ -14,8 +14,15 @@
     display: flex;
     align-items: center;
 }
-.sound,.sound1,.burger,.office{
+.sound,.burger,.office{
     margin: 0 6px;
     color: rgba(255, 255, 255, 0.5);
     cursor: pointer;
+}
+.sound:hover,.burger:hover,.office:hover{
+    transition: 0.2s;
+    color: white;
+}
+.sound img:hover{
+    fill:lawngreen
 }
