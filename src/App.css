@@ -1,4 +1,7 @@
 .App {
   text-align: center;
-  background-color: #14614b;
+  /* background-color: #14614b; */
+}
+body{
+  transition: background-color 5s ease;
 }
