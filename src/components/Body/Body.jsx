@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import { Card } from './Card'
-import './Body.css'
 // import rain from '../../assets/rain.svg'
 // import thunderstorm from '../../assets/thunderstorm.svg'
 // import wind from '../../assets/wind.svg'
@@ -8,67 +6,81 @@ import './Body.css'
 import rain from '../../assets/music/rain.mp3'
 import thunderstorm from '../../assets/music/thunderstorm.mp3'
 import wind from '../../assets/music/wind.mp3'
+import './Body.css'
 
-
-
-// const audio = document.getElementsByTagName('audio'),
-// const card = document.querySelector('card')
-
-
-
-// card.addEventListener(onclick, () => {
-//     audio.volume = 0.2
-// })
-let span1 = 50
-// let audio
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('loadede');
-    // let span = document.getElementsByTagName(`span`)
-
-    // console.log(span)
-    // console.log(audio)
-})
-
-document.addEventListener('input', () => {
-    let q = document.querySelector('.q > input')
-    // console.log(q.attributes.value.value);
-    // console.log(q.parentElement.attributes);
-    // let max = q.attributes.max.value
-    // let min = q.attributes.min.value
-    // let value = q.attributes.min.value
-    // let audio = document.getElementById('thunderstorm')
-    // console.log(audio.volume);
-    // audio.volume = value / (max - min)
-    // console.log('volume', audio.volume);
-})
 export class Body extends Component {
     constructor() {
         super()
         this.state = {
             rain: false,
+            rainVolume: 1,
             thunderstorm: false,
+            thunderstormVolume: 1,
             wind: false,
+            windVolume: 1,
         }
         this.ref = React.createRef()
         this.change = this.change.bind(this)
     }
-    change() {
-        console.log(this.ref.current.value);
-        let audio = document.getElementById('thunderstorm')
-        audio.volume = this.ref.current.value
-        audio.play()
-        console.log(audio.volume);
+    change(e) {
+        // console.log(e.target.value);
+        let key = e.target.parentNode.dataset.key
+        let audio = document.getElementById(`${key}`)
+        audio.volume = e.target.value
+        console.log(key,audio.volume );
+        // this.setState()
+        // let key = this.ref.current.parentNode.dataset.key
+        // this.setState({[key]:e.target.value},()=>{
+
+        // })
+        // let audio = document.getElementById(`${e.target.parentNode.dataset.key}`)
+
+        // audio.volume = e.target.value
+
+        // console.log('this.ref.current.value ', this.ref);
+        // let audio = document.getElementById(`${this.ref.current.parentNode.dataset.key}`)
+        // // console.log(audio);
+        // audio.volume = this.ref.current.value
+        // console.log('audio.volume ', audio.volume);
+
+    }
+    onClick(e) {
+        // console.log(e);
+
+        let key = e.target.parentNode.dataset.key
+        // console.log(e.target.localName);
+        // console.log('key', key)
+
+        let input = e.target.parentNode.lastElementChild.id
+        // console.log(input);
+
+        if (e.target.localName === 'svg') {
+
+            this.setState({ [key]: !this.state[key] }, () => {
+                // console.log(input);
+                if (this.state[key] === true) {
+                    console.log(document.getElementById(`${key}`));
+                    document.getElementById(`${key}`).currentTime = 0
+                    document.getElementById(`${key}`).play()
+                    document.getElementById(`${input}`).style.visibility = 'visible';
+                    // console.log(document.getElementById(`${input}`));
+                    // alert('true')
+                }
+                else {
+                    document.getElementById(`${key}`).pause()
+                    document.getElementById(`${input}`).style.visibility = 'hidden';
+                    // alert('false')
+                }
+            })
+        }
     }
     render() {
         return (
             <div className='body'>
+                {console.log('render')}
                 <div className="container">
-
-                    {/* {console.log(span )} */}
-                    {/* {obj.map(el => (
-                        <Card img={el.img} name={el.name} />
-                    ))} */}
-                    <div className={this.state.rain ? "card rain active" : "card rain"} onClick={() => this.setState({ rain: !this.state.rain })}>
+                    <div data-key="rain" className={this.state.rain ? "card rain active" : "card rain"} onClick={(e) => this.onClick(e)}>
+                        {/* <div className="screen"></div> */}
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Rain</title>
                             <g fill="none" fillRule="evenodd">
@@ -76,18 +88,13 @@ export class Body extends Component {
                                 <path d="M0 0h56v56H0z"></path>
                             </g>
                         </svg>
-                        {this.state.rain &&
-                            <div>
-                                <audio src={rain} autoPlay loop volume={this.ref}></audio>
-                                <input type="range" min='0' max='1' step='0.1' value='1'
-                                // onchange='setVolume(this.value)'
-                                />
-                            </div>
-
-                        }
+                        <audio id='rain' src={rain} loop ></audio>
+                        <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'  onChange={(e)=>this.change(e)} ></input>
+                        {/* <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' ref={this.ref} onChange={this.change} ></input> */}
                     </div>
 
-                    <div className={this.state.thunderstorm ? "card  thunderstorm active" : "card  thunderstorm"} onClick={() => this.setState({ thunderstorm: !this.state.thunderstorm })}>
+                    <div data-key="thunderstorm" className={this.state.thunderstorm ? "card  thunderstorm active" : "card  thunderstorm"} onClick={(e) => this.onClick(e)}>
+                        {/* <div id='div-rain' className="screen"></div> */}
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Thunderstorm</title>
                             <g fill="none" fillRule="evenodd">
@@ -96,33 +103,13 @@ export class Body extends Component {
                                 <path d="M0 0h56v56H0z"></path>
                             </g>
                         </svg>
-                        {this.state.thunderstorm &&
-                            // <div style={{ width: '100%' }} role="slider" aria-valuenow="4" aria-valuemin="1" aria-valuemax="10">
-                            <div id='volume-panel1' className='volume-panel'>
-
-                                {/* <span class="MuiSlider-thumb MuiSlider-thumbColorPrimary" tabindex="0" role="slider" 
-                                data-index="0" aria-orientation="horizontal" aria-valuemax="1" aria-valuemin="0.0001" 
-                                aria-valuenow="0.35" style="left: 34.9935%;"></span> */}
-                                {/* <span className='q' >
-                                    <span className="w"></span>
-                                    <span className="e"></span>
-                                    <input type="hidden" />
-                                    <span style={{ left: `${span1}%;` }} className="r" tabindex="0" role="slider" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" ></span>
-                                </span> */}
-                                {/* <input type="range" min='0' max='1' step='0.1'  /> */}
-                            </div>
-                        }
-                        <audio id='thunderstorm' src={thunderstorm} autoPlay loop ></audio>
-                        <input  type="range" min='0' max='1' step='0.01' ref={this.ref} onChange={this.change} ></input>
-                        {/* <div className='q' >
-                            <span className="w"></span>
-                            <span className="e"></span>
-                            <span style={{ left: `${span1}%;` }} className="r" tabindex="0" role="slider" aria-valuemax="1" aria-valuemin="0" aria-valuenow="0.5" ></span>
-                            <input type="range" min='0' max='1' step='0.1' ref={this.ref} onChange={this.change} ></input>
-                        </div> */}
+                        <audio id='thunderstorm' src={thunderstorm} loop ></audio>
+                        <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                        {/* <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' ref={this.ref} onChange={this.change} ></input> */}
                     </div>
 
-                    <div className={this.state.wind ? "card  wind active" : "card  wind"} onClick={() => this.setState({ wind: !this.state.wind })}>
+                    <div data-key="wind" className={this.state.wind ? "card  wind active" : "card  wind"} onClick={(e) => this.onClick(e)}>
+                        {/* <div className="screen"></div> */}
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Wind</title>
                             <g fill="none" fillRule="evenodd">
@@ -131,15 +118,9 @@ export class Body extends Component {
                                 <path d="M0 0h56v56H0z"></path>
                             </g>
                         </svg>
-                        {this.state.wind &&
-                            <div>
-                                <audio src={wind} autoPlay loop></audio>
-                                {/* <input type="range" min='0' max='1' step='0.1' value='1'
-                                onchange='setVolume(this.value)'
-                                /> */}
-                            </div>
-
-                        }
+                        <audio id='wind' src={wind} loop></audio>
+                        <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                        {/* <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' ref={this.ref} onChange={this.change} ></input> */}
                     </div>
                 </div>
             </div>

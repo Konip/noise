@@ -1,8 +1,17 @@
 .body {
     height: 100vh;
 }
-
+.screen{
+    width: 100px;
+    height: 66px;
+    position: absolute;
+    z-index: 200;
+}
+svg{
+    z-index: 500;
+}
 input[type=range] {
+    z-index: 400;
     -webkit-appearance: none;
     padding: 12.8px 0;
     background-color: transparent !important;
@@ -18,9 +27,8 @@ input[type=range]::-webkit-slider-runnable-track {
 }
 
 input[type=range]::-webkit-slider-thumb {
-    border: 7px solid rgba(255, 255, 255, 0.77);
+    border: 7px solid white;
     border-radius: 20px;
-    background: white;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -6px;
@@ -102,6 +110,10 @@ input[type=range]::-moz-range-thumb {
 input[type=range]::-ms-thumb {
     height: 14x;
     width: 14px;
+}
+
+.input {
+    visibility: hidden;
 }
 
 .container {

@@ -23,7 +23,7 @@ function App() {
   setInterval(changeBodyColor, 10000)
   return (
     <div className="App">
-      {console.log('renader')}
+      {/* {console.log('renader')} */}
       <NavBar />
       <Body />
     </div>
