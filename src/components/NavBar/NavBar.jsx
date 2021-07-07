@@ -7,6 +7,10 @@ export class NavBar extends Component {
         this.state = {
             soundToggle: true,
         }
+        this.changeSound = this.changeSound.bind(this)
+    }
+    changeSound() {
+        this.props.changeToggle()
     }
     render() {
         return (
@@ -15,7 +19,9 @@ export class NavBar extends Component {
                     <p>Noise</p>
                 </div>
                 <div className="rightSection">
-                    <div className="sound" onClick={() => this.setState({ soundToggle: !this.state.soundToggle })}>
+                    <input id='input-rain' style={this.props.sound ?{ visibility: 'visible' } : { visibility: 'hidden' } } type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                    <div className="sound" onClick={this.changeSound}>
+                        {/* <div className="sound" onClick={() => this.setState({ soundToggle: !this.state.soundToggle })}> */}
                         {this.state.soundToggle
                             ?
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
