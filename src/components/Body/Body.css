@@ -1,5 +1,6 @@
 .body {
     height: 100vh;
+    padding-top: 80px;
 }
 
 .screen {
@@ -136,17 +137,18 @@ input[type=range]::-ms-thumb {
     width: 100px;
     cursor: pointer;
     margin: 0 24px 50px 24px;
-    color: rgba(255, 255, 255 ,1);
-    
+    color: rgba(255, 255, 255);
+    opacity: 0.5;
+    transition: 0.7s;
 }
 
-.card svg:hover {
-    color: white;
-    transition: 0.2s;
+.card:hover {
+    opacity: 1;
+    transition: 0.7s;
 }
 
 .active {
-    color: white;
+    opacity: 1;
 }
 
 svg {

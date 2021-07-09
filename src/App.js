@@ -29,7 +29,7 @@ function App() {
   setInterval(changeBodyColor, 10000)
   return (
     <div className="App">
-      {console.log('App')}
+      {/* {console.log('App')} */}
       <NavBar changeToggle={changeToggle} sound={generalSound}/>
       <Body sound={generalSound} />
     </div>
