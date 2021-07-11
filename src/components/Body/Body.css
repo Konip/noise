@@ -118,7 +118,18 @@ input[type=range]::-ms-thumb {
 
 .input {
     visibility: hidden;
+    position: relative;
 }
+
+/* input::before{
+    content: '';
+    background: #fff;
+    left: -58px;
+    height: 2px;
+    width: 64px;
+    display: block;
+    position: absolute;
+} */
 
 .container {
     max-width: 592px;
@@ -126,6 +137,7 @@ input[type=range]::-ms-thumb {
     margin: 0 auto;
     flex-wrap: wrap;
     /* cursor: pointer; */
+   
 }
 
 .container:hover {

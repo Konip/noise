@@ -19,7 +19,7 @@ export class NavBar extends Component {
                     <p>Noise</p>
                 </div>
                 <div className="rightSection">
-                    <input id='input-rain' style={this.props.sound ?{ visibility: 'visible' } : { visibility: 'hidden' } } type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                    {/* <input id='input-rain' style={this.props.sound ?{ visibility: 'visible' } : { visibility: 'hidden' } } type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input> */}
                     <div className="sound" onClick={this.changeSound}>
                         {/* <div className="sound" onClick={() => this.setState({ soundToggle: !this.state.soundToggle })}> */}
                         {this.state.soundToggle

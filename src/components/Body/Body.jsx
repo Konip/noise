@@ -1,76 +1,38 @@
 import React, { Component } from 'react'
-import rain from '../../assets/music/rain.mp3' // +  1111
-import thunderstorm from '../../assets/music/thunderstorm.mp3' // начать запись раньше , треск неб.3-5
-import wind from '../../assets/music/wind.mp3' // + 
-import forest from '../../assets/music/forest.mp3' // - небольшой трескк и увеличить минут до 3-5
-import leaves1 from '../../assets/music/leaves.mp3' // + перезаписать и увеличить минут до 3-5
-import waterStream from '../../assets/music/waterStream.mp3'// + перезаписать и увеличить минут до 3-5
-import seaside from '../../assets/music/seaside.mp3' // + 
-import water from '../../assets/music/water.mp3'// + 
-import bonfire from '../../assets/music/bonfire.mp3' // + 
-import summerNight from '../../assets/music/summerNight.mp3' // + 
-import coffeeShop from '../../assets/music/coffeeShop.mp3' // + и по качеству норм 3-5
-import train from '../../assets/music/train.mp3' // + - 3-5
-import fan from '../../assets/music/fan.mp3' // -
 import './Body.css'
 import _ from 'lodash'
 
-// https://dl.dropbox.com/s/n1eroi085y4at57/water.mp3?dl=1
-// https://dl.dropbox.com/s/1ti5j1u53qm17ix/seaside.mp3?dl=1
-// https://dl.dropbox.com/s/9qtjr0gg4ynplcq/waterStream.mp3?dl=1
-// https://dl.dropbox.com/s/0on0mbloyn3q2ax/leaves.mp3?dl=1
-// https://dl.dropbox.com/s/2iinabo0k6sxlg6/forest.mp3?dl=1
-// https://d1.dropbox.com/s/ldfhncxtrduz8yw/wind.mp3?dl=1
-// https://dl.dropbox.com/s/2gspywgk2uy39rl/thunderstorm.mp3?dl=0
-// https://dl.dropbox.com/s/b5jcg9fh3ugnj9s/rain.mp3?dl=1
-// https://dl.dropbox.com/s/e3ok0nsqjwc0eqq/bonfire.mp3?dl=1
-// https://dl.dropbox.com/s/kqllj1arc4zvv1o/summerNight.mp3?dl=1
-// https://dl.dropbox.com/s/tvr3sy9v8n3ldkb/coffeeShop.mp3?dl=1
-// https://dl.dropbox.com/s/e1bas7fmmc8we0h/train.mp3?dl=1
-
-// new
-// https://dl.dropbox.com/s/xvlfnlpar9afvmv/wind.mp3?dl=1
 //  https://dl.dropbox.com/s/c1e90i1hyvryo68/rain.mp3?dl=1
-// https://dl.dropbox.com/s/u5gwrev34c5k7s5/wind1.mp3?dl=1
-// https://dl.dropbox.com/s/hoxop0ef2acw8mm/wind2.mp3?dl=1
-// https://dl.dropbox.com/s/9obvm4evl12dy9s/wind3.mp3?dl=1
-// https://dl.dropbox.com/s/5k86rgbmxmmfv42/wind4.mp3?dl=1
-
-
-// https://dl.dropbox.com/s/3lzqmt3qdiuwnpp/Surf%20Mesa%20feat.%20Emilee%20-%20ily%20%28i%20love%20you%20baby%29.mp3?dl=1
+// https://dl.dropbox.com/s/alyrhvc8ad5zm7w/wind.mp3?dl=1
+// https://dl.dropbox.com/s/fryvk3d3h4ljfzk/summerNight.mp3?dl=1
+// https://dl.dropbox.com/s/sfefdovo60ljf6w/water.mp3?dl=1
+// https://dl.dropbox.com/s/rvlsihibie42kgk/bonfire.mp3?dl=1
+// https://dl.dropbox.com/s/fw9ufylyu2dx75g/seaside.mp3?dl=1
+// https://dl.dropbox.com/s/n6knpo892h2ilbc/forest.mp3?dl=1
+// https://dl.dropbox.com/s/texuwihp2cgp9i6/thunderstorm_full.mp3?dl=1
+// https://dl.dropbox.com/s/kvnb5feyfsdo8gw/leaves.mp3?dl=1
+// https://dl.dropbox.com/s/qk7l4jiwuxxkffs/waterStream.mp3?dl=1
+// https://dl.dropbox.com/s/omzyp0vg182k8uh/coffeeShop.mp3?dl=1
+// https://dl.dropbox.com/s/iwlgf2kiqanouwg/train.mp3?dl=1
+// https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1
 
 const obj = {
-    // 'leaves': 'https://dl.dropbox.com/s/0on0mbloyn3q2ax/leaves.mp3?dl=1',
-    // 'waterStream': 'https://dl.dropbox.com/s/hoxop0ef2acw8mm/wind2.mp3?dl=1',
-
-    'leaves': 'https://dl.dropbox.com/s/5k86rgbmxmmfv42/wind4.mp3?dl=1'
+    'rain': 'https://dl.dropbox.com/s/c1e90i1hyvryo68/rain.mp3?dl=1',
+    'thunderstorm': 'https://dl.dropbox.com/s/texuwihp2cgp9i6/thunderstorm_full.mp3?dl=1',
+    // 'wind': 'https://dl.dropbox.com/s/alyrhvc8ad5zm7w/wind.mp3?dl=1',
+    // 'forest': 'https://dl.dropbox.com/s/n6knpo892h2ilbc/forest.mp3?dl=1',
+    // 'leaves': 'https://dl.dropbox.com/s/kvnb5feyfsdo8gw/leaves.mp3?dl=1',
+    // 'waterStream': 'https://dl.dropbox.com/s/qk7l4jiwuxxkffs/waterStream.mp3?dl=1',
+    // 'seaside': 'https://dl.dropbox.com/s/fw9ufylyu2dx75g/seaside.mp3?dl=1',
+    // 'water': 'https://dl.dropbox.com/s/sfefdovo60ljf6w/water.mp3?dl=1',
+    // 'bonfire': 'https://dl.dropbox.com/s/rvlsihibie42kgk/bonfire.mp3?dl=1',
+    // 'summerNight': 'https://dl.dropbox.com/s/fryvk3d3h4ljfzk/summerNight.mp3?dl=1',
+    // 'coffeeShop': 'https://dl.dropbox.com/s/omzyp0vg182k8uh/coffeeShop.mp3?dl=1',
+    // 'train': 'https://dl.dropbox.com/s/iwlgf2kiqanouwg/train.mp3?dl=1',
+    // 'fan': ' https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1',
 }
 
 const aCtx = new AudioContext();
-
-
-// https://dl.dropbox.com/s/n1eroi085y4at57/water.mp3?dl=1
-// https://dl.dropbox.com/s/1ti5j1u53qm17ix/seaside.mp3?dl=1
-// https://dl.dropbox.com/s/9qtjr0gg4ynplcq/waterStream.mp3?dl=1
-// https://dl.dropbox.com/s/0on0mbloyn3q2ax/leaves.mp3?dl=1
-// https://dl.dropbox.com/s/2iinabo0k6sxlg6/forest.mp3?dl=1
-
-// https://dl.dropboxusercontent.com/s/knpo4d2yooe2u4h/tank_driven.wav
-// fetch('https://dl.dropbox.com/s/0on0mbloyn3q2ax/leaves.mp3?dl=1')
-//     .then(resp => resp.arrayBuffer())
-//     .then(buf => aCtx.decodeAudioData(buf))
-//     .then(decoded => {
-//         source.buffer = buf = decoded;
-//         source.loop = true;
-//         source.connect(gainNode);
-//         gainNode.connect(aCtx.destination);
-//     });
-// source.addEventListener('ended', () => {
-//     gainNode.gain.setTargetAtTime(0, aCtx.currentTime, 0.015);
-// })
-// console.log(gainNode);
-
-
 
 export class Body extends Component {
     constructor() {
@@ -89,11 +51,6 @@ export class Body extends Component {
             // coffeeShop: false,
             // train: false,
             // fan: false,
-
-            // forest: false,
-            // forest: false,
-            // forest: false,
-            // forest: false,
         }
         this.change = this.change.bind(this)
     }
@@ -115,33 +72,28 @@ export class Body extends Component {
                     source.connect(gainNode);
                     gainNode.connect(aCtx.destination);
 
-                    // .source.buffer.duration
-                    // console.log(source.buffer.duration);
-                    source.start(0, source.buffer.duration - 5)
+                    source.start(0)
+                    // source.start(0, source.buffer.duration - 5)
                     source.disconnect(gainNode);
                     return data[key] = {
                         active: false,
                         source: source,
                         gainNode: gainNode,
                     }
-
                 });
         }
         this.setState({ data }, () => {
         })
     }
+
     change(e) {
         let key = e.target.parentNode.dataset.key
         let audio = document.getElementById(`${key}`)
         // audio.volume = e.target.value
-
-        // gainNode.gain.value = e.target.value
-        // console.log(gainNode.gain);
-
+        
         this.state.data[key].gainNode.gain.value = e.target.value
-
-
     }
+
     onClick(e) {
 
         let input
@@ -176,6 +128,7 @@ export class Body extends Component {
                 if (this.state.data[key].active === true) {
                     console.log(' start')
                     this.state.data[key].source.connect(this.state.data[key].gainNode);
+                    console.log(document.getElementById(`${input}`));
                     document.getElementById(`${input}`).style.visibility = 'visible';
                     document.querySelector(`[data-key=${key}]`).classList.add('active')
 
@@ -188,19 +141,14 @@ export class Body extends Component {
             })
         }
     }
+
     render() {
         return (
             <div className='body'>
                 {console.log(this.state)}
-                {
-                    this.state.data ?
-                        console.log('active', this.state.data)
-                        :
-                        console.log('none')
-                }
-
                 <div className="container">
-                    <div data-key="rain" className={this.state.rain ? "card rain active" : "card rain"} onClick={(e) => this.onClick(e)}>
+                    
+                    <div data-key="rain" className={this.state.rain && this.state.data.rain.active ? "card rain active" : "card rain"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Rain</title>
                             <g fill="none" fillRule="evenodd">
@@ -209,10 +157,10 @@ export class Body extends Component {
                             </g>
                         </svg>
                         {/* <audio id='rain' src={rain} loop ></audio> */}
-                        <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                        <input id='input-rain'  style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="thunderstorm" className={this.state.thunderstorm ? "card  thunderstorm active" : "card  thunderstorm"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="thunderstorm" className={this.state.thunderstorm && this.state.data.thunderstorm.active ? "card  thunderstorm active" : "card  thunderstorm"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Thunderstorm</title>
                             <g fill="none" fillRule="evenodd">
@@ -225,7 +173,7 @@ export class Body extends Component {
                         <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="wind" className={this.state.wind ? "card  wind active" : "card  wind"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="wind" className={this.state.wind && this.state.data.wind.active ? "card  wind active" : "card  wind"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Wind</title>
                             <g fill="none" fillRule="evenodd">
@@ -238,7 +186,7 @@ export class Body extends Component {
                         <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="forest" className={this.state.forest ? "card  forest active" : "card  forest"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="forest" className={this.state.forest && this.state.data.forest.active ? "card  forest active" : "card  forest"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Forest</title>
                             <g fill="none" fillRule="evenodd">
@@ -247,7 +195,7 @@ export class Body extends Component {
                                 <path d="M0 0h56v56H0z"></path>
                             </g>
                         </svg>
-                        <audio id='forest' src={forest} loop></audio>
+                        {/* <audio id='forest' src={forest} loop></audio> */}
                         <input id='forest-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
@@ -279,7 +227,7 @@ export class Body extends Component {
                         <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="seaside" className={this.state.seaside ? "card  seaside active" : "card  seaside"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="seaside" className={this.state.seaside && this.state.data.seaside.active ? "card  seaside active" : "card  seaside"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Seaside</title>
                             <g fill="none" fillRule="evenodd">
@@ -291,7 +239,7 @@ export class Body extends Component {
                         <input id='input-seaside' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="water" className={this.state.water ? "card  water active" : "card  water"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="water" className={this.state.water && this.state.data.water.active ? "card  water active" : "card  water"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Water</title>
                             <g fill="none" fillRule="evenodd">
@@ -304,7 +252,7 @@ export class Body extends Component {
                         <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="bonfire" className={this.state.bonfire ? "card  bonfire active" : "card  bonfire"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="bonfire" className={this.state.bonfire && this.state.data.bonfire.active ? "card  bonfire active" : "card  bonfire"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Bonfire</title>
                             <g fill="none" fillRule="evenodd">
@@ -316,7 +264,7 @@ export class Body extends Component {
                         <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="summer-night" className={this.state.summerNight ? "card  summer-night active" : "card  summer-night"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="summerNight" className={this.state.summerNight && this.state.data.summerNight.active ? "card  summer-night active" : "card  summer-night"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Summer night</title>
                             <g fill="none" fillRule="evenodd">
@@ -324,11 +272,11 @@ export class Body extends Component {
                                 <path d="M0 0h56v56H0z"></path>
                             </g>
                         </svg>
-                        {/* <audio id='summer-night' src={summerNight} loop></audio> */}
-                        <input id='input-summer-night' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                        {/* <audio id='summerNight' src={summerNight} loop></audio> */}
+                        <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="coffee-shop" className={this.state.coffeeShop ? "card  coffee-shop active" : "card  coffee-shop"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="coffeeShop" className={this.state.coffeeShop && this.state.data.coffeeShop.active ? "card  coffee-shop active" : "card  coffee-shop"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Coffee shop</title>
                             <g fill="none" fillRule="evenodd">
@@ -337,11 +285,11 @@ export class Body extends Component {
                                 <path d="M0 0h56v56H0z"></path>
                             </g>
                         </svg>
-                        {/* <audio id='coffee-shop' src={coffeeShop} loop></audio> */}
-                        <input id='input-coffee-shop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                        {/* <audio id='coffeeShop src={coffeeShop} loop></audio> */}
+                        <input id='input-coffeeShop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="train" className={this.state.train ? "card  train active" : "card  train"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="train" className={this.state.train && this.state.data.train.active ? "card  train active" : "card  train"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Train</title>
                             <g fill="none" fillRule="evenodd">
@@ -353,7 +301,7 @@ export class Body extends Component {
                         <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="fan" className={this.state.fan ? "card  fan active" : "card  fan"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="fan" className={this.state.fan && this.state.data.fan.active ? "card  fan active" : "card  fan"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Fan</title>
                             <g fill="none" fillRule="evenodd">
