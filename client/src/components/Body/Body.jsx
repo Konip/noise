@@ -71,7 +71,7 @@ export class Body extends Component {
                     source.loop = true;
                     source.connect(gainNode);
                     gainNode.connect(aCtx.destination);
-
+                    
                     source.start(0)
                     // source.start(0, source.buffer.duration - 5)
                     source.disconnect(gainNode);
@@ -148,7 +148,7 @@ export class Body extends Component {
                 {console.log(this.state)}
                 <div className="container">
                     
-                    <div data-key="rain" className={this.state.rain && this.state.data.rain.active ? "card rain active" : "card rain"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="rain" className={ "card rain"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Rain</title>
                             <g fill="none" fillRule="evenodd">
@@ -160,7 +160,7 @@ export class Body extends Component {
                         <input id='input-rain'  style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="thunderstorm" className={this.state.thunderstorm && this.state.data.thunderstorm.active ? "card  thunderstorm active" : "card  thunderstorm"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="thunderstorm" className={ "card  thunderstorm"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Thunderstorm</title>
                             <g fill="none" fillRule="evenodd">
@@ -173,7 +173,7 @@ export class Body extends Component {
                         <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="wind" className={this.state.wind && this.state.data.wind.active ? "card  wind active" : "card  wind"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="wind" className={ "card  wind"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Wind</title>
                             <g fill="none" fillRule="evenodd">
@@ -186,7 +186,7 @@ export class Body extends Component {
                         <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="forest" className={this.state.forest && this.state.data.forest.active ? "card  forest active" : "card  forest"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="forest" className={ "card  forest"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Forest</title>
                             <g fill="none" fillRule="evenodd">
@@ -199,7 +199,7 @@ export class Body extends Component {
                         <input id='forest-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="leaves" className={this.state.leaves && this.state.data.leaves.active ? "card  leaves active" : "card  leaves"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="leaves" className={ "card  leaves"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Leaves</title>
                             <g fill="none" fillRule="evenodd">
@@ -213,7 +213,7 @@ export class Body extends Component {
                         <input id='input-leaves' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="waterStream" className={this.state.waterStream && this.state.data.waterStream.active ? "card  waterStream active" : "card  waterStream"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="waterStream" className={ "card  waterStream"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Water stream</title>
                             <g fill="none" fillRule="evenodd">
@@ -227,7 +227,7 @@ export class Body extends Component {
                         <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="seaside" className={this.state.seaside && this.state.data.seaside.active ? "card  seaside active" : "card  seaside"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="seaside" className={ "card  seaside"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Seaside</title>
                             <g fill="none" fillRule="evenodd">
@@ -239,7 +239,7 @@ export class Body extends Component {
                         <input id='input-seaside' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="water" className={this.state.water && this.state.data.water.active ? "card  water active" : "card  water"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="water" className={"card  water"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Water</title>
                             <g fill="none" fillRule="evenodd">
@@ -252,7 +252,7 @@ export class Body extends Component {
                         <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="bonfire" className={this.state.bonfire && this.state.data.bonfire.active ? "card  bonfire active" : "card  bonfire"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="bonfire" className={ "card  bonfire"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Bonfire</title>
                             <g fill="none" fillRule="evenodd">
@@ -264,7 +264,7 @@ export class Body extends Component {
                         <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="summerNight" className={this.state.summerNight && this.state.data.summerNight.active ? "card  summer-night active" : "card  summer-night"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="summerNight" className={ "card  summer-night"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Summer night</title>
                             <g fill="none" fillRule="evenodd">
@@ -276,7 +276,7 @@ export class Body extends Component {
                         <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="coffeeShop" className={this.state.coffeeShop && this.state.data.coffeeShop.active ? "card  coffee-shop active" : "card  coffee-shop"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="coffeeShop" className={ "card  coffee-shop"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Coffee shop</title>
                             <g fill="none" fillRule="evenodd">
@@ -289,7 +289,7 @@ export class Body extends Component {
                         <input id='input-coffeeShop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="train" className={this.state.train && this.state.data.train.active ? "card  train active" : "card  train"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="train" className={"card  train"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Train</title>
                             <g fill="none" fillRule="evenodd">
@@ -301,7 +301,7 @@ export class Body extends Component {
                         <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="fan" className={this.state.fan && this.state.data.fan.active ? "card  fan active" : "card  fan"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="fan" className={ "card  fan"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Fan</title>
                             <g fill="none" fillRule="evenodd">
@@ -314,7 +314,7 @@ export class Body extends Component {
                         <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.1' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    {/* <div data-key="wind" className={this.state.wind ? "card  wind active" : "card  wind"} onClick={(e) => this.onClick(e)}>
+                    {/* <div data-key="wind" className={ "card  wind"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Forest</title>
                             <g fill="none" fillRule="evenodd">
