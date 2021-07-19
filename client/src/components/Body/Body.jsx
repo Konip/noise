@@ -71,7 +71,7 @@ export class Body extends Component {
                     source.loop = true;
                     source.connect(gainNode);
                     gainNode.connect(aCtx.destination);
-                    
+
                     source.start(0)
                     // source.start(0, source.buffer.duration - 5)
                     source.disconnect(gainNode);
@@ -90,7 +90,7 @@ export class Body extends Component {
         let key = e.target.parentNode.dataset.key
         let audio = document.getElementById(`${key}`)
         // audio.volume = e.target.value
-        
+
         this.state.data[key].gainNode.gain.value = e.target.value
     }
 
@@ -147,8 +147,8 @@ export class Body extends Component {
             <div className='body'>
                 {console.log(this.state)}
                 <div className="container">
-                    
-                    <div data-key="rain" className={ "card rain"} onClick={(e) => this.onClick(e)}>
+
+                    <div data-key="rain" className={"card rain"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Rain</title>
                             <g fill="none" fillRule="evenodd">
@@ -157,10 +157,10 @@ export class Body extends Component {
                             </g>
                         </svg>
                         {/* <audio id='rain' src={rain} loop ></audio> */}
-                        <input id='input-rain'  style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
+                        <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="thunderstorm" className={ "card  thunderstorm"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="thunderstorm" className={"card  thunderstorm"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Thunderstorm</title>
                             <g fill="none" fillRule="evenodd">
@@ -173,7 +173,7 @@ export class Body extends Component {
                         <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="wind" className={ "card  wind"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="wind" className={"card  wind"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Wind</title>
                             <g fill="none" fillRule="evenodd">
@@ -186,7 +186,7 @@ export class Body extends Component {
                         <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="forest" className={ "card  forest"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="forest" className={"card  forest"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Forest</title>
                             <g fill="none" fillRule="evenodd">
@@ -199,7 +199,7 @@ export class Body extends Component {
                         <input id='forest-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="leaves" className={ "card  leaves"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="leaves" className={"card  leaves"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Leaves</title>
                             <g fill="none" fillRule="evenodd">
@@ -213,7 +213,7 @@ export class Body extends Component {
                         <input id='input-leaves' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="waterStream" className={ "card  waterStream"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="waterStream" className={"card  waterStream"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Water stream</title>
                             <g fill="none" fillRule="evenodd">
@@ -227,7 +227,7 @@ export class Body extends Component {
                         <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="seaside" className={ "card  seaside"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="seaside" className={"card  seaside"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Seaside</title>
                             <g fill="none" fillRule="evenodd">
@@ -252,7 +252,7 @@ export class Body extends Component {
                         <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="bonfire" className={ "card  bonfire"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="bonfire" className={"card  bonfire"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Bonfire</title>
                             <g fill="none" fillRule="evenodd">
@@ -264,7 +264,7 @@ export class Body extends Component {
                         <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="summerNight" className={ "card  summer-night"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="summerNight" className={"card  summer-night"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Summer night</title>
                             <g fill="none" fillRule="evenodd">
@@ -276,7 +276,7 @@ export class Body extends Component {
                         <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="coffeeShop" className={ "card  coffee-shop"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="coffeeShop" className={"card  coffee-shop"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Coffee shop</title>
                             <g fill="none" fillRule="evenodd">
@@ -301,12 +301,25 @@ export class Body extends Component {
                         <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                     </div>
 
-                    <div data-key="fan" className={ "card  fan"} onClick={(e) => this.onClick(e)}>
+                    <div data-key="fan" className={"card  fan"} onClick={(e) => this.onClick(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
                             <title>Fan</title>
                             <g fill="none" fillRule="evenodd">
                                 <path fill="currentColor" fillRule="nonzero" d="M24.5 39a9.5 9.5 0 1 1 0-19 9.5 9.5 0 0 1 0 19zm0-3a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13z"></path>
                                 <path fill="currentColor" fillRule="nonzero" d="M29.807 22.403a1.5 1.5 0 0 1-2.9-.768c.39-1.476.593-3.036.593-4.635 0-8.371-4.067-14-10.5-14-4.993 0-9 3.001-9 7 0 2.912.943 4.104 4.007 5.88l1.248.714c.516.299.934.549 1.34.808.465.296.895.59 1.305.898 2.359 1.77 3.702 3.627 4.094 5.594a1.5 1.5 0 1 1-2.943.586c-.232-1.165-1.14-2.421-2.951-3.78-.345-.259-.712-.51-1.116-.767a32.643 32.643 0 0 0-1.23-.74c-.184-.107-1.024-.586-1.25-.718C6.607 16.22 5 14.185 5 10 5 4.125 10.507 0 17 0c8.339 0 13.5 7.143 13.5 17 0 1.857-.236 3.676-.693 5.403zM16.79 30.972zm-.784.155c-.283.057-.517.106-.737.155-1.076.24-1.884.502-2.711.905C7.2 34.8 3.928 39.581 3.999 44.48c.027 1.844.256 3.15.848 4.364 1.44 2.952 3.745 4.25 7.01 4.158a6.824 6.824 0 0 0 2.738-.668c2.68-1.307 3.384-2.615 3.7-5.872.024-.254.144-1.643.186-2.063a24.73 24.73 0 0 1 .317-2.272l.013-.083c.598-3.111 1.268-4.586 2.78-5.736a1.5 1.5 0 1 1 1.817 2.387c-.787.599-1.18 1.462-1.637 3.833l-.014.082a23.004 23.004 0 0 0-.291 2.088c-.04.393-.159 1.777-.185 2.054-.408 4.2-1.616 6.447-5.37 8.278a9.82 9.82 0 0 1-3.969.97c-4.407.125-7.818-1.795-9.791-5.841-.818-1.677-1.12-3.39-1.152-5.636C.911 38.4 4.89 32.59 11.243 29.491c1.062-.518 2.085-.85 3.373-1.137.244-.055.497-.108.8-.168.186-.038.989-.196.793-.157a1.5 1.5 0 0 1 .592 2.94l-.795.158zM27.39 37.507a1.5 1.5 0 1 1 2.223-2.014c.981 1.084 1.83 1.791 3.229 2.7 7.02 4.56 13.956 4.214 17.46-1.181 1.13-1.74 1.724-3.68 1.7-5.491-.032-2.29-1.033-4.211-2.941-5.45-2.502-1.625-3.984-1.554-6.939-.147-.23.11-1.483.723-1.864.903-.794.375-1.48.67-2.199.933-2.7.99-3.815 1.24-5.558 1.24a1.5 1.5 0 0 1 0-3c1.335 0 2.128-.178 4.546-1.064a22.986 22.986 0 0 0 1.93-.822c.357-.169 1.604-.779 1.856-.899 3.809-1.813 6.358-1.936 9.861.34 2.772 1.8 4.262 4.66 4.307 7.925.033 2.423-.739 4.941-2.183 7.166-4.542 6.993-13.343 7.431-21.61 2.063-1.61-1.045-2.656-1.918-3.819-3.202z"></path>
+                                <path d="M0 0h56v56H0z"></path>
+                            </g>
+                        </svg>
+                        {/* <audio id='fan' loop></audio> */}
+                        <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.1' onChange={(e) => this.change(e)} ></input>
+                    </div>
+
+                    <div data-key="fan" className={"card  fan"} onClick={(e) => this.onClick(e)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+                            <title>Tropical forest</title>
+                            <g fill="none" fill-rule="evenodd">
+                                <path fill="currentColor" fill-rule="nonzero" d="M16.247 29.681c2.174.923 3.317 2.832 2.481 4.7-.757 1.695-2.882 2.617-5.724 2.617H12.301c-6.09-.006-8.31.446-8.474 1.68-.179 1.345-.19 2.389-.099 4.191a432.9 432.9 0 0 0 .056 1.103c.135 2.939-.033 5.165-.823 8.383a1.5 1.5 0 0 1-2.914-.714c.716-2.916.863-4.86.74-7.531a95.926 95.926 0 0 0-.055-1.09c-.1-1.969-.087-3.175.122-4.739.286-2.152 1.941-3.349 4.524-3.875 1.681-.343 3.31-.412 6.926-.408h.7c1.786 0 2.808-.443 2.986-.841.044-.099-.124-.378-.915-.714-2.625-1.114-6.568-.65-11.81 1.534a1.5 1.5 0 0 1-2.076-1.385c0-1.522.004-1.937.03-2.517l.021-.37c.038-.604.084-1.07.273-2.864.228-2.171 1.967-3.39 4.667-3.925 1.877-.373 4.216-.439 7.328-.3.37.017 6.384.4 7.472.382 1.076-.017 1.138.032 1-.359-.32-.45-1.32-.895-3.078-1.157-1.353-.202-4.336-.153-8.08.082a156.37 156.37 0 0 0-4.015.304 67.589 67.589 0 0 0-1.434.144c-.228.054-.47.055-.71-.005-.121-.031-.121-.031-.352-.137-.35-.193-.35-.193-.749-.989.04-.798.049-.967.232-1.197l.1-.18a40.058 40.058 0 0 1 2.225-3.496c1.886-2.639 3.649-4.382 5.446-4.859 1.573-.416 3.66.101 9.378 1.914l.565.18c3.051.967 4.444 1.377 5.696 1.638.265.055.501.097.706.126-.271-1.079-1.268-1.787-4.646-3.704-.666-.378-1.483-.683-2.445-.921-1.094-.272-2.3-.445-3.819-.579-.507-.044-2.157-.168-2.104-.163-.793-.063-1.303-.12-1.736-.205-.839-.163-1.39-.4-1.77-1.058-.566-.983-.159-1.82.626-2.507C15.31 2.982 31.617-1.372 35.676.656c5.891 2.946 9.967 10.576 6.021 15.751a1.5 1.5 0 0 1-2.386-1.818c2.521-3.307-.534-9.028-4.978-11.25-2.274-1.137-12.639 1.303-17.777 3.418l.707.058c1.66.146 3.006.34 4.278.655 1.21.3 2.278.698 3.204 1.224 5.147 2.92 6.26 4.125 6.26 7.304 0 1.25-.917 1.927-2.065 2.041-.622.062-1.382-.02-2.347-.221-1.393-.29-2.831-.713-5.992-1.716l-.564-.179c-4.692-1.488-7-2.06-7.703-1.874-.882.234-2.289 1.625-3.773 3.703-.238.332-.47.673-.698 1.016.887-.07 1.834-.139 2.771-.198 3.97-.25 7.07-.3 8.71-.055 2.692.4 4.492 1.252 5.315 2.76a1.5 1.5 0 0 1 .1.225c.945 2.714-.673 4.448-3.73 4.498-1.229.02-7.402-.373-7.655-.384-5.698-.256-8.753.35-8.878 1.541-.183 1.744-.227 2.195-.262 2.74a18.631 18.631 0 0 0-.025.501c4.94-1.756 8.949-2.026 12.038-.715zm-10.92-7.663l.03-.006c.053-.008.053-.008.329-.115.133-.066.133-.066.382-.269.061-.065.112-.12.155-.17a1.5 1.5 0 0 1-.85.554 3.611 3.611 0 0 0-.047.006zm46.46-.142c-4.535-6.288-6.51-7.364-10.542-5.074a1.5 1.5 0 1 1-1.482-2.608c5.775-3.28 9.136-1.45 14.458 5.927 3.34 4.63 2.121 11.703-3.463 20.2-.71 1.082-2.365.817-2.702-.432-1.456-5.403-2.723-8.679-3.852-10.643a9.452 9.452 0 0 0-1.567-2.017c.073.728.427 2.074 1.297 4.815 2.45 7.721 2.81 10.416.803 13.31-1.914 2.757-10.117 7.058-16.266 9.07-1.928.63-3.31-.432-3.682-2.36-.218-1.127-.169-2.574.08-4.852.075-.7.378-3.192.405-3.42.528-4.55.413-7.077-.32-7.839-.042.114-.09.258-.138.432-.28 1.024-.341 1.543-.724 5.605a93.96 93.96 0 0 1-.2 1.943c-.667 5.809-1.89 8.92-5.104 9.538l-.617.12a34.803 34.803 0 0 1-3.139.463c-2.13.218-4.501.276-7.199.128a67.208 67.208 0 0 1-6.557-.701 1.5 1.5 0 0 1 .457-2.965c2.234.344 4.318.563 6.265.67 2.54.14 4.754.085 6.73-.116a31.812 31.812 0 0 0 2.88-.426l.613-.119c1.303-.25 2.179-2.478 2.691-6.935a91.18 91.18 0 0 0 .193-1.882c.41-4.357.467-4.836.818-6.117.65-2.37 2.203-3.605 4.324-2.396 2.537 1.445 2.755 4.506 2.007 10.944-.029.244-.33 2.72-.404 3.398-.215 1.98-.257 3.224-.116 3.957 5.533-1.833 13.14-5.835 14.538-7.85 1.228-1.771.934-3.978-1.197-10.692-1.448-4.56-1.704-5.964-1.243-7.326.065-.19.116-.314.246-.61.862-1.986 2.584-1.646 4.1-.424.944.76 1.933 1.952 2.627 3.159 1 1.741 2.055 4.286 3.198 8.038 3.43-6.175 3.91-10.967 1.785-13.913zm-26.7 13.773a.426.426 0 0 0 .006-.004l-.006.004z"></path>
+                                <path fill="currentColor" fill-rule="nonzero" d="M33.183 11.368c-1.263-1.402-1.862-3.032-.855-3.939 1.007-.907 2.565-.14 3.828 1.263s1.863 3.032.856 3.94c-1.007.906-2.566.139-3.829-1.264zm.654-2.74a.235.235 0 0 0 .002-.016l-.002.016zm2.14 2.374a.176.176 0 0 0 .018.003l-.017-.003zM32.181 32.058c-.192-2.198.247-4.037 1.644-4.16 1.397-.121 2.149 1.613 2.341 3.811.192 2.198-.247 4.037-1.644 4.16-1.397.122-2.148-1.613-2.34-3.811zm2.182-2.322a.227.227 0 0 0 .012-.015l-.012.015zm.37 4.223a.331.331 0 0 0 .015.02l-.015-.02z"></path>
                                 <path d="M0 0h56v56H0z"></path>
                             </g>
                         </svg>
