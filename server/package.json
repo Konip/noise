@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "start": "node app.js",
+    "server": "nodemon app.js",
+    "client": "npm run start",
+    "dev": "concurrently \"npm run server\" \"cd ../client && /npm run start\""
   },
   "keywords": [],
   "author": "",
@@ -15,14 +18,15 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "express-validator": "^6.12.0",
+    "express-validator": "^6.11.1",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.6.10",
-    "mongoose": "^5.13.2",
-    "nodemailer": "^6.6.3",
+    "mongodb": "^3.6.8",
+    "mongoose": "^5.12.11",
+    "nodemailer": "^6.6.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "concurrently": "^6.2.0",
+    "nodemon": "^2.0.7"
   }
 }
