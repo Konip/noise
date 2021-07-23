@@ -1,24 +1,49 @@
 import React, { Component } from 'react'
+import {Context} from "../index";
 import './NavBar.css'
 
 export class NavBar extends Component {
+
+    static contextType = Context
+
     constructor() {
         super()
         this.state = {
             soundToggle: true,
+            email: '',
+            password: ''
         }
         this.changeSound = this.changeSound.bind(this)
+        this.setEmail = this.setEmail.bind(this)
+        this.setPassword = this.setPassword.bind(this)
+    }
+    setEmail(email) {
+        this.setState({ email: email })
+    }
+    setPassword(password) {
+        this.setState({ password: password })
     }
     changeSound() {
         this.props.changeToggle()
     }
     render() {
+        let state = this.state
         return (
             <div className='nav'>
+                {
+                    console.log(state)
+                }
                 <div className="logo">
                     <p>Noise</p>
                 </div>
                 <div className="rightSection">
+                    <input onChange={e => this.setEmail(e.target.value)} type="text" placeholder='text' value={this.state.email} />
+                    <input onChange={e => this.setPassword(e.target.value)} type="password" placeholder='password' value={this.state.password} />
+                    <button onClick={() => store.login(email, password)}>Логин</button>
+                    <button onClick={() => store.login(email, password)}>Регистрация</button>
+                    <div>
+                        <a href="" className="login">Log In</a>
+                    </div>
                     {/* <input id='input-rain' style={this.props.sound ?{ visibility: 'visible' } : { visibility: 'hidden' } } type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input> */}
                     <div className="sound" onClick={this.changeSound}>
                         {/* <div className="sound" onClick={() => this.setState({ soundToggle: !this.state.soundToggle })}> */}
