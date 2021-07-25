@@ -1,7 +1,7 @@
 .App {
   text-align: center;
-  /* background-color: #14614b; */
+  background-color: rgb(92, 229, 180);
 }
-body{
+body,.mask{
   transition: background-color 10s ease;
 }
