@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import './NavBar.css';
-import { Context } from "../../Context";
 import { observer } from "mobx-react";
-
+import React, { Component } from 'react';
+import { Context } from "../../Context";
+import './NavBar.css';
 
 export const NavBar = observer(
     class NavBar extends Component {
 
         static contextType = Context
-    
+
         constructor() {
             super()
             this.state = {
@@ -16,30 +15,52 @@ export const NavBar = observer(
                 email: '',
                 password: ''
             }
+
             this.changeSound = this.changeSound.bind(this)
             this.setEmail = this.setEmail.bind(this)
             this.setPassword = this.setPassword.bind(this)
+            this.login = this.login.bind(this)
+            this.logout = this.logout.bind(this)
         }
-        componentDidMount(){
+
+        componentDidMount() {
             console.log('componentDidMount');
             this.context.checkAuth()
         }
+
         setEmail(email) {
             this.setState({ email: email })
         }
+
         setPassword(password) {
             this.setState({ password: password })
         }
+
         changeSound() {
             this.props.changeToggle()
         }
+
+        login(email, password) {
+            let premium = document.querySelector('.premium')
+            this.context.login(email, password)
+            premium.classList.remove('tooltip-active')
+            this.props.setIsAuth(true)
+        }
+
+        logout(email, password) {
+            let premium = document.querySelector('.premium')
+            this.context.logout(email, password)
+            premium.classList.add('tooltip-active')
+            this.props.setIsAuth(false)
+        }
+
         render() {
             const { email, password } = this.state;
             const store = this.context;
             return (
                 <div className='nav'>
                     {
-                        console.log(store.isAuth)
+                        // console.log(store.isAuth)
                         // console.log(store)
                     }
                     <div className="logo">
@@ -54,9 +75,9 @@ export const NavBar = observer(
                         </div>
                         <input onChange={e => this.setEmail(e.target.value)} type="text" placeholder='text' value={this.state.email} />
                         <input onChange={e => this.setPassword(e.target.value)} type="password" placeholder='password' value={this.state.password} />
-                        <button onClick={() => store.login(email, password)}>Логин</button>
+                        <button onClick={() => this.login(email, password)}>Логин</button>
                         <button onClick={() => store.registration(email, password)}>Регистрация</button>
-                        <button onClick={() => store.logout(email, password)}>Выйти</button>
+                        <button onClick={() => this.logout(email, password)}>Выйти</button>
                         <div>
                             <a href="" className="login">Log In</a>
                         </div>

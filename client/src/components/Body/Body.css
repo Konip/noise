@@ -1,12 +1,7 @@
-:root {
-    --color: ;
-    --gradient: ;
-}
 
 .body {
     height: 100vh;
     padding-top: 80px;
-    background-color: rgb(92, 229, 180);
 }
 
 .screen {
@@ -150,7 +145,18 @@ input[type=range]::-ms-thumb {
     flex-wrap: wrap;
 }
 
-.premium::before, .premium::after {
+.tooltip-active:hover .card {
+    
+    opacity: 1;
+    transition: 0.1s;
+}
+
+.tooltip-active:hover .mask {
+    /* opacity: 0; */
+    transition: 0.1s;
+}
+
+.tooltip-active::before, .tooltip-active::after {
     --scale: 0;
     --arrow-size: 6px;
     --tooltip-color: white;
@@ -161,7 +167,7 @@ input[type=range]::-ms-thumb {
     transform-origin: bottom center;
 }
 
-.premium::before {
+.tooltip-active::before {
     --translate-y: calc(-100% - var(--arrow-size));
     content: attr(data-tooltip);
     color: #474646;
@@ -173,11 +179,11 @@ input[type=range]::-ms-thumb {
     background: var(--tooltip-color);
 }
 
-.premium:hover::before, .premium:hover::after {
+.tooltip-active:hover::before, .tooltip-active:hover::after {
     --scale: 1;
 }
 
-.premium::after {
+.tooltip-active::after {
     --translate-y: calc(-1 * var(--arrow-size));
     content: '';
     border: var(--arrow-size) solid transparent;
@@ -185,25 +191,17 @@ input[type=range]::-ms-thumb {
     transform-origin: top center;
 }
 
-.prem {
-    opacity: 1;
-    background: var(--gradient);
-    /* background:linear-gradient(0deg) */
-    /* background-color:  linear-gradient(0deg, rgb(114, 193, 176) 0%, rgb(114, 193, 176) 30%, rgba(114, 193, 176, 0) 100%); */
-}
-
-.prem:hover {
-    opacity: 0;
-}
-
 .mask {
     width: 100%;
     height: 100%;
     position: absolute;
-    /* background: linear-gradient(0deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 30%, rgba(0, 128, 0, 0) 100%); */
     opacity: 1;
-    background-color: rgb(92, 229, 180);
 }
+
+/* .mask:hover {
+    opacity: 0;
+    transition: 2s;
+} */
 
 .card {
     position: relative;
