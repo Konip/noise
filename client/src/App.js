@@ -1,7 +1,9 @@
 import React, { useContext, useState } from 'react';
 import './App.css';
 import { Body } from './components/Body/Body';
+import Modal from './components/Modal/Modal';
 import { NavBar } from './components/NavBar/NavBar';
+import { NavBarVertical } from './components/NavBar/NavBarVertical';
 import { Context } from "./Context";
 
 let increment = [];
@@ -170,6 +172,8 @@ function transition() {
 
 function App() {
 
+  const [modalActive, setModalActive] = useState(false);
+  const [typeModal, setTypeModal] = useState();
   const [generalSound, setGeneralSound] = useState(true);
   const ctx = useContext(Context)
   isAuth = ctx.isAuth
@@ -179,7 +183,7 @@ function App() {
     setGeneralSound(!generalSound)
     // console.log(generalSound);
   }
-  startTransition();
+  // startTransition();
 
   const setIsAuth = (payload) => {
     console.log('setIsAuth');
@@ -187,17 +191,24 @@ function App() {
     console.log(isAuth);
     for (let el of mask) {
       el.style.backgroundImage = 'none'
+      el.style.visibility = 'hidden'
     }
   }
-
+  function openModal(e) {
+    setTypeModal(e)
+    setModalActive(!modalActive)
+  }
   return (
     <div className="App">
       {console.log('App')}
+      {console.log(modalActive)}
       <NavBar sound={generalSound} isAuth={ctx.isAuth} changeToggle={changeToggle} checkAuth={ctx.checkAuth}
         login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
 
       />
+      <NavBarVertical openModal={e => openModal(e)} />
       <Body sound={generalSound} />
+      <Modal active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration} login={ctx.login}/>
     </div>
   );
 }

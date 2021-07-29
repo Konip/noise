@@ -1,0 +1,137 @@
+.modal {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    /* z-index: 20; */
+    /* opacity: 0; */
+    visibility: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: .3s;
+    opacity: 0;
+}
+
+.modal.active {
+    visibility: visible;
+    pointer-events: all;
+    opacity: 1;
+}
+
+.modal__content {
+    /* min-height: 100vh; */
+    padding: 30px 10px;
+    background-color: #f8f8f8;
+    color: black;
+    width: 450px;
+    height: 500px;
+    /* width: 450px;
+    height: 600px; */
+    padding: 30px;
+    position: relative;
+    border-radius: 25px;
+}
+
+.sign {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #f8f8f8;
+}
+
+#title {
+    color: #5ee5b5;
+}
+
+form {
+    width: 100%;
+}
+
+.input-wrapper {
+    padding-bottom: 12px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.modal__input {
+    /* margin-top: 10px;
+    height: 40px;
+    width: 90%;
+    border-radius: 20px; */
+    width: 100%;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(102, 102, 102);
+    border: none;
+    z-index: 1;
+    border-radius: 18px;
+    padding: 10px 12px;
+    height: 36px;
+    line-height: 16px;
+    background-color: #f8f8f8;
+}
+
+
+
+.input-border {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.input-border::before {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+}
+
+.input-border::after, .input-border::before {
+    z-index: 13;
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+}
+.input-border::after {
+    opacity: 0;
+}
+.modal__input:hover .input-border::after {
+    outline: none;
+    border: 2px solid rgb(92, 229, 180);
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+}
+/* .modal__input:hover {
+    outline: none;
+    border: 2px solid rgb(92, 229, 180);
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+} */
+
+
+.modal__btn {
+    background-color: #91e6b5;
+    height: 40px;
+    width: max-content;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+}

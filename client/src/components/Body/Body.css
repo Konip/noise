@@ -1,22 +1,21 @@
-
 .body {
     height: 100vh;
     padding-top: 80px;
 }
 
-.screen {
+/* .screen {
     width: 100px;
     height: 66px;
     position: absolute;
     z-index: 200;
-}
+} */
 
 svg {
-    z-index: 500;
+    z-index: 12;
 }
 
 input[type=range] {
-    z-index: 400;
+    z-index: 11;
     -webkit-appearance: none;
     padding: 12.8px 0;
     background-color: transparent !important;
@@ -143,10 +142,14 @@ input[type=range]::-ms-thumb {
     display: flex;
     margin: 0 auto;
     flex-wrap: wrap;
+    position: relative;
+}
+
+#pro {
+    color: #5ee5b5;
 }
 
 .tooltip-active:hover .card {
-    
     opacity: 1;
     transition: 0.1s;
 }
@@ -156,52 +159,52 @@ input[type=range]::-ms-thumb {
     transition: 0.1s;
 }
 
-.tooltip-active::before, .tooltip-active::after {
-    --scale: 0;
-    --arrow-size: 6px;
+.tool {
     --tooltip-color: white;
     position: absolute;
+    display: block;
+    z-index: 10;
     left: 50%;
-    transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
-    transition: 250ms transform;
-    transform-origin: bottom center;
-}
-
-.tooltip-active::before {
-    --translate-y: calc(-100% - var(--arrow-size));
-    content: attr(data-tooltip);
-    color: #474646;
-    padding: .7rem;
+    transform: translateX(-50%);
+    top: -50px;
+    background: var(--tooltip-color);
+    color: #7b7b7b;
+    padding: 1rem;
     border-radius: .6rem;
     text-align: center;
-    width: min-content;
-    max-width: 100%;
-    background: var(--tooltip-color);
+    width: max-content;
+    font-size: 0.9em;
+    box-shadow: 1px 4px 37px 1px rgba(34, 60, 80, 0.2);
+    transition: all .4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+    visibility: hidden;
 }
 
-.tooltip-active:hover::before, .tooltip-active:hover::after {
-    --scale: 1;
+.tooltip-active:hover .tool {
+    top: -100px;
+    opacity: 1;
+    visibility: visible;
 }
 
-.tooltip-active::after {
-    --translate-y: calc(-1 * var(--arrow-size));
+.tool::before {
+    position: absolute;
     content: '';
-    border: var(--arrow-size) solid transparent;
-    border-top-color: var(--tooltip-color);
-    transform-origin: top center;
+    height: 15px;
+    width: 15px;
+    background: var(--tooltip-color);
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
 }
-
+#text{
+    user-select: none;
+}
 .mask {
     width: 100%;
     height: 100%;
     position: absolute;
     opacity: 1;
 }
-
-/* .mask:hover {
-    opacity: 0;
-    transition: 2s;
-} */
 
 .card {
     position: relative;

@@ -17,8 +17,8 @@ import './Body.css';
 // https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1
 
 const obj = {
-    'rain': 'https://dl.dropbox.com/s/c1e90i1hyvryo68/rain.mp3?dl=1',
-    'thunderstorm': 'https://dl.dropbox.com/s/texuwihp2cgp9i6/thunderstorm_full.mp3?dl=1',
+    // 'rain': 'https://dl.dropbox.com/s/c1e90i1hyvryo68/rain.mp3?dl=1',
+    // 'thunderstorm': 'https://dl.dropbox.com/s/texuwihp2cgp9i6/thunderstorm_full.mp3?dl=1',
     // 'wind': 'https://dl.dropbox.com/s/alyrhvc8ad5zm7w/wind.mp3?dl=1',
     // 'forest': 'https://dl.dropbox.com/s/n6knpo892h2ilbc/forest.mp3?dl=1',
     // 'leaves': 'https://dl.dropbox.com/s/kvnb5feyfsdo8gw/leaves.mp3?dl=1',
@@ -32,25 +32,15 @@ const obj = {
     // 'fan': ' https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1',
 }
 
+
+
 const aCtx = new AudioContext();
 
 export class Body extends Component {
     constructor() {
         super()
         this.state = {
-            // rain: false,
-            // thunderstorm: false,
-            // wind: false,
-            // forest: false,
-            // leaves: false,
-            // waterStream: false,
-            // seaside: false,
-            // water: false,
-            // bonfire: false,
-            // summerNight: false,
-            // coffeeShop: false,
-            // train: false,
-            // fan: false,
+            tooltip: false
         }
         this.change = this.change.bind(this)
     }
@@ -88,8 +78,6 @@ export class Body extends Component {
 
     change(e) {
         let key = e.target.parentNode.dataset.key
-        let audio = document.getElementById(`${key}`)
-        // audio.volume = e.target.value
 
         this.state.data[key].gainNode.gain.value = e.target.value
     }
@@ -156,7 +144,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='rain' src={rain} loop ></audio> */}
                             <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -169,7 +156,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='thunderstorm' src={thunderstorm} loop ></audio> */}
                             <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -182,7 +168,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='wind' src={wind} loop></audio> */}
                             <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -195,7 +180,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='forest' src={forest} loop></audio> */}
                             <input id='forest-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -209,7 +193,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='leaves' src={leaves} loop></audio> */}
                             <input id='input-leaves' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -223,7 +206,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='waterStream src={waterStream} loop></audio> */}
                             <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -235,7 +217,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='seaside' src={seaside} loop></audio> */}
                             <input id='input-seaside' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -248,7 +229,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='water' src={water} loop></audio> */}
                             <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -260,7 +240,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='bonfire' src={bonfire} loop></audio> */}
                             <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -272,7 +251,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='summerNight' src={summerNight} loop></audio> */}
                             <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -285,7 +263,6 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='coffeeShop src={coffeeShop} loop></audio> */}
                             <input id='input-coffeeShop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
 
@@ -297,12 +274,15 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            {/* <audio id='train' src={train} loop></audio> */}
                             <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
                     </div>
-                    <div className="premium tooltip-active" data-tooltip="Для зарегистрированных пользователей" >
-
+                    <div className="premium tooltip-active" >
+                        <div className="tool" >
+                            <span id='text'>These Sounds<br />
+                                are a <strong id='pro'>Sign up</strong> feature.<br />
+                                Upgrade to enjoy them.</span>
+                        </div>
                         <div data-key="fan" className={"card  fan prem"} onClick={(e) => this.onClick(e)}>
                             <div className="mask" id='mask'></div>
                             <div className="wrap">
