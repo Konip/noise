@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import './App.css';
 import { Body } from './components/Body/Body';
 import Modal from './components/Modal/Modal';
-import { NavBar } from './components/NavBar/NavBar';
 import { NavBarVertical } from './components/NavBar/NavBarVertical';
 import { Context } from "./Context";
 
@@ -97,7 +96,8 @@ function rgb(colorArray) {
 var fps = 30;
 var duration = 4;
 var transElement = document.body;
-transElement.style.backgroundColor = "rgb(92, 229, 180)"
+transElement.style.backgroundColor = "rgb(67, 148, 121)"
+// transElement.style.backgroundColor = "rgb(92, 229, 180)" // initial color
 var currentColor = getElementBG(transElement);
 var transHandler = null;
 
@@ -174,41 +174,46 @@ function App() {
 
   const [modalActive, setModalActive] = useState(false);
   const [typeModal, setTypeModal] = useState();
-  const [generalSound, setGeneralSound] = useState(true);
+
   const ctx = useContext(Context)
   isAuth = ctx.isAuth
-  // console.log(ctx);
 
-  const changeToggle = (e) => {
-    setGeneralSound(!generalSound)
-    // console.log(generalSound);
-  }
+  const aCtx = new AudioContext();
+  let constantNode = aCtx.createGain()
+  
   // startTransition();
 
   const setIsAuth = (payload) => {
-    console.log('setIsAuth');
+    console.log('setIsAuth',isAuth);
     isAuth = payload
-    console.log(isAuth);
+
     for (let el of mask) {
       el.style.backgroundImage = 'none'
       el.style.visibility = 'hidden'
     }
   }
-  function openModal(e) {
-    setTypeModal(e)
-    setModalActive(!modalActive)
+  const openModal = (activeModal, typeModal) => {
+    console.log(activeModal, typeModal);
+    setModalActive(activeModal)
+    setTypeModal(typeModal)
   }
+
   return (
     <div className="App">
       {console.log('App')}
-      {console.log(modalActive)}
-      <NavBar sound={generalSound} isAuth={ctx.isAuth} changeToggle={changeToggle} checkAuth={ctx.checkAuth}
+      {/* <NavBar  isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
         login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
-
+      
+      /> */}
+      {/* <NavBarVertical openModal={openModal} /> */}
+       <NavBarVertical isAuth={ctx.isAuth}  checkAuth={ctx.checkAuth}
+        login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
+        openModal={openModal} 
       />
-      <NavBarVertical openModal={e => openModal(e)} />
-      <Body sound={generalSound} />
-      <Modal active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration} login={ctx.login}/>
+      <Body openModal={openModal}  type={typeModal} constantNode={constantNode}
+      />
+      <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration} login={ctx.login} />
+     
     </div>
   );
 }

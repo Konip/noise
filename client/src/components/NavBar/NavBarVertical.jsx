@@ -54,27 +54,35 @@ export const NavBarVertical = observer(
             this.props.setIsAuth(false)
         }
 
-        set() {
-
-        }
+       
 
         render() {
             const { email, password } = this.state;
             const store = this.context;
-            // const { setActive } = this.props
-            // console.log(this.props.setActive)
+          
             return (
-                <div id="header" className='nav-vertical'>
+                <div  className='nav-vertical'>
+                     <div className="logo">
+                        <p>Noise</p>
+                    </div>
                     <div className="leftSection">
-                        <button className="btn" onClick={() => this.props.openModal('Sign up')} >
+                        <button className="btn" onClick={() => this.props.openModal(true, "Sign up")} >
                             {/* <button className="login" onClick={() => store.registration(email, password)}> */}
                             Sign up
                         </button>
-                        <button className="btn" onClick={() => this.props.openModal("Log In")}>
+                        <button className="btn" onClick={() => this.props.openModal(true, "Log In")}>
                             {/* <button className="login" onClick={() => this.login(email, password)}> */}
                             Log In
                         </button>
                     </div>
+                    <div>
+                            {store.isAuth ? `${store.user.email}` : 'АВТОРИЗУЙТЕСЬ'}
+                        </div>
+                        <input className="inp" onChange={e => this.setEmail(e.target.value)} type="text" placeholder='text' value={this.state.email} />
+                        <input className="inp" onChange={e => this.setPassword(e.target.value)} type="password" placeholder='password' value={this.state.password} />
+                        <button onClick={() => this.login(email, password)}>Логин</button>
+                        <button onClick={() => store.registration(email, password)}>Регистрация</button>
+                        <button onClick={() => this.logout(email, password)}>Выйти</button>
                 </div>
             )
         }

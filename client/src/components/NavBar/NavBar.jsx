@@ -60,13 +60,9 @@ export const NavBar = observer(
             return (
                 <div className='nav'>
                     {
-                        // console.log(store.isAuth)
-                        // console.log(store)
+                        console.log('NavBar')
                     }
                     <div className="logo">
-                        {
-                            console.log('NavBar')
-                        }
                         <p>Noise</p>
                     </div>
                     <div className="rightSection">
@@ -78,9 +74,7 @@ export const NavBar = observer(
                         <button onClick={() => this.login(email, password)}>Логин</button>
                         <button onClick={() => store.registration(email, password)}>Регистрация</button>
                         <button onClick={() => this.logout(email, password)}>Выйти</button>
-                        <div>
-                            <a href="" className="login">Log In</a>
-                        </div>
+
                         {/* <input id='input-rain' style={this.props.sound ?{ visibility: 'visible' } : { visibility: 'hidden' } } type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input> */}
                         <div className="sound" onClick={this.changeSound}>
                             {/* <div className="sound" onClick={() => this.setState({ soundToggle: !this.state.soundToggle })}> */}
@@ -101,13 +95,15 @@ export const NavBar = observer(
                                     </g>
                                 </svg>
                             }
+                            <input className='volumeController' type="range" min='0' max='1' step='0.1' onChange={(e) => this.props.changeVolume(e)} ></input>
+                            {/* <input className='volumeController' type="range" min='0' max='1' step='0.1' onChange={(e) => this.props.changeVolume(e)} ></input> */}
                         </div>
-                        <a className="burger">
+                        {/* <a className="burger">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fillRule="evenodd"><path fill="currentColor" fillRule="nonzero" d="M1 2a1 1 0 1 1 0-2h16a1 1 0 0 1 0 2H1zm0 5a1 1 0 1 1 0-2h13.09a1 1 0 0 1 0 2H1zm0 5a1 1 0 0 1 0-2h16a1 1 0 0 1 0 2H1zm0 5a1 1 0 0 1 0-2h8.182a1 1 0 0 1 0 2H1z"></path><path d="M0 0h18v18H0z"></path></g></svg>
                         </a>
                         <div className="office">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><g fill="none" fillRule="evenodd"><path fill="currentColor" fillRule="nonzero" d="M9 10A5 5 0 1 1 9 0a5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3.5 18C2.041 18 1 16.965 1 15.5 1 12.824 4.777 11 9 11c4.193 0 8 1.853 8 4.5 0 1.427-1.053 2.5-2.5 2.5h-11zm0-2h11c.334 0 .5-.17.5-.5 0-1.15-2.773-2.5-6-2.5-3.256 0-6 1.325-6 2.5 0 .358.143.5.5.5z"></path><path d="M0 0h18v18H0z"></path></g></svg>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             )

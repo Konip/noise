@@ -33,12 +33,12 @@
     height: 500px;
     /* width: 450px;
     height: 600px; */
-    padding: 30px;
     position: relative;
     border-radius: 25px;
+    padding: 30px 40px;
 }
 
-.sign {
+.sign, .log {
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
@@ -48,8 +48,25 @@
     background-color: #f8f8f8;
 }
 
+span::selection {
+    background-color: rgb(222 250 240);
+}
+
 #title {
     color: #5ee5b5;
+    cursor: pointer;
+}
+#green{
+    color: #5ee5b5;
+}
+.title {
+   
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 60px;
+    line-height: 1.5em;
+    color: rgb(141 138 138);
+    margin-top: 10px;
 }
 
 form {
@@ -71,6 +88,7 @@ form {
     height: 40px;
     width: 90%;
     border-radius: 20px; */
+    outline: none;
     width: 100%;
     font-size: 13px;
     font-weight: 500;
@@ -81,12 +99,10 @@ form {
     padding: 10px 12px;
     height: 36px;
     line-height: 16px;
-    background-color: #f8f8f8;
+    /* background-color: #f8f8f8; */
 }
 
-
-
-.input-border {
+.input-border, .input-border-error {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -99,7 +115,11 @@ form {
     border: 1px solid rgba(0, 0, 0, 0.16);
 }
 
-.input-border::after, .input-border::before {
+.input-border-error::before {
+    border: 1px solid rgba(0, 0, 0, 0.16);
+}
+
+.input-border::after, .input-border::before, .input-border-error::after, .input-border-error::before {
     z-index: 13;
     content: "";
     position: absolute;
@@ -109,29 +129,112 @@ form {
     height: 100%;
     border-radius: 18px;
 }
-.input-border::after {
-    opacity: 0;
-}
-.modal__input:hover .input-border::after {
-    outline: none;
-    border: 2px solid rgb(92, 229, 180);
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
-}
-/* .modal__input:hover {
-    outline: none;
-    border: 2px solid rgb(92, 229, 180);
-    opacity: 1;
-    transition: opacity 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
-} */
 
+.input-border::after {
+    border: 2px solid rgb(92, 229, 180);
+    z-index: 14;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+}
+
+.input-border-error::after {
+    border: 2px solid rgb(242, 78, 98);
+    transition: opacity 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+    opacity: 1;
+}
+
+.modal__input:hover+.input-border::after, .modal__input:focus+.input-border::after, .modal__input:hover+.input-border-error::after, .modal__input:focus+.input-border-error::after {
+    border-color: rgb(92, 229, 180);
+    opacity: 1;
+}
 
 .modal__btn {
     background-color: #91e6b5;
     height: 40px;
     width: max-content;
-    padding: 5px 15px;
+    /* padding: 5px 15px; */
+    padding: 5px 60px;
     border-radius: 20px;
     cursor: pointer;
     color: white;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out 0s;
+}
+
+.modal__btn:hover {
+    background-color: rgb(70 228 171);
+}
+
+.close {
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+}
+
+.inputError {
+    padding: 4px 12px;
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+    color: rgb(242, 78, 98);
+}
+
+.createAc {
+    display: flex;
+    color: #5ee5b5;
+}
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.checkbox input {
+    display: none;
+}
+
+.checkbox label svg {
+    margin: 0;
+    opacity: 0;
+}
+
+.checkbox label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e8e8e8;
+    border-radius: 30px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+    border-color: 0.15s ease-in-out;
+}
+
+.checkbox:hover label {
+    background-color: #f2f2f2;
+    border-color: #f2f2f2;
+}
+.checkbox:hover label svg {
+    opacity: 1;
+}
+.checkbox:hover label svg path {
+    stroke: #b3b3b3;
+}
+
+input:checked+label {
+    background-color: #4dd599;
+    border-color: #4dd599;
+}
+
+input:checked+label svg {
+    opacity: 1;
+}
+
+input:checked+label svg path {
+    stroke: #f2f2f2;
 }

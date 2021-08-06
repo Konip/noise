@@ -3,15 +3,68 @@
     padding-top: 80px;
 }
 
-/* .screen {
-    width: 100px;
-    height: 66px;
+.sound {
+    display: flex;
     position: absolute;
-    z-index: 200;
-} */
+    top: 40px;
+    right: 25px;
+    width: 200px;
+    margin: 0 6px;
+    color: rgba(255, 255, 255, 0.5);
+    /* cursor: pointer; */
+    z-index: 20;
+}
+
+.mouseover {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 250px;
+    height: 150px;
+    margin: 0 6px;
+    color: rgba(255, 255, 255, 0.5);
+    /* cursor: pointer; */
+}
+
+.volumeContrl {
+    /* margin: 0 20px; */
+    height: 30px;
+    width: 30px;
+    margin-bottom: 0px;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out 0s;
+}
+
+.volumeContrl:hover {
+    opacity: 1;
+}
+
+.volumeController {
+    width: 123px;
+    visibility: hidden;
+    opacity: 0.5;
+    margin: 0 15px;
+}
+
+.volumeController-active {
+    visibility: visible;
+    opacity: 0.5;
+    margin-right: 19px;
+    transition: opacity 0.2s ease-in-out 0s;
+}
+
+.volumeController-active:hover {
+    opacity: 1;
+}
+
+.PlayMasterVolumeController {
+    cursor: pointer;
+}
 
 svg {
     z-index: 12;
+    margin-bottom: 7px;
 }
 
 input[type=range] {
@@ -147,6 +200,7 @@ input[type=range]::-ms-thumb {
 
 #pro {
     color: #5ee5b5;
+    cursor: pointer;
 }
 
 .tooltip-active:hover .card {
@@ -196,9 +250,11 @@ input[type=range]::-ms-thumb {
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
 }
-#text{
+
+#text {
     user-select: none;
 }
+
 .mask {
     width: 100%;
     height: 100%;
@@ -224,11 +280,6 @@ input[type=range]::-ms-thumb {
 
 .active {
     opacity: 1;
-}
-
-svg {
-    margin-bottom: 7px;
-    /* cursor: pointer; */
 }
 
 audio {
