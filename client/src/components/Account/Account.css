@@ -1,0 +1,99 @@
+.account {
+    height: 100vh;
+    padding-top: 80px;
+    color: white;
+}
+div::selection,input::selection{
+    background-color:  rgba(255, 255, 255, 0.15);
+}
+.account__title {
+    font-size: 1.2em;
+    margin-bottom: 60px;
+    text-transform: uppercase;
+}
+
+.basic__title {
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.account__basic,.account__change {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+}
+
+.basic__title {
+    text-align: left;
+}
+
+.account__container {
+    max-width: 802px;
+    display: flex;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    position: relative;
+    flex-direction: column;
+}
+
+.input-wrapp {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px 0;
+}
+
+.input-label__container input {
+    height: 50px;
+    width: 250px;
+    border-radius: 25px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: inherit;
+    font-size: 1.1em;
+    padding: 0 25px;
+}
+
+.input-label__container input::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.input-label {
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 1.1em;
+}
+
+.account__btn,.delete__btn {
+    display: inline-flex;
+    color: rgb(255, 255, 255);
+    border-width: 0px;
+    transition: background-color 0.2s ease-in-out 0s;
+    line-height: 15px;
+    -webkit-user-select: none;
+    user-select: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: 700;
+    font-size: 14px;
+    /* padding: 10px 20px; */
+    padding: 15px 50px;
+    border-radius: 25px;
+    /* margin-right: 24px; */
+    /* width: 100px; */
+    /* width: 90px; */
+    /* height: 36px; */
+    justify-content: center;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.account__btn:hover,.delete__btn:hover {
+    box-shadow: rgb(0 0 0 / 5%) 0px 2px 4px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+.delete__btn{
+
+}
+.delete-wrapp{
+    text-align: left;
+}

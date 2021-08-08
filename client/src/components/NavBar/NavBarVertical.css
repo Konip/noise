@@ -1,21 +1,37 @@
 .nav-vertical {
     display: flex;
-    position: absolute;
+    position: fixed;
+    /* position: absolute; */
     height: 100%;
+    width: 150px;
     flex-direction: column;
-    padding: 0 16px;
-    align-items: center;
+    padding: 0 10px;
+    align-items:flex-end;
     box-shadow: rgb(0 0 0 / 10%) 0px 1px 2px;
     z-index: 20;
 }
+
 .logo {
     color: white;
     font-size: 1.5em;
+    margin-bottom: 30px;
 }
-.leftSection {
+
+.buttons {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    position: relative;
+    top: 65px;
+}
+
+.menu {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 35px;
 }
 
 .btn {
@@ -37,7 +53,6 @@
     height: 36px;
     justify-content: center;
     margin-top: 10px;
-    transition: background-color 0.5s ease-in-out 0s;
     cursor: pointer;
 }
 
@@ -49,7 +64,100 @@
 .btn a {
     color: rgb(255, 255, 255);
 }
-.inp{
+
+.inp {
     margin: 5px 0;
 }
 
+.wr {
+    position: absolute;
+    top: 30%;
+    left: 10px;
+}
+
+.wr button {
+    margin: 5px;
+}
+
+.dropdown-active, .dropdown {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* padding: 22px 0px; */
+    width: 150px;
+    /* background-color: rgb(255, 255, 255); */
+    top: 60px;
+    /* border-radius: 11px 0px 11px 11px; */
+    /* box-shadow: rgb(0 0 0 / 20%) 0px 3px 6px; */
+    transition: opacity 0.2s ease-in-out 0s;
+    left: 90%;
+}
+
+.dropdown {
+    opacity: 0;
+}
+
+.dropdown-active {
+    opacity: 1;
+}
+
+.dropdown-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+    border-width: 0px;
+    transition: background-color 0.2s ease-in-out 0s;
+    line-height: 15px;
+    user-select: none;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-weight: 700;
+    font-size: 14px;
+    /* padding: 10px 20px; */
+    padding: 10px 15px;
+    border-radius: 18px;
+    /* margin-right: 24px; */
+    /* width: 100px; */
+    width: 140px;
+    height: 36px;
+    margin: 5px 0;
+    cursor: pointer;
+}
+
+.dropdown-btn:hover {
+    box-shadow: rgb(0 0 0 / 5%) 0px 2px 4px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.menu svg {
+    height: 30px;
+    width: 30px;
+    /* opacity: 0.5; */
+    cursor: pointer;
+    margin: 5px 0;
+}
+
+/* .menu svg:hover {
+    opacity: 1;
+} */
+
+/* .svg, .svg-active {
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    margin: 5px 0;
+} */
+
+.settings,.playList {
+    opacity: 0.5;
+}
+
+.settings-active,.playList-active  {
+    opacity: 1;
+}
+
+.svg-222 {
+    z-index: 13;
+}

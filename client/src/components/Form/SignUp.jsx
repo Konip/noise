@@ -1,8 +1,10 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import _ from 'lodash';
-import React, { useRef, useState } from 'react';
+import { observer } from "mobx-react";
+import React, { useContext, useRef } from 'react';
 import * as Yup from 'yup';
 import close from '../../assets/img/close.svg';
+import { Context } from "../../Context";
 import '../Modal/Modal.css';
 
 const SignupSchema = Yup.object().shape({
@@ -12,14 +14,22 @@ const SignupSchema = Yup.object().shape({
         .matches(/[a-zA-Z]/, 'Password can only contain Latin letters')
 });
 
-
-
-export default function SignUp({ setActive, openModal }) {
-    const [email, setEmail] = useState('gunpowderbit@gmail.com')
-    const [password, setPassword] = useState('12345')
-
+function SignUp({ setActive, openModal }) {
+    // const [email, setEmail] = useState('gunpowderbit@gmail.com')
+    // const [password, setPassword] = useState('12345')
+    const ctx = useContext(Context)
     const ref = useRef()
     console.log(ref)
+
+    const onSubmit = ({ email, password }, { setSubmitting }) => {
+        // setTimeout(() => {
+        //     alert(JSON.stringify(values, null, 2));
+        //     setSubmitting(false);
+        // }, 400);
+        console.log(email, password)
+        ctx.login(email, password)
+        setSubmitting(false);
+    }
 
     const onChangeCheckBox = (e) => {
         console.log(e)
@@ -39,12 +49,7 @@ export default function SignUp({ setActive, openModal }) {
                 initialValues={{ email: '', password: '' }}
                 validationSchema={SignupSchema}
                 // validate={validate}
-                onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 400);
-                }}
+                onSubmit={onSubmit}
             >
                 {({ isSubmitting, errors }) => (
                     <Form>
@@ -80,4 +85,4 @@ export default function SignUp({ setActive, openModal }) {
         </div>
     )
 }
-
+export default observer(SignUp);

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './App.css';
+import Account from './components/Account/Account';
 import { Body } from './components/Body/Body';
 import Modal from './components/Modal/Modal';
 import { NavBarVertical } from './components/NavBar/NavBarVertical';
@@ -174,17 +175,18 @@ function App() {
 
   const [modalActive, setModalActive] = useState(false);
   const [typeModal, setTypeModal] = useState();
+  const [settings, setSettings] = useState('body');
+  // const [settings, setSettings] = useState('account');
 
   const ctx = useContext(Context)
   isAuth = ctx.isAuth
-
   const aCtx = new AudioContext();
   let constantNode = aCtx.createGain()
-  
+
   // startTransition();
 
   const setIsAuth = (payload) => {
-    console.log('setIsAuth',isAuth);
+    console.log('setIsAuth', isAuth);
     isAuth = payload
 
     for (let el of mask) {
@@ -197,23 +199,31 @@ function App() {
     setModalActive(activeModal)
     setTypeModal(typeModal)
   }
+  const changeWindow = (e) => {
+    setSettings(e)
+  }
 
   return (
     <div className="App">
       {console.log('App')}
       {/* <NavBar  isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
         login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
-      
       /> */}
-      {/* <NavBarVertical openModal={openModal} /> */}
-       <NavBarVertical isAuth={ctx.isAuth}  checkAuth={ctx.checkAuth}
+      <NavBarVertical isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
         login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
-        openModal={openModal} 
+        openModal={openModal} changeWindow={changeWindow}
       />
-      <Body openModal={openModal}  type={typeModal} constantNode={constantNode}
-      />
+      {
+        settings === 'body' ?
+          <Body openModal={openModal} type={typeModal} constantNode={constantNode} />
+          : settings === 'account' && ctx.isAuth ?
+            <Account />
+            :
+            <div></div>
+      }
+
       <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration} login={ctx.login} />
-     
+
     </div>
   );
 }

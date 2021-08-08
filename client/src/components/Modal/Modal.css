@@ -208,8 +208,10 @@ form {
     justify-content: center;
     border: 2px solid #e8e8e8;
     border-radius: 30px;
-    width: 20px;
-    height: 20px;
+    /* width: 20px;
+    height: 20px; */
+    width: 23px;
+    height: 23px;
     cursor: pointer;
     transition: background-color 0.15s ease-in-out;
     border-color: 0.15s ease-in-out;
