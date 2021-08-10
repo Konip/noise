@@ -97,7 +97,7 @@ class UserService {
         if (user) {
             throw ApiError.BadRequest(`This email already exists`)
         }
-        console.log('user----------', user)
+        console.log('user', user)
         const userDto = new UserDto(user);
         return { user: userDto }
     }
