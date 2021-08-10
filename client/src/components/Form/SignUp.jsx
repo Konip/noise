@@ -11,24 +11,24 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Please insert a valid email'),
     password: Yup.string()
         .min(4, 'Password is too short - should be 4 chars minimum.')
-        .matches(/[a-zA-Z]/, 'Password can only contain Latin letters')
+        // .matches(/[a-zA-Z]/, 'Password can only contain Latin letters')
 });
 
 function SignUp({ setActive, openModal }) {
-    // const [email, setEmail] = useState('gunpowderbit@gmail.com')
-    // const [password, setPassword] = useState('12345')
     const ctx = useContext(Context)
     const ref = useRef()
     console.log(ref)
 
-    const onSubmit = ({ email, password }, { setSubmitting }) => {
-        // setTimeout(() => {
-        //     alert(JSON.stringify(values, null, 2));
-        //     setSubmitting(false);
-        // }, 400);
+    const handleOnSubmit = async ({ email, password }, actions) => {
         console.log(email, password)
-        ctx.login(email, password)
-        setSubmitting(false);
+        try {
+            await ctx.registration(email, password)
+            actions.setSubmitting(false);
+            actions.resetForm();
+        } catch (error) {
+            actions.setErrors({ incorrect: error })
+            actions.setSubmitting(false);
+        }
     }
 
     const onChangeCheckBox = (e) => {
@@ -49,7 +49,7 @@ function SignUp({ setActive, openModal }) {
                 initialValues={{ email: '', password: '' }}
                 validationSchema={SignupSchema}
                 // validate={validate}
-                onSubmit={onSubmit}
+                onSubmit={handleOnSubmit}
             >
                 {({ isSubmitting, errors }) => (
                     <Form>
@@ -57,15 +57,17 @@ function SignUp({ setActive, openModal }) {
                             <div className="input-container">
                                 <Field className="modal__input" type="email" name="email" placeholder="Email" />
                                 <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
+                                <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div>
                             </div>
                             <ErrorMessage className="inputError" name="email" component="div" />
-                            {/* <div className="inputError">Please insert a valid email</div> */}
+                            {errors.incorrect && <div className="inputError">{errors.incorrect}</div>}
                         </div>
 
                         <div className="input-wrapper">
                             <div className="input-container">
                                 <Field className="modal__input" type="password" name="password" placeholder="Password" />
                                 <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
+                                <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div>
                             </div>
                             <ErrorMessage className="inputError" name="password" component="div" />
                         </div>

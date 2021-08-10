@@ -20,3 +20,9 @@ code {
 input:focus {
   outline: none;
 }
+div::selection{
+  background-color:  rgb(178 236 216);
+}
+input::selection{
+  background-color: rgb(178 236 216);
+}

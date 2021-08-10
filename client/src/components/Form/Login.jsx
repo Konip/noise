@@ -28,18 +28,16 @@ function Login({ setActive }) {
         console.log(email, password)
         try {
             await ctx.login(email, password)
-
             actions.setSubmitting(false);
             actions.resetForm();
         } catch (error) {
-            actions.setErrors({ incorrect: "Oops, wrong email or password" })
+            actions.setErrors({ incorrect: error })
             actions.setSubmitting(false);
-            actions.setFieldValue()
-            console.log('errrrrrrrrrrrrr')
+            // actions.setFieldValue( 'password', '' )
+            console.log('errrrrrrrrrrrrr', error)
         }
-
-
     }
+
     if (ctx.isAuth) {
         let premium = document.querySelector('.premium')
         premium.classList.remove('tooltip-active')
@@ -79,7 +77,6 @@ function Login({ setActive }) {
                             </div>
                             <ErrorMessage className="inputError" name="password" component="div" />
                             {errors.incorrect && <div className="inputError">{errors.incorrect}</div>}
-                            {/* <ErrorMessage className="inputError" name="incorrect" component="div" /> */}
                         </div>
                         <div className="login-container">
                             <div className="checkbox">

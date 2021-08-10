@@ -28,7 +28,7 @@
     /* min-height: 100vh; */
     padding: 30px 10px;
     background-color: #f8f8f8;
-    color: black;
+    /* color: black; */
     width: 450px;
     height: 500px;
     /* width: 450px;
@@ -50,6 +50,9 @@
 
 span::selection {
     background-color: rgb(222 250 240);
+}
+.inputError::selection{
+    background-color: rgb(178 236 216);
 }
 
 #title {
@@ -92,7 +95,7 @@ form {
     width: 100%;
     font-size: 13px;
     font-weight: 500;
-    color: rgb(102, 102, 102);
+    color: rgb(102, 102, 102) !important;
     border: none;
     z-index: 1;
     border-radius: 18px;
@@ -101,6 +104,7 @@ form {
     line-height: 16px;
     /* background-color: #f8f8f8; */
 }
+
 
 .input-border, .input-border-error {
     position: absolute;

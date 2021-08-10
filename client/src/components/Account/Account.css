@@ -3,9 +3,11 @@
     padding-top: 80px;
     color: white;
 }
-div::selection,input::selection{
-    background-color:  rgba(255, 255, 255, 0.15);
+
+.account div::selection, .account input::selection {
+    background-color: rgba(255, 255, 255, 0.15);
 }
+
 .account__title {
     font-size: 1.2em;
     margin-bottom: 60px;
@@ -18,7 +20,7 @@ div::selection,input::selection{
     font-size: 1.1em;
 }
 
-.account__basic,.account__change {
+.account__basic, .account__change {
     display: flex;
     flex-direction: column;
     margin-bottom: 100px;
@@ -43,6 +45,30 @@ div::selection,input::selection{
     margin: 30px 0;
 }
 
+.input-label__container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.inp-Error, .inp-Error-email {
+    padding: 4px 12px;
+    font-size: 13px;
+    line-height: 14px;
+    font-weight: 400;
+    color: #b10e22;
+    position: absolute;
+    left: 0;
+}
+
+.inp-Error {
+    bottom: -40%;
+}
+
+.inp-Error-email {
+    bottom: -30%;
+}
+
 .input-label__container input {
     height: 50px;
     width: 250px;
@@ -64,7 +90,7 @@ div::selection,input::selection{
     font-size: 1.1em;
 }
 
-.account__btn,.delete__btn {
+.account__btn, .delete__btn {
     display: inline-flex;
     color: rgb(255, 255, 255);
     border-width: 0px;
@@ -87,13 +113,13 @@ div::selection,input::selection{
     cursor: pointer;
 }
 
-.account__btn:hover,.delete__btn:hover {
+.account__btn:hover, .delete__btn:hover {
     box-shadow: rgb(0 0 0 / 5%) 0px 2px 4px;
     background-color: rgba(255, 255, 255, 0.3);
 }
-.delete__btn{
 
-}
-.delete-wrapp{
+.delete__btn {}
+
+.delete-wrapp {
     text-align: left;
 }

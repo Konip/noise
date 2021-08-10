@@ -51,10 +51,12 @@ export const NavBarVertical = observer(
         }
 
         logout(email, password) {
+           
             let premium = document.querySelector('.premium')
             this.context.logout(email, password)
             premium.classList.add('tooltip-active')
             this.props.setIsAuth(false)
+            this.openAccount('body')
         }
 
         dropdown(e) {

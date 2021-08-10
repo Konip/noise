@@ -10,7 +10,8 @@ class UserService {
     async registration(email, password) {
         const candidate = await UserModel.findOne({ email })
         if (candidate) {
-            throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
+            console.log(`Пользователь с почтовым адресом ${email} уже существует`)
+            throw ApiError.BadRequest(`This email already exists`)
         }
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
@@ -39,11 +40,19 @@ class UserService {
     async login(email, password) {
         const user = await UserModel.findOne({ email })
         if (!user) {
-            throw ApiError.BadRequest('Пользователь с таким email не найден')
+            console.log('Пользователь с таким email не найден')
+            // throw ApiError.BadRequest('User with this email was not found')
+            throw ApiError.BadRequest('Oops, wrong email or password');
+        }
+        const confirmed = await UserModel.findOne({ email })
+        if (!confirmed.isActivated) {
+            console.log('Электронный адрес еще не подтвержден')
+            throw ApiError.BadRequest('Email address hasnt been confirmed yet')
         }
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) {
-            throw ApiError.BadRequest('Неверный пароль');
+            console.log('Неверный пароль')
+            throw ApiError.BadRequest('Oops, wrong email or password');
         }
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({ ...userDto });
@@ -73,10 +82,24 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return { ...tokens, user: userDto }
     }
+    async delete(refreshToken) {
 
-    async getAllUsers() {
-        const users = await UserModel.find();
-        return users;
+    }
+    async changeData(email, firstName, lastName, username, id) {
+        const id = await UserModel.findById(userData.id);
+        const user = await UserModel.findOneAndUpdate({ email },
+            { email, firstName, lastName, username },
+            (err, ac) => {
+                if (err) throw err;
+                // console.log('ac--------', ac);
+            }
+        )
+        if (user) {
+            throw ApiError.BadRequest(`This email already exists`)
+        }
+        console.log('user----------', user)
+        const userDto = new UserDto(user);
+        return { user: userDto }
     }
 }
 
