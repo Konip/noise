@@ -15,5 +15,6 @@ router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 router.post('/delete', userController.delete);
 router.post('/change', authMiddleware, userController.changeData);
+router.post('/password', authMiddleware, userController.changePassword);
 
 module.exports = router

@@ -92,6 +92,8 @@
 
 .account__btn, .delete__btn {
     display: inline-flex;
+    justify-content: center;
+    align-items: center;
     color: rgb(255, 255, 255);
     border-width: 0px;
     transition: background-color 0.2s ease-in-out 0s;
@@ -102,13 +104,16 @@
     font-weight: 700;
     font-size: 14px;
     /* padding: 10px 20px; */
-    padding: 15px 50px;
+    /* padding: 15px 50px; */
+    width: 150px;
+    height: 45px;
     border-radius: 25px;
+
     /* margin-right: 24px; */
     /* width: 100px; */
     /* width: 90px; */
     /* height: 36px; */
-    justify-content: center;
+   
     margin-top: 10px;
     cursor: pointer;
 }

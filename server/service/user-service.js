@@ -25,29 +25,29 @@ class UserService {
         const tokens = tokenService.generateTokens({ ...userDto });
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 
-        return { ...tokens, user: userDto }
+        return { ...tokens, user: userDto };
     }
 
     async activate(activationLink) {
-        const user = await UserModel.findOne({ activationLink })
+        const user = await UserModel.findOne({ activationLink });
         if (!user) {
-            throw ApiError.BadRequest('Неккоректная ссылка активации')
+            throw ApiError.BadRequest('Неккоректная ссылка активации');
         }
         user.isActivated = true;
         await user.save();
     }
 
     async login(email, password) {
-        const user = await UserModel.findOne({ email })
+        const user = await UserModel.findOne({ email });
         if (!user) {
-            console.log('Пользователь с таким email не найден')
+            console.log('Пользователь с таким email не найден');
             // throw ApiError.BadRequest('User with this email was not found')
             throw ApiError.BadRequest('Oops, wrong email or password');
         }
         const confirmed = await UserModel.findOne({ email })
         if (!confirmed.isActivated) {
-            console.log('Электронный адрес еще не подтвержден')
-            throw ApiError.BadRequest('Email address hasnt been confirmed yet')
+            console.log('Электронный адрес еще не подтвержден');
+            throw ApiError.BadRequest('Email address hasnt been confirmed yet');
         }
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) {
@@ -58,7 +58,7 @@ class UserService {
         const tokens = tokenService.generateTokens({ ...userDto });
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
-        return { ...tokens, user: userDto }
+        return { ...tokens, user: userDto };
     }
 
     async logout(refreshToken) {
@@ -80,26 +80,46 @@ class UserService {
         const tokens = tokenService.generateTokens({ ...userDto });
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
-        return { ...tokens, user: userDto }
+        return { ...tokens, user: userDto };
     }
     async delete(refreshToken) {
 
-    }
+    }        
+     
     async changeData(email, firstName, lastName, username, id) {
-        const id = await UserModel.findById(userData.id);
-        const user = await UserModel.findOneAndUpdate({ email },
-            { email, firstName, lastName, username },
+        const userEmail = await UserModel.findById(id); 
+        const exists = await UserModel.findOne({ email });
+        // console.log('userEmail------------', userEmail.email)
+        if (userEmail.email !== email && exists) {
+            throw ApiError.BadRequest(`This email already exists`);
+        }
+        const user = await UserModel.findByIdAndUpdate(id,
+            { $set: { email, firstName, lastName, username } },
             (err, ac) => {
                 if (err) throw err;
                 // console.log('ac--------', ac);
             }
         )
-        if (user) {
-            throw ApiError.BadRequest(`This email already exists`)
-        }
-        console.log('user', user)
+        console.log('user-----------', user);
         const userDto = new UserDto(user);
-        return { user: userDto }
+        return { user: userDto };
+    }
+
+    async changePassword(password) {
+        const userEmail = await UserModel.findById(id); 
+        const exists = await UserModel.findOne({ email });
+        console.log('password------------', password)
+     
+        // const user = await UserModel.findByIdAndUpdate(id,
+        //     { $set: { email, firstName, lastName, username } },
+        //     (err, ac) => {
+        //         if (err) throw err;
+        //         // console.log('ac--------', ac);
+        //     }
+        // )
+        // console.log('user-----------', user);
+        // const userDto = new UserDto(user);
+        // return { user: userDto };
     }
 }
 

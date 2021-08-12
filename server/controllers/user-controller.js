@@ -73,10 +73,22 @@ class UserController {
         try {
             const { email, firstName, lastName, username, id } = req.body;
             const userData = await userService.changeData(email, firstName, lastName, username, id);
-            console.log('userData' ,userData)
+            console.log('userData', userData)
             return res.json(userData);
         } catch (e) {
-            console.log('changeData' ,e)
+            console.log('changeData', e)
+            next(e);
+        }
+    }
+
+    async changePassword(req, res, next) {
+        try {
+            const { password } = req.body;
+            const userData = await userService.changePassword(password);
+            console.log('userData', userData)
+            return res.json(userData);
+        } catch (e) {
+            console.log('changeData', e)
             next(e);
         }
     }

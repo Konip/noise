@@ -6,7 +6,7 @@ import AuthService from "../services/AuthService";
 export default class Store {
     user = {};
     isAuth = false;
-    error
+
 
     constructor() {
         makeAutoObservable(this);
@@ -19,9 +19,7 @@ export default class Store {
     setUser(user) {
         this.user = user;
     }
-    setError(error) {
-        this.error = error;
-    }
+
 
     async login(email, password) {
         try {
@@ -36,7 +34,6 @@ export default class Store {
         } catch (e) {
             let error = e.response?.data?.message
             console.log(error);
-            this.setError(error)
             return new Promise((resolve, reject) => {
                 reject(error)
             })
@@ -54,9 +51,10 @@ export default class Store {
                 resolve(response)
             })
         } catch (e) {
-            console.log(e.response?.data?.message);
+            let error = e.response?.data?.message
+            console.log(error);
             return new Promise((resolve, reject) => {
-                reject(e.response?.data?.message)
+                reject(error)
             })
         }
     }
@@ -96,16 +94,40 @@ export default class Store {
             console.log(e.response?.data?.message);
         }
     }
-    async changeData(email, firstName, lastName, username) {
+
+    async changeData(email, firstName, lastName, username, id) {
         try {
-            const id = this.user.id
             const response = await AuthService.changeData(email, firstName, lastName, username, id);
             console.log(response);
-            // localStorage.setItem('token', response.data.accessToken);
-            // this.setAuth(true);
+            this.setAuth(true);
             this.setUser(response.data.user);
+            return new Promise((resolve, reject) => {
+                resolve(response)
+            })
         } catch (e) {
-            console.log(e.response?.data?.message);
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
+        }
+    }
+
+    async changePassword(password) {
+        try {
+            const response = await AuthService.changePassword(password);
+            console.log(response);
+            this.setAuth(true);
+            this.setUser(response.data.user);
+            return new Promise((resolve, reject) => {
+                resolve(response)
+            })
+        } catch (e) {
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
         }
     }
 }
