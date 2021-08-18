@@ -153,20 +153,26 @@ form {
     opacity: 1;
 }
 
-.modal__btn {
+.modal__btn-log,.modal__btn-sign {
     background-color: #91e6b5;
     height: 40px;
     width: max-content;
-    /* padding: 5px 15px; */
-    padding: 5px 60px;
+  
+  
     border-radius: 20px;
     cursor: pointer;
     color: white;
     font-weight: 700;
     transition: background-color 0.2s ease-in-out 0s;
 }
+.modal__btn-log{
+    padding: 5px 60px;
+}
+.modal__btn-sign{
+    padding: 5px 20px;
+}
 
-.modal__btn:hover {
+.modal__btn-log:hover,.modal__btn-sign:hover {
     background-color: rgb(70 228 171);
 }
 
@@ -190,6 +196,9 @@ form {
 .createAc {
     display: flex;
     color: #5ee5b5;
+}
+.createAc div{
+    cursor: pointer;
 }
 
 .login-container {
@@ -244,4 +253,7 @@ input:checked+label svg {
 
 input:checked+label svg path {
     stroke: #f2f2f2;
+}
+.stayLogged{
+    color: rgb(141 138 138);
 }

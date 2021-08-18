@@ -15,8 +15,9 @@ class UserService {
         }
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
-        const number = await UserModel.count();
-        const username = `noise${number + 1}`
+        let count = await UserModel.count();
+        const number = count ++
+        const username = `noise${number}`
 
         const user = await UserModel.create({ email, password: hashPassword, activationLink, number, username })
         await mailService.sendActivationMail(email, `${process.env.API_URL}/activate/${activationLink}`);
@@ -37,11 +38,11 @@ class UserService {
         await user.save();
     }
 
-    async login(email, password) {
+    async login(email, password, toggle) {
+        // console.log('password',password);
         const user = await UserModel.findOne({ email });
         if (!user) {
             console.log('Пользователь с таким email не найден');
-            // throw ApiError.BadRequest('User with this email was not found')
             throw ApiError.BadRequest('Oops, wrong email or password');
         }
         const confirmed = await UserModel.findOne({ email })
@@ -55,7 +56,7 @@ class UserService {
             throw ApiError.BadRequest('Oops, wrong email or password');
         }
         const userDto = new UserDto(user);
-        const tokens = tokenService.generateTokens({ ...userDto });
+        const tokens = tokenService.generateTokens({ ...userDto }, toggle);
 
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return { ...tokens, user: userDto };
@@ -82,14 +83,15 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return { ...tokens, user: userDto };
     }
-    async delete(refreshToken) {
+    async delete(email) {
+        await UserModel.deleteOne({ email }, function (err, result) {
+        });
+        return ({})
+    }
 
-    }        
-     
     async changeData(email, firstName, lastName, username, id) {
-        const userEmail = await UserModel.findById(id); 
+        const userEmail = await UserModel.findById(id);
         const exists = await UserModel.findOne({ email });
-        // console.log('userEmail------------', userEmail.email)
         if (userEmail.email !== email && exists) {
             throw ApiError.BadRequest(`This email already exists`);
         }
@@ -98,28 +100,28 @@ class UserService {
             (err, ac) => {
                 if (err) throw err;
                 // console.log('ac--------', ac);
-            }
-        )
-        console.log('user-----------', user);
+            })
         const userDto = new UserDto(user);
         return { user: userDto };
     }
 
-    async changePassword(password) {
-        const userEmail = await UserModel.findById(id); 
-        const exists = await UserModel.findOne({ email });
-        console.log('password------------', password)
-     
-        // const user = await UserModel.findByIdAndUpdate(id,
-        //     { $set: { email, firstName, lastName, username } },
-        //     (err, ac) => {
-        //         if (err) throw err;
-        //         // console.log('ac--------', ac);
-        //     }
-        // )
-        // console.log('user-----------', user);
-        // const userDto = new UserDto(user);
-        // return { user: userDto };
+    async changePassword(currentPassword, newPassword, id) {
+        const userPass = await UserModel.findById(id);
+        const isPassEquals = await bcrypt.compare(currentPassword, userPass.password);
+
+        if (!isPassEquals) {
+            console.log('Неверный пароль')
+            throw ApiError.BadRequest('Enter correct password');
+        }
+        const hashPassword = await bcrypt.hash(newPassword, 3);
+        const user = await UserModel.findByIdAndUpdate(id,
+            { $set: { password: hashPassword } },
+            (err, ac) => {
+                if (err) throw err;
+                // console.log('ac--------', ac);
+            })
+        const userDto = new UserDto(user);
+        return { user: userDto };
     }
 }
 

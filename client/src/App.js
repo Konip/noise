@@ -1,3 +1,4 @@
+import { observer } from "mobx-react";
 import React, { useContext, useState } from 'react';
 import './App.css';
 import Account from './components/Account/Account';
@@ -11,6 +12,10 @@ let distance = [];
 let targetColor = generateRGB();
 let mask = document.body.getElementsByClassName('mask')
 let isAuth = false
+let loaded = false
+document.addEventListener('DOMContentLoaded', () => {
+  loaded = true
+})
 
 function getElementBG(elm) {
   var bg = getComputedStyle(elm).backgroundColor;
@@ -163,6 +168,7 @@ function transition() {
   if (!isAuth) {
     for (let el of mask) {
       el.style.backgroundImage = gradient
+      el.style.visibility = 'visible'
     }
   }
 
@@ -174,9 +180,8 @@ function transition() {
 function App() {
 
   const [modalActive, setModalActive] = useState(false);
-  const [typeModal, setTypeModal] = useState();
+  const [typeModal, setTypeModal] = useState('Verification');
   const [settings, setSettings] = useState('body');
-  // const [settings, setSettings] = useState('account');
 
   const ctx = useContext(Context)
   isAuth = ctx.isAuth
@@ -185,15 +190,16 @@ function App() {
 
   // startTransition();
 
-  const setIsAuth = (payload) => {
-    console.log('setIsAuth', isAuth);
-    isAuth = payload
-
+  const redraw = () => {
     for (let el of mask) {
       el.style.backgroundImage = 'none'
       el.style.visibility = 'hidden'
     }
   }
+  if (isAuth) {
+    redraw()
+  }
+
   const openModal = (activeModal, typeModal) => {
     console.log(activeModal, typeModal);
     setModalActive(activeModal)
@@ -210,22 +216,21 @@ function App() {
         login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
       /> */}
       <NavBarVertical isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
-        login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
-        openModal={openModal} changeWindow={changeWindow}
+        logout={ctx.logout} openModal={openModal} changeWindow={changeWindow}
       />
       {
         settings === 'body' ?
-          <Body openModal={openModal} type={typeModal} constantNode={constantNode} />
+          <Body openModal={openModal} type={typeModal} constantNode={constantNode} isAuth={isAuth} />
           : settings === 'account' && ctx.isAuth ?
             <Account />
             :
             <div></div>
       }
-
-      <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration} login={ctx.login} />
-
+      <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration} 
+      login={ctx.login} email={ctx.email} isAuth={isAuth}
+      />
     </div>
   );
 }
 
-export default App;
+export default observer(App);

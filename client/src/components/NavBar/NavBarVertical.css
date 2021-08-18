@@ -6,7 +6,7 @@
     width: 150px;
     flex-direction: column;
     padding: 0 10px;
-    align-items:flex-end;
+    align-items: flex-end;
     box-shadow: rgb(0 0 0 / 10%) 0px 1px 2px;
     z-index: 20;
 }
@@ -16,7 +16,10 @@
     font-size: 1.5em;
     margin-bottom: 30px;
 }
-
+.logo a{
+    text-decoration: none;
+    color: white;
+}
 .buttons {
     display: flex;
     flex-direction: column;
@@ -67,16 +70,6 @@
 
 .inp {
     margin: 5px 0;
-}
-
-.wr {
-    position: absolute;
-    top: 30%;
-    left: 10px;
-}
-
-.wr button {
-    margin: 5px;
 }
 
 .dropdown-active, .dropdown {
@@ -150,11 +143,11 @@
     margin: 5px 0;
 } */
 
-.settings,.playList {
+.settings, .playList {
     opacity: 0.5;
 }
 
-.settings-active,.playList-active  {
+.settings-active, .playList-active {
     opacity: 1;
 }
 

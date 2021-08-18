@@ -1,8 +1,8 @@
 import $api from "../http";
 
 export default class AuthService {
-    static async login(email, password) {
-        return $api.post('/login', { email, password })
+    static async login(email, password, toggle) {
+        return $api.post('/login', { email, password, toggle })
     }
 
     static async registration(email, password) {
@@ -16,11 +16,17 @@ export default class AuthService {
     static async delete(email) {
         return $api.post('/delete', { email })
     }
+
     static async changeData(email, firstName, lastName, username, id) {
         return $api.post('/change', { email, firstName, lastName, username, id })
     }
-    static async changePassword(password) {
-        return $api.post('/password', { password })
+
+    static async changePassword(currentPassword, newPassword, id) {
+        return $api.post('/password', { currentPassword, newPassword, id })
     }
+    static async resetPassword(email) {
+        return $api.post('/reset', { email })
+    }
+
 }
 

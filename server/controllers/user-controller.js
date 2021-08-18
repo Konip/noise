@@ -20,8 +20,8 @@ class UserController {
 
     async login(req, res, next) {
         try {
-            const { email, password } = req.body;
-            const userData = await userService.login(email, password);
+            const { email, password, toggle } = req.body;
+            const userData = await userService.login(email, password, toggle);
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
             return res.json(userData);
         } catch (e) {
@@ -63,9 +63,13 @@ class UserController {
 
     async delete(req, res, next) {
         try {
-            console.log(req)
+            const { email } = req.body;
+            const { refreshToken } = req.cookies;
+            const userData = await userService.delete(email);
+            const token = await userService.logout(refreshToken);
+            return res.json(userData);
         } catch (e) {
-            // next(e);
+            next(e);
         }
     }
 
@@ -73,23 +77,31 @@ class UserController {
         try {
             const { email, firstName, lastName, username, id } = req.body;
             const userData = await userService.changeData(email, firstName, lastName, username, id);
-            console.log('userData', userData)
             return res.json(userData);
         } catch (e) {
-            console.log('changeData', e)
             next(e);
         }
     }
 
     async changePassword(req, res, next) {
         try {
-            const { password } = req.body;
-            const userData = await userService.changePassword(password);
-            console.log('userData', userData)
+            const { currentPassword, newPassword, id } = req.body;
+            // console.log('changeData',  password, newPassword, id)
+            const userData = await userService.changePassword(currentPassword, newPassword, id);
             return res.json(userData);
         } catch (e) {
-            console.log('changeData', e)
             next(e);
+        }
+    }
+
+    async resetPassword(req, res, next) {
+        try {
+            const { email} = req.body;
+            console.log('email--------------',  email)
+            // const userData = await userService.changePassword(currentPassword, newPassword, id);
+            // return res.json(userData);
+        } catch (e) {
+            // next(e);
         }
     }
 }

@@ -3,12 +3,6 @@ import React, { Component } from 'react';
 import { Context } from "../../Context";
 import './NavBarVertical.css';
 
-// document.addEventListener("DOMContentLoaded", () => {
-// let gear = document.querySelector(".gear")
-// console.log(gear)
-// })
-
-
 export const NavBarVertical = observer(
     class NavBarVertical extends Component {
 
@@ -24,7 +18,6 @@ export const NavBarVertical = observer(
             }
             this.setEmail = this.setEmail.bind(this)
             this.setPassword = this.setPassword.bind(this)
-            this.login = this.login.bind(this)
             this.logout = this.logout.bind(this)
             this.dropdown = this.dropdown.bind(this)
             this.openPlayList = this.openPlayList.bind(this)
@@ -43,19 +36,8 @@ export const NavBarVertical = observer(
             this.setState({ password: password })
         }
 
-        login(email, password) {
-            let premium = document.querySelector('.premium')
-            this.context.login(email, password)
-            premium.classList.remove('tooltip-active')
-            this.props.setIsAuth(true)
-        }
-
         logout(email, password) {
-           
-            let premium = document.querySelector('.premium')
             this.context.logout(email, password)
-            premium.classList.add('tooltip-active')
-            this.props.setIsAuth(false)
             this.openAccount('body')
         }
 
@@ -65,13 +47,15 @@ export const NavBarVertical = observer(
             console.log(a)
             this.setState({ dropdown: !this.state.dropdown })
         }
+
         openPlayList() {
             this.setState({ playList: !this.state.playList, })
-
         }
+
         openAccount(e) {
             this.props.changeWindow(e)
         }
+
         render() {
             const { email, password, dropdown, playList } = this.state;
             const store = this.context;
@@ -81,9 +65,8 @@ export const NavBarVertical = observer(
                     {store.isAuth ?
                         <div className="menu">
                             <div className="logo">
-                                <p>Noise</p>
+                                <a href='http://localhost:3000/'>Noise</a>
                             </div>
-                            {/* <img src={gear} alt="" /> */}
                             <div className="gear" onClick={this.dropdown}>
                                 <div id="svg-222">
                                     <svg className={dropdown ? "settings-active" : "settings"} width="20" height="20" viewBox="0 0 20 20">
@@ -114,16 +97,6 @@ export const NavBarVertical = observer(
                             </button>
                         </div>
                     }
-                    <div className="wr" >
-                        <div>
-                            {store.isAuth ? `${store.user.email}` : 'АВТОРИЗУЙТЕСЬ'}
-                        </div>
-                        <input className="inp" onChange={e => this.setEmail(e.target.value)} type="text" placeholder='text' value={this.state.email} />
-                        <input className="inp" onChange={e => this.setPassword(e.target.value)} type="password" placeholder='password' value={this.state.password} />
-                        <button onClick={() => this.login(email, password)}>Логин</button>
-                        <button onClick={() => store.registration(email, password)}>Регистрация</button>
-                        <button onClick={() => this.logout(email, password)}>Выйти</button>
-                    </div>
                 </div>
             )
         }

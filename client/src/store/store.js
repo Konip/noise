@@ -21,9 +21,9 @@ export default class Store {
     }
 
 
-    async login(email, password) {
+    async login(email, password, toggle) {
         try {
-            const response = await AuthService.login(email, password);
+            const response = await AuthService.login(email, password, toggle);
             console.log(response)
             localStorage.setItem('token', response.data.accessToken);
             this.setAuth(true);
@@ -45,7 +45,7 @@ export default class Store {
             const response = await AuthService.registration(email, password);
             console.log(response)
             localStorage.setItem('token', response.data.accessToken);
-            this.setAuth(true);
+            // this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)
@@ -82,14 +82,13 @@ export default class Store {
         }
     }
 
-    async delete() {
+    async delete(email) {
         try {
-            const email = this.user.email
-            const response = await AuthService.registration(email);
-            // console.log(response);
-            // localStorage.setItem('token', response.data.accessToken);
-            // this.setAuth(true);
-            // this.setUser(response.data.user);
+            const response = await AuthService.delete(email);
+            console.log(response);
+            localStorage.removeItem('token');
+            this.setAuth(false);
+            this.setUser(response);
         } catch (e) {
             console.log(e.response?.data?.message);
         }
@@ -113,15 +112,35 @@ export default class Store {
         }
     }
 
-    async changePassword(password) {
+    async changePassword(currentPassword, newPassword, id) {
         try {
-            const response = await AuthService.changePassword(password);
+            // console.log('store----', password, newPassword, id)
+            const response = await AuthService.changePassword(currentPassword, newPassword, id);
             console.log(response);
             this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)
             })
+        } catch (e) {
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
+        }
+    }
+
+    async resetPassword(email) {
+        try {
+            console.log('email----', email)
+            const response = await AuthService.resetPassword(email);
+            // console.log(response);
+            // this.setAuth(true);
+            // this.setUser(response.data.user);
+            // return new Promise((resolve, reject) => {
+            //     resolve(response)
+            // })
         } catch (e) {
             let error = e.response?.data?.message
             console.log(error);

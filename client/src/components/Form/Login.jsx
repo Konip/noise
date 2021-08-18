@@ -1,9 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import _ from 'lodash';
 import { observer } from "mobx-react";
-import React, { useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 import * as Yup from 'yup';
-import close from '../../assets/img/close.svg';
 import { Context } from "../../Context";
 import '../Modal/Modal.css';
 
@@ -11,30 +10,22 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Please insert a valid email'),
     password: Yup.string()
         .min(4, 'Password is too short - should be 4 chars minimum.')
-    // .matches(/[a-zA-Z]/, 'Password can only contain Latin letters')
 });
 
-function Login({ setActive }) {
+function Login({ setActive, openModal }) {
 
     const ctx = useContext(Context)
-    const ref = useRef()
-    console.log(ref)
 
-    const onChangeCheckBox = (e) => {
-        console.log(e)
-    }
-
-    const handleOnSubmit = async ({ email, password }, actions) => {
-        console.log(email, password)
+    const handleOnSubmit = async ({ email, password, toggle }, actions) => {
+        console.log(email, password, toggle)
         try {
-            await ctx.login(email, password)
+            await ctx.login(email, password, toggle)
             actions.setSubmitting(false);
             actions.resetForm();
         } catch (error) {
             actions.setErrors({ incorrect: error })
             actions.setSubmitting(false);
             // actions.setFieldValue( 'password', '' )
-            console.log('errrrrrrrrrrrrr', error)
         }
     }
 
@@ -48,17 +39,16 @@ function Login({ setActive }) {
     }
     return (
         <div className="log">
-            <img onClick={() => setActive(false)} className="close" src={close} alt="" />
             <div className="title">
                 <span id="green">Welcome back :)</span>
             </div>
             <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ email: '', password: '', toggle: true }}
                 validationSchema={SignupSchema}
                 onSubmit={handleOnSubmit}
 
             >
-                {({ isSubmitting, errors }) => (
+                {({ isSubmitting, errors, values }) => (
                     <Form>
                         <div className="input-wrapper">
                             {console.log(errors)}
@@ -80,15 +70,21 @@ function Login({ setActive }) {
                         </div>
                         <div className="login-container">
                             <div className="checkbox">
-                                <input type="checkbox" name="logged_in" id="logged_in" ref={ref} onChange={onChangeCheckBox} />
+                                <Field type="checkbox" name="toggle" id="logged_in" />
                                 <label htmlFor="logged_in">
                                     <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </label>
+                                {/* <input type="checkbox" name="logged_in" id="logged_in" ref={ref} onChange={onChangeCheckBox} />
+                                <label htmlFor="logged_in">
+                                    <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </label> */}
                             </div>
-                            <div>stay logged in </div>
-                            <button className="modal__btn" type="submit" disabled={isSubmitting}>
+                            <div className="stayLogged ">Stay logged in </div>
+                            <button className="modal__btn-log" type="submit" disabled={isSubmitting}>
                                 Log in
                             </button>
                         </div>
@@ -96,9 +92,9 @@ function Login({ setActive }) {
                 )}
             </Formik>
             <div className="createAc">
-                <div> create an account</div>
+                <div onClick={() => openModal(true, 'Sign up')}> create an account</div>
                 <div> - </div>
-                <div> Forgot password?</div>
+                <div onClick={() => openModal(true, 'Reset')}> Forgot password?</div>
             </div>
         </div>
     )

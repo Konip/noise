@@ -197,9 +197,11 @@ export class Body extends Component {
     }
 
     render() {
+        const { isAuth } = this.props
         return (
             <div className='body'>
-                {console.log('render')}
+                {console.log('Body')}
+                {console.log(isAuth)}
                 <div className="sound" >
                     <input className="volumeController" type="range" min='0' max='1' step='0.01' onChange={(e) => this.changeVolume(e)} ></input>
                     <div className="PlayMasterVolumeController" onClick={this.muted}>
@@ -366,7 +368,7 @@ export class Body extends Component {
                             <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' onChange={(e) => this.change(e)} ></input>
                         </div>
                     </div>
-                    <div className="premium tooltip-active" >
+                    <div className={isAuth ? "premium" : "premium tooltip-active"} >
                         <div className="tool" >
                             <span id='text'>These Sounds<br />
                                 are a <strong id='pro' onClick={this.openRegistrationTool}>Sign up</strong> feature.<br />
