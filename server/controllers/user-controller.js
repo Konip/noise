@@ -32,6 +32,7 @@ class UserController {
     async logout(req, res, next) {
         try {
             const { refreshToken } = req.cookies;
+            console.log('refreshToken----', refreshToken)
             const token = await userService.logout(refreshToken);
             res.clearCookie('refreshToken');
             return res.json(token);
@@ -63,10 +64,8 @@ class UserController {
 
     async delete(req, res, next) {
         try {
-            const { email } = req.body;
-            const { refreshToken } = req.cookies;
-            const userData = await userService.delete(email);
-            const token = await userService.logout(refreshToken);
+            const { id, password } = req.body;
+            const userData = await userService.delete(id, password);
             return res.json(userData);
         } catch (e) {
             next(e);
@@ -86,7 +85,6 @@ class UserController {
     async changePassword(req, res, next) {
         try {
             const { currentPassword, newPassword, id } = req.body;
-            // console.log('changeData',  password, newPassword, id)
             const userData = await userService.changePassword(currentPassword, newPassword, id);
             return res.json(userData);
         } catch (e) {
@@ -96,12 +94,11 @@ class UserController {
 
     async resetPassword(req, res, next) {
         try {
-            const { email} = req.body;
-            console.log('email--------------',  email)
-            // const userData = await userService.changePassword(currentPassword, newPassword, id);
-            // return res.json(userData);
+            const { email } = req.body;
+            const userData = await userService.resetPassword(email);
+            return res.json(userData);
         } catch (e) {
-            // next(e);
+            next(e);
         }
     }
 }

@@ -123,7 +123,9 @@
     background-color: rgba(255, 255, 255, 0.3);
 }
 
-.delete__btn {}
+.wrap-btn{
+    
+}
 
 .delete-wrapp {
     text-align: left;

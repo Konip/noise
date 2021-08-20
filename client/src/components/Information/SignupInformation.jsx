@@ -1,7 +1,7 @@
 import React from 'react';
-import './SignupVerification.css';
+import './SignupInformation.css';
 
-export default function SignupVerification({ email, setActive }) {
+export default function SignupInformation({ email, setActive }) {
     {console.log(email)}
     return (
         <div className='verification'>

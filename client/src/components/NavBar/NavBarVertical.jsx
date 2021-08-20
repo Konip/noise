@@ -38,7 +38,7 @@ export const NavBarVertical = observer(
 
         logout(email, password) {
             this.context.logout(email, password)
-            this.openAccount('body')
+            this.changePage('body')
         }
 
         dropdown(e) {
@@ -52,8 +52,8 @@ export const NavBarVertical = observer(
             this.setState({ playList: !this.state.playList, })
         }
 
-        openAccount(e) {
-            this.props.changeWindow(e)
+        changePage(e) {
+            this.props.change(e)
         }
 
         render() {
@@ -65,7 +65,8 @@ export const NavBarVertical = observer(
                     {store.isAuth ?
                         <div className="menu">
                             <div className="logo">
-                                <a href='http://localhost:3000/'>Noise</a>
+                                <div  onClick={() => this.changePage('body')}>Noise</div>
+                                {/* <a href='http://localhost:3000/'>Noise</a> */}
                             </div>
                             <div className="gear" onClick={this.dropdown}>
                                 <div id="svg-222">
@@ -77,14 +78,14 @@ export const NavBarVertical = observer(
                                     </svg>
                                 </div>
                                 <div className={dropdown ? "dropdown-active" : "dropdown"} >
-                                    <div className="dropdown-btn" onClick={() => this.openAccount('account')}>Account</div>
+                                    <div className="dropdown-btn" onClick={() => this.changePage('account')}>Account</div>
                                     <div className="dropdown-btn">Stop</div>
                                     <div className="dropdown-btn" onClick={() => this.logout(email, password)}>Log Out</div>
                                 </div>
                             </div>
                             <svg className={playList ? "playList-active" : "playList"} viewBox="0 0 256 256" onClick={this.openPlayList}>
                                 <rect width="256" height="256" fill="none" />
-                                <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="16" d="M132.41106,190.73266l50.43543,31.95385c6.44693,4.08451,14.45124-1.99032,12.53819-9.51579l-14.57192-57.32241a8.75742,8.75742,0,0,1,2.83756-8.87589l45.2273-37.64345c5.94268-4.9462,2.87542-14.80876-4.75965-15.30428l-59.06388-3.83326a8.41836,8.41836,0,0,1-7.24792-5.3506l-22.02834-55.473a8.31887,8.31887,0,0,0-15.55566,0L98.19383,84.84083a8.41836,8.41836,0,0,1-7.24792,5.3506L31.882,94.02469c-7.63507.49552-10.70233,10.35808-4.75965,15.30428l45.2273,37.64345a8.75742,8.75742,0,0,1,2.83756,8.87589L61.6734,209.00846c-2.29566,9.03056,7.30952,16.32036,15.04583,11.41895l46.86971-29.69475A8.21431,8.21431,0,0,1,132.41106,190.73266Z" />
+                                <path fill="none" stroke="#ffffff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" d="M132.41106,190.73266l50.43543,31.95385c6.44693,4.08451,14.45124-1.99032,12.53819-9.51579l-14.57192-57.32241a8.75742,8.75742,0,0,1,2.83756-8.87589l45.2273-37.64345c5.94268-4.9462,2.87542-14.80876-4.75965-15.30428l-59.06388-3.83326a8.41836,8.41836,0,0,1-7.24792-5.3506l-22.02834-55.473a8.31887,8.31887,0,0,0-15.55566,0L98.19383,84.84083a8.41836,8.41836,0,0,1-7.24792,5.3506L31.882,94.02469c-7.63507.49552-10.70233,10.35808-4.75965,15.30428l45.2273,37.64345a8.75742,8.75742,0,0,1,2.83756,8.87589L61.6734,209.00846c-2.29566,9.03056,7.30952,16.32036,15.04583,11.41895l46.86971-29.69475A8.21431,8.21431,0,0,1,132.41106,190.73266Z" />
                             </svg>
                         </div>
                         :

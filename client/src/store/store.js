@@ -7,7 +7,6 @@ export default class Store {
     user = {};
     isAuth = false;
 
-
     constructor() {
         makeAutoObservable(this);
     }
@@ -19,7 +18,6 @@ export default class Store {
     setUser(user) {
         this.user = user;
     }
-
 
     async login(email, password, toggle) {
         try {
@@ -82,17 +80,36 @@ export default class Store {
         }
     }
 
-    async delete(email) {
+    async delete(id, password) {
         try {
-            const response = await AuthService.delete(email);
+            const response = await AuthService.delete(id, password);
+            await AuthService.logout();
             console.log(response);
             localStorage.removeItem('token');
             this.setAuth(false);
             this.setUser(response);
+            return new Promise((resolve, reject) => {
+                resolve(response)
+            })
         } catch (e) {
-            console.log(e.response?.data?.message);
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
         }
     }
+    // async delete(email) {
+    //     try {
+    //         const response = await AuthService.delete(email);
+    //         console.log(response);
+    //         localStorage.removeItem('token');
+    //         this.setAuth(false);
+    //         this.setUser(response);
+    //     } catch (e) {
+    //         console.log(e.response?.data?.message);
+    //     }
+    // }
 
     async changeData(email, firstName, lastName, username, id) {
         try {
@@ -114,7 +131,6 @@ export default class Store {
 
     async changePassword(currentPassword, newPassword, id) {
         try {
-            // console.log('store----', password, newPassword, id)
             const response = await AuthService.changePassword(currentPassword, newPassword, id);
             console.log(response);
             this.setAuth(true);
@@ -138,9 +154,9 @@ export default class Store {
             // console.log(response);
             // this.setAuth(true);
             // this.setUser(response.data.user);
-            // return new Promise((resolve, reject) => {
-            //     resolve(response)
-            // })
+            return new Promise((resolve, reject) => {
+                resolve(response)
+            })
         } catch (e) {
             let error = e.response?.data?.message
             console.log(error);

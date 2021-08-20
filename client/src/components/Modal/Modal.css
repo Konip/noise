@@ -24,6 +24,10 @@
     opacity: 1;
 }
 
+#dash {
+    margin: 0 7px;
+}
+
 .modal__content {
     /* min-height: 100vh; */
     padding: 30px 10px;
@@ -51,7 +55,8 @@
 span::selection {
     background-color: rgb(222 250 240);
 }
-.inputError::selection{
+
+.inputError::selection {
     background-color: rgb(178 236 216);
 }
 
@@ -59,11 +64,12 @@ span::selection {
     color: #5ee5b5;
     cursor: pointer;
 }
-#green{
+
+#green {
     color: #5ee5b5;
 }
+
 .title {
-   
     display: flex;
     flex-direction: column;
     margin-bottom: 60px;
@@ -105,7 +111,6 @@ form {
     line-height: 16px;
     /* background-color: #f8f8f8; */
 }
-
 
 .input-border, .input-border-error {
     position: absolute;
@@ -153,26 +158,26 @@ form {
     opacity: 1;
 }
 
-.modal__btn-log,.modal__btn-sign {
+.modal__btn-log, .modal__btn-sign {
     background-color: #91e6b5;
     height: 40px;
     width: max-content;
-  
-  
     border-radius: 20px;
     cursor: pointer;
     color: white;
     font-weight: 700;
     transition: background-color 0.2s ease-in-out 0s;
 }
-.modal__btn-log{
+
+.modal__btn-log {
     padding: 5px 60px;
 }
-.modal__btn-sign{
+
+.modal__btn-sign {
     padding: 5px 20px;
 }
 
-.modal__btn-log:hover,.modal__btn-sign:hover {
+.modal__btn-log:hover, .modal__btn-sign:hover {
     background-color: rgb(70 228 171);
 }
 
@@ -197,7 +202,8 @@ form {
     display: flex;
     color: #5ee5b5;
 }
-.createAc div{
+
+.createAc div {
     cursor: pointer;
 }
 
@@ -235,9 +241,11 @@ form {
     background-color: #f2f2f2;
     border-color: #f2f2f2;
 }
+
 .checkbox:hover label svg {
     opacity: 1;
 }
+
 .checkbox:hover label svg path {
     stroke: #b3b3b3;
 }
@@ -254,6 +262,23 @@ input:checked+label svg {
 input:checked+label svg path {
     stroke: #f2f2f2;
 }
-.stayLogged{
+
+.stayLogged {
     color: rgb(141 138 138);
+}
+
+.reset__btn-del {
+    background-color: rgb(242, 78, 98);
+    height: 40px;
+    width: max-content;
+    border-radius: 20px;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    transition: background-color 0.2s ease-in-out 0s;
+    width: 120px;
+}
+
+.reset__btn-del:hover {
+    background-color: rgb(217, 70, 88);
 }

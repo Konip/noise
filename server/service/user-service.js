@@ -16,7 +16,7 @@ class UserService {
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = uuid.v4(); // v34fa-asfasf-142saf-sa-asf
         let count = await UserModel.count();
-        const number = count ++
+        const number = count++
         const username = `noise${number}`
 
         const user = await UserModel.create({ email, password: hashPassword, activationLink, number, username })
@@ -39,7 +39,6 @@ class UserService {
     }
 
     async login(email, password, toggle) {
-        // console.log('password',password);
         const user = await UserModel.findOne({ email });
         if (!user) {
             console.log('Пользователь с таким email не найден');
@@ -83,9 +82,15 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return { ...tokens, user: userDto };
     }
-    async delete(email) {
-        await UserModel.deleteOne({ email }, function (err, result) {
-        });
+    
+    async delete(id, password) {
+        const user = await UserModel.findById(id);
+        const isPassEquals = await bcrypt.compare(password, user.password);
+        if (!isPassEquals) {
+            console.log('Неверный пароль')
+            throw ApiError.BadRequest('Oops, wrong email or password');
+        }
+        await UserModel.deleteOne(user, function (err, result) { });
         return ({})
     }
 
@@ -99,7 +104,6 @@ class UserService {
             { $set: { email, firstName, lastName, username } },
             (err, ac) => {
                 if (err) throw err;
-                // console.log('ac--------', ac);
             })
         const userDto = new UserDto(user);
         return { user: userDto };
@@ -118,8 +122,20 @@ class UserService {
             { $set: { password: hashPassword } },
             (err, ac) => {
                 if (err) throw err;
-                // console.log('ac--------', ac);
             })
+        const userDto = new UserDto(user);
+        return { user: userDto };
+    }
+
+    async resetPassword(email) {
+        const password = Math.random().toString(36).slice(-8);
+        const hashPassword = await bcrypt.hash(password, 3);
+        const user = await UserModel.findOneAndUpdate({ email }, { password: hashPassword },
+            (err, ac) => {
+                if (err) throw err;
+            })
+        console.log('error')
+        await mailService.sendResetMail(email, password);
         const userDto = new UserDto(user);
         return { user: userDto };
     }

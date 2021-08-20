@@ -57,10 +57,11 @@ export default function Password() {
                                 <div className="input-label">New Password</div>
                                 <Field className="" type="text" name="newPassword" placeholder="New Password" />
                                 <ErrorMessage className="inp-Error" name="newPassword" component="div" />
-
                             </div>
                         </div>
-                        <button className="account__btn" type="submit" disabled={isSubmitting}>{!update ? 'Update' : 'Updated! 🎉'}</button>
+                        <div className="wrap-btn">
+                            <button className="account__btn" type="submit" disabled={isSubmitting}>{!update ? 'Update' : 'Updated! 🎉'}</button>
+                        </div>
                     </div>
                 </Form>
             )}

@@ -14,8 +14,9 @@ const SignupSchema = Yup.object().shape({
 });
 
 function SignUp({ openModal, setEmail }) {
-    const ctx = useContext(Context);
+
     const [loading, setLoading] = React.useState()
+    const ctx = useContext(Context);
 
     const handleOnSubmit = async ({ email, password }, actions) => {
         console.log(email, password)
@@ -25,7 +26,7 @@ function SignUp({ openModal, setEmail }) {
             actions.setSubmitting(false);
             actions.resetForm();
             setEmail(email)
-            openModal(true, 'Verification')
+            openModal(true, 'SignupInformation')
         } catch (error) {
             actions.setErrors({ incorrect: error })
             actions.setSubmitting(false);
@@ -70,17 +71,17 @@ function SignUp({ openModal, setEmail }) {
                         </div>
                         <div className="login-container">
                             <button className="modal__btn-sign" type="submit" disabled={isSubmitting}>
-                                {loading ? "Registration..." : "Sign up, it's Free"}
+                                {loading ?
+                                    <span class="loading">
+                                        Registration<span class="one">.</span><span class="two">.</span><span class="three">.</span>
+                                    </span>
+                                    : "Sign up, it's Free"}
+                                {/* {loading ? "Registration..." : "Sign up, it's Free"} */}
                             </button>
                         </div>
                     </Form>
                 )}
             </Formik>
-            {/* <div className="createAc">
-                <div> create an account</div>
-                <div> - </div>
-                <div> Forgot password?</div>
-            </div> */}
         </div>
     )
 }

@@ -180,13 +180,15 @@ function transition() {
 function App() {
 
   const [modalActive, setModalActive] = useState(false);
-  const [typeModal, setTypeModal] = useState('Verification');
-  const [settings, setSettings] = useState('body');
+  const [typeModal, setTypeModal] = useState();
+  const [page, setPage] = useState('body');
 
   const ctx = useContext(Context)
   isAuth = ctx.isAuth
+  const { deletion } = ctx
   const aCtx = new AudioContext();
   let constantNode = aCtx.createGain()
+
 
   // startTransition();
 
@@ -205,29 +207,27 @@ function App() {
     setModalActive(activeModal)
     setTypeModal(typeModal)
   }
-  const changeWindow = (e) => {
-    setSettings(e)
+
+  const changePage = (e) => {
+    setPage(e)
   }
 
   return (
     <div className="App">
       {console.log('App')}
-      {/* <NavBar  isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
-        login={ctx.login} registration={ctx.registration} logout={ctx.logout} setIsAuth={setIsAuth}
-      /> */}
       <NavBarVertical isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
-        logout={ctx.logout} openModal={openModal} changeWindow={changeWindow}
+        logout={ctx.logout} openModal={openModal} change={changePage}
       />
       {
-        settings === 'body' ?
+        page === 'body' ?
           <Body openModal={openModal} type={typeModal} constantNode={constantNode} isAuth={isAuth} />
-          : settings === 'account' && ctx.isAuth ?
-            <Account />
+          : page === 'account' && ctx.isAuth ?
+            <Account openModal={openModal} setPage={setPage}/>
             :
             <div></div>
       }
-      <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration} 
-      login={ctx.login} email={ctx.email} isAuth={isAuth}
+      <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration}
+        login={ctx.login} email={ctx.email} isAuth={isAuth}
       />
     </div>
   );

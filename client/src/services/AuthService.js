@@ -13,9 +13,12 @@ export default class AuthService {
         return $api.post('/logout')
     }
 
-    static async delete(email) {
-        return $api.post('/delete', { email })
+    static async delete(id, password) {
+        return $api.post('/delete', { id, password })
     }
+    // static async delete(email) {
+    //     return $api.post('/delete', { email })
+    // }
 
     static async changeData(email, firstName, lastName, username, id) {
         return $api.post('/change', { email, firstName, lastName, username, id })

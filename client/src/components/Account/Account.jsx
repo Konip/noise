@@ -1,16 +1,10 @@
-import { observer } from "mobx-react";
 import React from 'react';
-import { Context } from "../../Context";
 import './Account.css';
-import Delete from "./Delete";
+import Del from "./Del";
 import Password from "./Password";
 import Profile from "./Profile";
 
-function Account() {
-
-    const [update, setUpdate] = React.useState(false)
-    const ctx = React.useContext(Context)
-    const { username, email, firstName, lastName, id } = ctx.user
+export default  function Account({ openModal, setPage }) {
 
     return (
         <div className="account">
@@ -26,9 +20,8 @@ function Account() {
                     <Profile />
                     <Password />
                 </div>
-                <Delete />
+                <Del openModal={openModal} setPage={setPage} />
             </div>
         </div>
     )
 }
-export default observer(Account);

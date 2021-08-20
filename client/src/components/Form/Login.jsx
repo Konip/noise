@@ -10,6 +10,7 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Please insert a valid email'),
     password: Yup.string()
         .min(4, 'Password is too short - should be 4 chars minimum.')
+        .max(32, 'Password is too long - should be 32 chars maximum.')
 });
 
 function Login({ setActive, openModal }) {
@@ -46,12 +47,10 @@ function Login({ setActive, openModal }) {
                 initialValues={{ email: '', password: '', toggle: true }}
                 validationSchema={SignupSchema}
                 onSubmit={handleOnSubmit}
-
             >
                 {({ isSubmitting, errors, values }) => (
                     <Form>
                         <div className="input-wrapper">
-                            {console.log(errors)}
                             <div className="input-container">
                                 <Field className="modal__input" type="email" name="email" placeholder="Email" />
                                 <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
@@ -76,12 +75,6 @@ function Login({ setActive, openModal }) {
                                         <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                     </svg>
                                 </label>
-                                {/* <input type="checkbox" name="logged_in" id="logged_in" ref={ref} onChange={onChangeCheckBox} />
-                                <label htmlFor="logged_in">
-                                    <svg width="11" height="8" viewBox="0 0 11 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.29999 1.20001L3.79999 6.70001L1.29999 4.20001" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </label> */}
                             </div>
                             <div className="stayLogged ">Stay logged in </div>
                             <button className="modal__btn-log" type="submit" disabled={isSubmitting}>
@@ -92,9 +85,9 @@ function Login({ setActive, openModal }) {
                 )}
             </Formik>
             <div className="createAc">
-                <div onClick={() => openModal(true, 'Sign up')}> create an account</div>
-                <div> - </div>
-                <div onClick={() => openModal(true, 'Reset')}> Forgot password?</div>
+                <div onClick={() => openModal(true, 'Sign up')}>Create an account</div>
+                <div id='dash'> - </div>
+                <div onClick={() => openModal(true, 'Reset')}>Forgot password?</div>
             </div>
         </div>
     )

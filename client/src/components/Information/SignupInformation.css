@@ -34,6 +34,15 @@
     color: rgb(102, 102, 102);
     text-align: center;
 }
+.verification__text-bottom{
+    position: absolute;
+    bottom: -10px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
+    color: rgb(102, 102, 102);
+    text-align: center;
+}
 
 .verification__btn {
     position: absolute;
@@ -51,4 +60,14 @@
 
 .verification__btn:hover {
     background-color: rgb(70 228 171);
+}
+#signUp{
+    text-decoration: underline;
+    transition: color 0.2s ease-in-out 0s;
+    color: rgb(102, 102, 102);
+    font-weight: 500;
+    cursor: pointer;
+}
+#signUp:hover{
+    color: rgba(102, 102, 102, 0.5);
 }
