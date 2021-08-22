@@ -11,15 +11,14 @@ import Delete from './../Delete/Delete';
 import './Modal.css';
 
 
-
 function Modal({ active, setActive, type, registration, login, openModal, isAuth }) {
-    const [email, setEmail] = React.useState()
-    console.log('type----', type);
+
+    const [email, setEmail] = React.useState();
+
     return (
-        <div className={active ? "modal active" : "modal"} onClick={() => setActive(false)}>
-            {console.log(type)}
-            <div className="modal__content" >
-                {/* <div className="modal__content" onClick={e => e.stopPropagation()}> */}
+        <div className={active ? "modal active" : "modal"} >
+            <div className="modal-close" onClick={() => setActive(false)}></div>
+                <div className="modal__content" >
                 <img onClick={() => setActive(false)} className="close" src={close} alt="" />
                 {type && type === "Sign up" ?
                     <SignUp openModal={openModal} setEmail={setEmail} />

@@ -134,7 +134,6 @@ class UserService {
             (err, ac) => {
                 if (err) throw err;
             })
-        console.log('error')
         await mailService.sendResetMail(email, password);
         const userDto = new UserDto(user);
         return { user: userDto };

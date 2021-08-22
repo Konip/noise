@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import './Body.css';
-
+// --------------------320-------------
 // https://dl.dropbox.com/s/c1e90i1hyvryo68/rain.mp3?dl=1
 // https://dl.dropbox.com/s/alyrhvc8ad5zm7w/wind.mp3?dl=1
 // https://dl.dropbox.com/s/fryvk3d3h4ljfzk/summerNight.mp3?dl=1
@@ -16,26 +16,62 @@ import './Body.css';
 // https://dl.dropbox.com/s/iwlgf2kiqanouwg/train.mp3?dl=1
 // https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1
 
+// --------------------128-------------
+// https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1
+// https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1
+// https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1
+// https://dl.dropbox.com/s/z896skrs5j0njq2/water_128.mp3?dl=1
+// https://dl.dropbox.com/s/h9vf3ugy8r6mx2o/bonfire_128.mp3?dl=1
+// https://dl.dropbox.com/s/2n2vjgyzcpbwp5v/seaside_128.mp3?dl=1
+// https://dl.dropbox.com/s/ys9x65uqyztu8tp/forest_128.mp3?dl=1
+// https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1
+// https://dl.dropbox.com/s/w9j7bbvofc2lpjk/leaves_128.mp3?dl=1
+// https://dl.dropbox.com/s/kp0gx0fju792d5a/waterStream_128.mp3?dl=1
+// https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1
+// https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1
+// https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1
+
 const obj = {
-    'rain': 'https://dl.dropbox.com/s/c1e90i1hyvryo68/rain.mp3?dl=1',
-    'thunderstorm': 'https://dl.dropbox.com/s/texuwihp2cgp9i6/thunderstorm_full.mp3?dl=1',
-    // 'wind': 'https://dl.dropbox.com/s/alyrhvc8ad5zm7w/wind.mp3?dl=1',
-    // 'forest': 'https://dl.dropbox.com/s/n6knpo892h2ilbc/forest.mp3?dl=1',
-    // 'leaves': 'https://dl.dropbox.com/s/kvnb5feyfsdo8gw/leaves.mp3?dl=1',
-    // 'waterStream': 'https://dl.dropbox.com/s/qk7l4jiwuxxkffs/waterStream.mp3?dl=1',
-    // 'seaside': 'https://dl.dropbox.com/s/fw9ufylyu2dx75g/seaside.mp3?dl=1',
-    // 'water': 'https://dl.dropbox.com/s/sfefdovo60ljf6w/water.mp3?dl=1',
-    // 'bonfire': 'https://dl.dropbox.com/s/rvlsihibie42kgk/bonfire.mp3?dl=1',
-    // 'summerNight': 'https://dl.dropbox.com/s/fryvk3d3h4ljfzk/summerNight.mp3?dl=1',
-    // 'coffeeShop': 'https://dl.dropbox.com/s/omzyp0vg182k8uh/coffeeShop.mp3?dl=1',
-    // 'train': 'https://dl.dropbox.com/s/iwlgf2kiqanouwg/train.mp3?dl=1',
-    // 'fan': ' https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1',
+    'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
+    'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
+    'wind': 'https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1',
+    // 'forest': 'https://dl.dropbox.com/s/ys9x65uqyztu8tp/forest_128.mp3?dl=1',
+    // 'leaves': 'https://dl.dropbox.com/s/w9j7bbvofc2lpjk/leaves_128.mp3?dl=1',
+    // 'waterStream': 'https://dl.dropbox.com/s/kp0gx0fju792d5a/waterStream_128.mp3?dl=1',
+    // 'seaside': 'https://dl.dropbox.com/s/2n2vjgyzcpbwp5v/seaside_128.mp3?dl=1',
+    // 'water': 'https://dl.dropbox.com/s/z896skrs5j0njq2/water_128.mp3?dl=1',
+    // 'bonfire': 'https://dl.dropbox.com/s/h9vf3ugy8r6mx2o/bonfire_128.mp3?dl=1',
+    // 'summerNight': 'https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1',
+    // 'coffeeShop': 'https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1',
+    // 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
+    // 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1'
 }
+
+// --------------------320-------------
+// const obj = {
+// 'rain': 'https://dl.dropbox.com/s/c1e90i1hyvryo68/rain.mp3?dl=1',
+// 'thunderstorm': 'https://dl.dropbox.com/s/texuwihp2cgp9i6/thunderstorm_full.mp3?dl=1',
+// 'wind': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
+// 'forest': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1'
+
+
+// 'wind': 'https://dl.dropbox.com/s/alyrhvc8ad5zm7w/wind.mp3?dl=1',
+// 'forest': 'https://dl.dropbox.com/s/n6knpo892h2ilbc/forest.mp3?dl=1',
+// 'leaves': 'https://dl.dropbox.com/s/kvnb5feyfsdo8gw/leaves.mp3?dl=1',
+// 'waterStream': 'https://dl.dropbox.com/s/qk7l4jiwuxxkffs/waterStream.mp3?dl=1',
+// 'seaside': 'https://dl.dropbox.com/s/fw9ufylyu2dx75g/seaside.mp3?dl=1',
+// 'water': 'https://dl.dropbox.com/s/sfefdovo60ljf6w/water.mp3?dl=1',
+// 'bonfire': 'https://dl.dropbox.com/s/rvlsihibie42kgk/bonfire.mp3?dl=1',
+// 'summerNight': 'https://dl.dropbox.com/s/fryvk3d3h4ljfzk/summerNight.mp3?dl=1',
+// 'coffeeShop': 'https://dl.dropbox.com/s/omzyp0vg182k8uh/coffeeShop.mp3?dl=1',
+// 'train': 'https://dl.dropbox.com/s/iwlgf2kiqanouwg/train.mp3?dl=1',
+// 'fan': ' https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1',
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
     let PlayMasterVolumeController = document.querySelector('.PlayMasterVolumeController')
     var clientRect = PlayMasterVolumeController.getBoundingClientRect();
-    console.log(clientRect);
+
     let volumeController = document.querySelector('.volumeController')
     let mouseover = document.querySelector('.mouseover')
 
@@ -58,57 +94,118 @@ export class Body extends Component {
         this.state = {
             tooltip: false,
             muted: false,
-            volume: 1
+            volume: 1,
+            data: {}
         }
         this.change = this.change.bind(this)
         this.onClick = this.onClick.bind(this)
         this.openRegistrationTool = this.openRegistrationTool.bind(this)
         this.changeVolume = this.changeVolume.bind(this)
         this.muted = this.muted.bind(this)
+        this.soun = this.soun.bind(this)
 
     }
     componentDidMount() {
-        const data = {}
-        console.log('body')
-        for (let key in obj) {
+        // const data = {}
+        // console.log('body')
+        // for (let key in obj) {
 
-            let buf;
-            let gainNode = aCtx.createGain()
-            let source = aCtx.createBufferSource();
+        //     let buf;
+        //     let gainNode = aCtx.createGain()
+        //     let source = aCtx.createBufferSource();
 
-            fetch(obj[key])
-                .then(resp => resp.arrayBuffer())
-                .then(buf => aCtx.decodeAudioData(buf))
-                .then(decoded => {
-                    console.log('fetch');
-                    source.buffer = buf = decoded;
-                    source.loop = true;
+        //     fetch(obj[key])
+        //         .then(resp => resp.arrayBuffer())
+        //         .then(buf => aCtx.decodeAudioData(buf))
+        //         .then(decoded => {
+        //             console.log('fetch');
+        //             console.log(decoded);
+        //             source.buffer = buf = decoded;
+        //             source.loop = true;
 
-                    source.connect(gainNode);
-                    gainNode.connect(constantNode)
-                    constantNode.connect(aCtx.destination);
+        //             source.connect(gainNode);
+        //             gainNode.connect(constantNode)
+        //             constantNode.connect(aCtx.destination);
 
-                    source.start(0)
-                    // source.start(0, source.buffer.duration - 5)
-                    source.disconnect(gainNode);
-                    return data[key] = {
+        //             source.start(0)
+        //             // source.start(0, source.buffer.duration - 5)
+        //             source.disconnect(gainNode);
+        //             return data[key] = {
+        //                 active: false,
+        //                 source: source,
+        //                 gainNode: gainNode,
+        //             }
+        //         });
+        // }
+        // this.setState({ data }, () => {})
+
+        // this.props.loadSounds()
+        // console.log('sounds------',this.props.sounds);
+        // this.setState({ sounds: this.props.sounds })
+
+
+    }
+    soun(rain) {
+        // let data = null
+
+        let gainNode = aCtx.createGain()
+        let source = aCtx.createBufferSource();
+
+
+
+        aCtx.decodeAudioData(rain.buf)
+            .then(decoded => {
+                console.log('fetch');
+
+                source.buffer = decoded;
+                source.loop = true;
+
+                source.connect(gainNode);
+                gainNode.connect(constantNode)
+                constantNode.connect(aCtx.destination);
+
+                source.start(0)
+                // source.start(0, source.buffer.duration - 5)
+                source.disconnect(gainNode);
+                debugger
+                this.setState({
+                 
                         active: false,
                         source: source,
                         gainNode: gainNode,
-                    }
-                });
-        }
-        this.setState({ data }, () => {
-        })
-    }
+                   
+                })
 
+                // return data = {
+                //     active: false,
+                //     source: source,
+                //     gainNode: gainNode,
+                // }
+            })
+
+        // if (data !== null) {
+        //     console.log('data------------', data);
+        //     this.setState({ data }, () => { })
+        // }
+        // console.log('data------------', data);
+        // this.setState({ data }, () => { })
+    }
+    componentDidUpdate() {
+        // let rain = this.props?.sounds
+        // let res
+        // console.log('res------------', res);
+        if (!this.state.data) {
+            this.soun(this.props?.sounds?.rain)
+        }
+
+    }
     change(e) {
         let key = e.target.parentNode.dataset.key
         this.state.data[key].gainNode.gain.value = e.target.value
     }
 
     onClick(e) {
-
+        console.log(this.state)
         let input
         let key
 
@@ -197,11 +294,12 @@ export class Body extends Component {
     }
 
     render() {
-        const { isAuth } = this.props
+        const { isAuth, sounds } = this.props
+
         return (
-            <div className='body'>
+            <div className='body' onClick={() => this.props.setPage('body')}>
                 {console.log('Body')}
-                {console.log(isAuth)}
+                {console.log('sounds------', this.state)}
                 <div className="sound" >
                     <input className="volumeController" type="range" min='0' max='1' step='0.01' onChange={(e) => this.changeVolume(e)} ></input>
                     <div className="PlayMasterVolumeController" onClick={this.muted}>

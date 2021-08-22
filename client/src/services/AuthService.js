@@ -16,9 +16,6 @@ export default class AuthService {
     static async delete(id, password) {
         return $api.post('/delete', { id, password })
     }
-    // static async delete(email) {
-    //     return $api.post('/delete', { email })
-    // }
 
     static async changeData(email, firstName, lastName, username, id) {
         return $api.post('/change', { email, firstName, lastName, username, id })
@@ -27,6 +24,7 @@ export default class AuthService {
     static async changePassword(currentPassword, newPassword, id) {
         return $api.post('/password', { currentPassword, newPassword, id })
     }
+    
     static async resetPassword(email) {
         return $api.post('/reset', { email })
     }

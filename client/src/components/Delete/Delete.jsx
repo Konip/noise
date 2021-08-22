@@ -63,8 +63,8 @@ export default function Delete({ openModal, setActive }) {
                         </div>
                         <div className="login-container">
                             <button className="reset__btn-del" type="submit" disabled={isSubmitting}>
-                                {loading ? <span class="loading">
-                                    Delete<span class="one">.</span><span class="two">.</span><span class="three">.</span>
+                                {loading ? <span className="loading">
+                                    Delete<span className="one">.</span><span className="two">.</span><span className="three">.</span>
                                 </span>
                                     : "Delete"}
                             </button>

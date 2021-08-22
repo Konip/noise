@@ -23,21 +23,13 @@ function Login({ setActive, openModal }) {
             await ctx.login(email, password, toggle)
             actions.setSubmitting(false);
             actions.resetForm();
+            setActive(false)
         } catch (error) {
             actions.setErrors({ incorrect: error })
             actions.setSubmitting(false);
-            // actions.setFieldValue( 'password', '' )
         }
     }
 
-    if (ctx.isAuth) {
-        let premium = document.querySelector('.premium')
-        premium.classList.remove('tooltip-active')
-        setActive(false)
-    }
-    else if (!ctx.isAuth) {
-
-    }
     return (
         <div className="log">
             <div className="title">

@@ -59,8 +59,8 @@ export default function Reset({ openModal, setEmail }) {
                         <div className="login-container">
                             <button className="reset__btn" type="submit" disabled={isSubmitting}>
                                 {/* {loading ? "Reset..." : "Reset Password"} */}
-                                {loading ? <span class="loading">
-                                    Reset<span class="one">.</span><span class="two">.</span><span class="three">.</span>
+                                {loading ? <span className="loading">
+                                    Reset<span className="one">.</span><span className="two">.</span><span className="three">.</span>
                                 </span>
                                     : "Reset Password"}
                             </button>

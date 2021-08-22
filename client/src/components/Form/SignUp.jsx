@@ -72,8 +72,8 @@ function SignUp({ openModal, setEmail }) {
                         <div className="login-container">
                             <button className="modal__btn-sign" type="submit" disabled={isSubmitting}>
                                 {loading ?
-                                    <span class="loading">
-                                        Registration<span class="one">.</span><span class="two">.</span><span class="three">.</span>
+                                    <span className="loading">
+                                        Registration<span className="one">.</span><span className="two">.</span><span className="three">.</span>
                                     </span>
                                     : "Sign up, it's Free"}
                                 {/* {loading ? "Registration..." : "Sign up, it's Free"} */}

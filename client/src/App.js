@@ -178,17 +178,28 @@ function transition() {
 }
 
 function App() {
+  const ctx = useContext(Context)
 
   const [modalActive, setModalActive] = useState(false);
   const [typeModal, setTypeModal] = useState();
   const [page, setPage] = useState('body');
+  const [sounds, setSounds] = useState(ctx.sounds);
 
-  const ctx = useContext(Context)
-  isAuth = ctx.isAuth
-  const { deletion } = ctx
+ 
+
+  const { isAuth } = ctx
+
   const aCtx = new AudioContext();
   let constantNode = aCtx.createGain()
 
+  React.useEffect(async () => {
+  let res =  await ctx.loadSounds()
+  setSounds(res)
+    // console.log('sounds------', ctx.sounds);
+    //  let res = await ctx.loadSounds()
+    //  console.log('res------',res);
+  }, [])
+  // console.log('sounds------',ctx.sounds);
 
   // startTransition();
 
@@ -208,21 +219,20 @@ function App() {
     setTypeModal(typeModal)
   }
 
-  const changePage = (e) => {
-    setPage(e)
-  }
-
   return (
     <div className="App">
       {console.log('App')}
+        {/* {console.log('sounds------', sounds)} */}
       <NavBarVertical isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
-        logout={ctx.logout} openModal={openModal} change={changePage}
+        logout={ctx.logout} openModal={openModal} setPage={setPage}
       />
       {
         page === 'body' ?
-          <Body openModal={openModal} type={typeModal} constantNode={constantNode} isAuth={isAuth} />
+          <Body openModal={openModal} type={typeModal} constantNode={constantNode}
+            isAuth={isAuth} setPage={setPage} sounds={sounds} 
+          />
           : page === 'account' && ctx.isAuth ?
-            <Account openModal={openModal} setPage={setPage}/>
+            <Account openModal={openModal} setPage={setPage} />
             :
             <div></div>
       }

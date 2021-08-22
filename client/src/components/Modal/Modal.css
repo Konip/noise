@@ -5,8 +5,6 @@
     background-color: rgba(0, 0, 0, 0.5);
     top: 0;
     left: 0;
-    /* z-index: 20; */
-    /* opacity: 0; */
     visibility: hidden;
     overflow-x: hidden;
     overflow-y: auto;
@@ -24,22 +22,27 @@
     opacity: 1;
 }
 
-#dash {
-    margin: 0 7px;
-}
-
 .modal__content {
-    /* min-height: 100vh; */
     padding: 30px 10px;
     background-color: #f8f8f8;
-    /* color: black; */
     width: 450px;
     height: 500px;
-    /* width: 450px;
-    height: 600px; */
     position: relative;
     border-radius: 25px;
     padding: 30px 40px;
+    z-index: 5;
+}
+
+.modal-close {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#dash {
+    margin: 0 7px;
 }
 
 .sign, .log {
