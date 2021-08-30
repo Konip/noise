@@ -2,7 +2,10 @@
     height: 100vh;
     padding-top: 80px;
 }
-
+#video{
+    z-index: 500;
+    width: 600px;
+}
 .sound {
     display: flex;
     position: absolute;
@@ -188,6 +191,7 @@ input[type=range]::-ms-thumb {
     display: flex;
     flex-direction: column;
     position: relative;
+    margin: 84px auto auto;
 }
 
 .standart, .premium {

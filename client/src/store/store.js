@@ -4,34 +4,27 @@ import { API_URL } from "../http";
 import AuthService from "../services/AuthService";
 
 
-
 const obj = {
-    'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
+    // 'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
     // 'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
     // 'wind': 'https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1',
-
-
-    // 'wind': 'https://dl.dropbox.com/s/alyrhvc8ad5zm7w/wind.mp3?dl=1',
-    // 'forest': 'https://dl.dropbox.com/s/n6knpo892h2ilbc/forest.mp3?dl=1',
-    // 'leaves': 'https://dl.dropbox.com/s/kvnb5feyfsdo8gw/leaves.mp3?dl=1',
-    // 'waterStream': 'https://dl.dropbox.com/s/qk7l4jiwuxxkffs/waterStream.mp3?dl=1',
-    // 'seaside': 'https://dl.dropbox.com/s/fw9ufylyu2dx75g/seaside.mp3?dl=1',
-    // 'water': 'https://dl.dropbox.com/s/sfefdovo60ljf6w/water.mp3?dl=1',
-    // 'bonfire': 'https://dl.dropbox.com/s/rvlsihibie42kgk/bonfire.mp3?dl=1',
-    // 'summerNight': 'https://dl.dropbox.com/s/fryvk3d3h4ljfzk/summerNight.mp3?dl=1',
-    // 'coffeeShop': 'https://dl.dropbox.com/s/omzyp0vg182k8uh/coffeeShop.mp3?dl=1',
-    // 'train': 'https://dl.dropbox.com/s/iwlgf2kiqanouwg/train.mp3?dl=1',
-    // 'fan': ' https://dl.dropbox.com/s/li7mfenxq0oqcgn/fan.mp3?dl=1',
+    // 'forest': 'https://dl.dropbox.com/s/ys9x65uqyztu8tp/forest_128.mp3?dl=1',
+    // 'leaves': 'https://dl.dropbox.com/s/w9j7bbvofc2lpjk/leaves_128.mp3?dl=1',
+    // 'waterStream': 'https://dl.dropbox.com/s/kp0gx0fju792d5a/waterStream_128.mp3?dl=1',
+    // 'seaside': 'https://dl.dropbox.com/s/2n2vjgyzcpbwp5v/seaside_128.mp3?dl=1',
+    // 'water': 'https://dl.dropbox.com/s/z896skrs5j0njq2/water_128.mp3?dl=1',
+    // 'bonfire': 'https://dl.dropbox.com/s/h9vf3ugy8r6mx2o/bonfire_128.mp3?dl=1',
+    // 'summerNight': 'https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1',
+    // 'coffeeShop': 'https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1',
+    // 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
+    // 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1'
 }
 
-// const aCtx = new AudioContext();
-// let constantNode = aCtx.createGain()
-// let volume1 = 1
 
 export default class Store {
     user = {};
     isAuth = false;
-    sounds 
+    sounds;
 
     constructor() {
         makeAutoObservable(this);
@@ -48,38 +41,6 @@ export default class Store {
     setSounds(e) {
         this.sounds = e
     }
-
-   async  loadSounds() {
-        const data = {}
-
-        for (let key in obj) {
-
-            let resp = await fetch(obj[key])
-            console.log('feth');
-            let buf = await resp.arrayBuffer()
-            data[key] = {
-                active: false,
-                buf: buf
-            }
-        }
-
-        // for (let key in obj) {
-        //     fetch(obj[key])
-        //         .then(resp => resp.arrayBuffer())
-        //         .then(buf => {
-        //             console.log('feth');
-        //             return data[key] = {
-        //                 active: false,
-        //                 buf,
-        //             }
-        //         });
-        // }
-return data
-        // console.log(data);
-        // this.setSounds(data)
-        // return data
-    }
-
 
     async login(email, password, toggle) {
         try {
@@ -133,7 +94,7 @@ return data
     async checkAuth() {
         try {
             const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true })
-            console.log(response);
+            // console.log(response);
             localStorage.setItem('token', response.data.accessToken);
             const { isActivated } = response.data.user
             if (isActivated) {
@@ -141,7 +102,7 @@ return data
             }
             this.setUser(response.data.user);
         } catch (e) {
-            console.log(e.response?.data?.message);
+            // console.log(e.response?.data?.message);
         }
     }
 

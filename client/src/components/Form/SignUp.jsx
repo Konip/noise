@@ -1,5 +1,4 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import _ from 'lodash';
 import { observer } from "mobx-react";
 import React, { useContext } from 'react';
 import * as Yup from 'yup';
@@ -54,8 +53,10 @@ function SignUp({ openModal, setEmail }) {
                         <div className="input-wrapper">
                             <div className="input-container">
                                 <Field className="modal__input" type="email" name="email" placeholder="Email" />
-                                <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
-                                <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.email ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.incorrect ? "input-border-error" : "input-border"}></div>
+                                {/* <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
+                                <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
                             </div>
                             <ErrorMessage className="inputError" name="email" component="div" />
                             {errors.incorrect && <div className="inputError">{errors.incorrect}</div>}
@@ -64,8 +65,10 @@ function SignUp({ openModal, setEmail }) {
                         <div className="input-wrapper">
                             <div className="input-container">
                                 <Field className="modal__input" type="password" name="password" placeholder="Password" />
-                                <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
-                                <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.password ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.incorrect ? "input-border-error" : "input-border"}></div>
+                                {/* <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
+                                <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
                             </div>
                             <ErrorMessage className="inputError" name="password" component="div" />
                         </div>

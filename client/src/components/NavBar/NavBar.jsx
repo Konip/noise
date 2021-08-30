@@ -24,7 +24,7 @@ export const NavBar = observer(
         }
 
         componentDidMount() {
-            console.log('componentDidMount');
+            // console.log('componentDidMount');
             this.context.checkAuth()
         }
 
