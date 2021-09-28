@@ -17,7 +17,6 @@ import { Context } from "../../Context";
 import PlayList from '../PlayList/PlayList';
 import './Body.css';
 
-
 const obj = {
     'rain': rain,
     'thunderstorm': thunderstorm,
@@ -109,7 +108,9 @@ const playList = {
 
     }
 }
-
+let toggle = false
+let playListActive = {}
+let arr = []
 
 var bufferToBase64 = function (buffer) {
     var bytes = new Uint8Array(buffer);
@@ -128,6 +129,10 @@ var base64ToBuffer = function (buffer) {
         bytes[i] = binary.charCodeAt(i) & 0xFF;
     }
     return buffer;
+};
+function randomProperty(obj) {
+    var keys = Object.keys(obj);
+    return obj[keys[keys.length * Math.random() << 0]];
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -162,7 +167,8 @@ export class Body extends Component {
             tooltip: false,
             muted: false,
             volume: 1,
-            playList: false
+            playList: false,
+            soundLoaded: false,
         }
 
         this.change = this.change.bind(this)
@@ -177,7 +183,7 @@ export class Body extends Component {
 
         let data = {}
         console.log('body')
-
+        let count = 0
         for (let key in obj) {
 
             let buf;
@@ -202,6 +208,7 @@ export class Body extends Component {
                         // source.start(0)
                         // source.start(0, source.buffer.duration - 5)
                         // source.disconnect(gainNode);
+                        count++
                         document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
 
                         return data[key] = {
@@ -211,8 +218,13 @@ export class Body extends Component {
                             firstStart: true
                         }
                     })
-
                 })
+            console.log(count)
+
+            // if (count == 13) {
+            //     alert()
+            //     this.setState(state => { state.soundLoaded = true })
+            // }
         }
         this.setState({ data }, () => { })
 
@@ -257,7 +269,6 @@ export class Body extends Component {
 
     }
 
-
     change(e) {
         let key = e.target.parentNode.dataset.key
         this.state.data[key].gainNode.gain.value = e.target.value
@@ -288,6 +299,7 @@ export class Body extends Component {
             input = e.target.lastElementChild.id
         }
         console.log(input)
+
         if (e.target.localName !== 'input') {
             console.log(key);
 
@@ -367,19 +379,51 @@ export class Body extends Component {
 
     startPlaylist(name) {
 
-        function randomProperty(obj) {
-            var keys = Object.keys(obj);
-            return obj[keys[keys.length * Math.random() << 0]];
-        };
+        playListActive = randomProperty(playList[name]);
+        console.log(playListActive);
 
-        let list = randomProperty(playList[name]);
-        console.log(list);
-        for (let key in list) {
+        // if (!_.isEmpty(playListActive) && toggle) {
 
+        //     toggle = false
+
+        //     this.setState(state => {
+        //         state.data[key].active = !state.data[key].active
+        //         state.data[key].gainNode.gain.value = value
+        //         state.playList = !state.playList
+
+        //         document.querySelector(`#${input}`).value = value
+        //         const deep = _.cloneDeep(state)
+        //         return deep
+        //     }, () => {
+        //         console.log(this.state);
+
+        //         for (let key in playListActive) {
+
+        //             let input = `input-${key}`
+        //             let value = list[key]
+
+        //             this.state.data[key].source.disconnect(this.state.data[key].gainNode);
+        //             document.getElementById(`${input}`).style.visibility = 'hidden';
+        //             document.querySelector(`[data-key=${key}]`).classList.remove('active')
+        //         }
+        //     })
+
+        //     playListActive = {}
+        //     return
+        // }
+
+if(arr.length){
+    console.log(arr);
+}
+
+        for (let key in playListActive) {
+            // for (let key in this.state.playList ? list : playListActive) {
+            console.log(this.state);
+            toggle = !toggle
+            arr.push(key)
             let input = `input-${key}`
-            let value = list[key]
-            let a = document.querySelector(`#${input}`)
-            console.log(a);
+            let value = playListActive[key]
+            console.log(input);
 
             this.setState(state => {
                 state.data[key].active = !state.data[key].active
@@ -392,40 +436,40 @@ export class Body extends Component {
             }, () => {
                 console.log(this.state);
 
-                if (!this.state.playList) {
+                if (this.state.data[key].active === true) {
+                    console.log(' start')
 
-                    if (this.state.data[key].active === true) {
-                        console.log(' start')
+                    if (this.state.data[key].firstStart === true) {
+                        this.state.data[key].source.start(0)
+                        this.setState(state => {
+                            state.data[key].firstStart = false
+                        })
 
-                        if (this.state.data[key].firstStart === true) {
-                            this.state.data[key].source.start(0)
-                            this.setState(state => {
-                                state.data[key].firstStart = false
-                            })
-
-                        } else {
-                            this.state.data[key].source.connect(this.state.data[key].gainNode);
-                        }
-                        // console.log(document.getElementById(`${input}`));
-                        document.getElementById(`${input}`).style.visibility = 'visible';
-                        document.querySelector(`[data-key=${key}]`).classList.add('active')
-
-                    } else if (this.state.data[key].active === false) {
-                        console.log(' stop')
-                        this.state.data[key].source.disconnect(this.state.data[key].gainNode);
-                        document.getElementById(`${input}`).style.visibility = 'hidden';
-                        document.querySelector(`[data-key=${key}]`).classList.remove('active')
+                    } else {
+                        this.state.data[key].source.connect(this.state.data[key].gainNode);
                     }
-                } else {
+                    // console.log(document.getElementById(`${input}`));
+                    document.getElementById(`${input}`).style.visibility = 'visible';
+                    document.querySelector(`[data-key=${key}]`).classList.add('active')
+
+                } else if (this.state.data[key].active === false) {
+                    console.log(' stop')
                     this.state.data[key].source.disconnect(this.state.data[key].gainNode);
                     document.getElementById(`${input}`).style.visibility = 'hidden';
                     document.querySelector(`[data-key=${key}]`).classList.remove('active')
                 }
+                // } else if (this.state.data[key].active === false) {
+                //     console.log(' stop')
+                //     this.state.data[key].source.disconnect(this.state.data[key].gainNode);
+                //     document.getElementById(`${input}`).style.visibility = 'hidden';
+                //     document.querySelector(`[data-key=${key}]`).classList.remove('active')
+                // }
 
 
             })
         }
     }
+
     render() {
         const { isAuth, sounds } = this.props
 
