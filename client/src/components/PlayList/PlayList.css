@@ -1,10 +1,12 @@
-.playList__container{
+.playList1 {
     display: flex;
     justify-content: center;
     /* align-items: center; */
     height: 160px;
+    text-align: initial;
 }
-.playList__wrap{
+
+.playList__wrap {
     -webkit-font-smoothing: antialiased;
     text-size-adjust: 100%;
     user-select: none;
@@ -20,8 +22,12 @@
     align-items: center;
     padding: 10px 4px;
     cursor: pointer;
+    height: 128px;
 }
-.playList__card{
+
+.playList__card {}
+
+.playList__card-container, .playList__card-container-active {
     -webkit-font-smoothing: antialiased;
     text-size-adjust: 100%;
     user-select: none;
@@ -46,15 +52,77 @@
     position: relative;
     transition: background-color 0.2s ease-in-out 0s, box-shadow 0.2s ease-in-out 0s;
 }
-.next{
-    -webkit-font-smoothing: antialiased;
-    text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent;
-    box-sizing: inherit;
-    margin: 0px;
+
+.playList__card-container::before {
+    content: "";
+    position: absolute;
+    inset: 0px;
     border: 0px;
-    font: inherit;
-    vertical-align: baseline;
+    border-radius: 22px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out 0s;
+}
+
+.playList__card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.playList__card-container:hover, .playList__card-container-active {
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: rgb(0 0 0 / 8%) 0px 2px 10px 0px;
+}
+
+.playList__card-container:hover .playList__card-background-1, .playList__card-container:hover .playList__card-background-2, .playList__card-background-1-active, .playList__card-background-2-active {
+    opacity: 0.3;
+}
+
+.playList__card-background-1, .playList__card-background-2, .playList__card-background-1-active, .playList__card-background-2-active {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 5px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out 0s;
+}
+
+.playList__card-background-1, .playList__card-background-1-active {
+    width: 142px;
+    top: -5px;
+}
+
+.playList__card-background-2, .playList__card-background-2-active {
+    width: 114px;
+    top: -9px;
+}
+
+.playList__card-background-1::before, .playList__card-background-1-active::before {
+    content: "";
+    margin-top: 1px;
+    width: 142px;
+    height: 108px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.66);
+    position: absolute;
+    z-index: -1;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px -1px 1px 0px;
+}
+
+.playList__card-background-2::before, .playList__card-background-2-active::before {
+    content: "";
+    margin-top: 1px;
+    width: 114px;
+    height: 108px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.3);
+    position: absolute;
+    z-index: -1;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px -1px 1px 0px;
+}
+
+.next {
     display: inline-flex;
     color: rgb(255, 255, 255);
     font-size: 13px;
@@ -74,4 +142,5 @@
     -webkit-box-align: center;
     align-items: center;
     margin-top: 8px;
+    text-align: center;
 }

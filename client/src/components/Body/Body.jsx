@@ -14,6 +14,8 @@ import waterStream from '../../assets/music/waterStream_128.txt';
 import water from '../../assets/music/water_128.txt';
 import wind from '../../assets/music/wind_128.txt';
 import { Context } from "../../Context";
+import { randomNumber } from '../../utils/randomNumber.js';
+import { randomPlalist } from '../../utils/randomPlaylist';
 import PlayList from '../PlayList/PlayList';
 import './Body.css';
 
@@ -108,9 +110,13 @@ const playList = {
 
     }
 }
+
+const aCtx = new AudioContext();
+let constantNode = aCtx.createGain()
+let volume1 = 1
 let toggle = false
 let playListActive = {}
-let arr = []
+let playlistNumber
 
 var bufferToBase64 = function (buffer) {
     var bytes = new Uint8Array(buffer);
@@ -121,6 +127,7 @@ var bufferToBase64 = function (buffer) {
     }
     return window.btoa(binary);
 };
+
 var base64ToBuffer = function (buffer) {
     var binary = window.atob(buffer);
     var buffer = new ArrayBuffer(binary.length);
@@ -130,10 +137,12 @@ var base64ToBuffer = function (buffer) {
     }
     return buffer;
 };
-function randomProperty(obj) {
-    var keys = Object.keys(obj);
-    return obj[keys[keys.length * Math.random() << 0]];
-};
+
+// function randomNumber(obj) {
+//     let keys = Object.keys(obj);
+//     // return obj[keys[keys.length * Math.random() << 0]];
+//     return keys[keys.length * Math.random() << 0]
+// };
 
 document.addEventListener("DOMContentLoaded", () => {
     let PlayMasterVolumeController = document.querySelector('.PlayMasterVolumeController')
@@ -150,11 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
         volumeController.className = "volumeController"
     })
 })
-
-const aCtx = new AudioContext();
-let constantNode = aCtx.createGain()
-let volume1 = 1
-
 
 export class Body extends Component {
 
@@ -177,6 +181,7 @@ export class Body extends Component {
         this.changeVolume = this.changeVolume.bind(this)
         this.muted = this.muted.bind(this)
         this.startPlaylist = this.startPlaylist.bind(this)
+        this.resetSounds = this.resetSounds.bind(this)
     }
 
     componentDidMount() {
@@ -194,7 +199,6 @@ export class Body extends Component {
             fetch(obj[key])
                 .then(response => response.text())
                 .then(text => {
-                    // var base64String = bufferToBase64(bonfire_128);
                     var audioFromString = base64ToBuffer(text);
                     aCtx.decodeAudioData(audioFromString, function (buffer) {
                         console.log(buffer);
@@ -377,58 +381,61 @@ export class Body extends Component {
         }
     }
 
-    startPlaylist(name) {
+    resetSounds() {
 
-        playListActive = randomProperty(playList[name]);
-        console.log(playListActive);
-
-        // if (!_.isEmpty(playListActive) && toggle) {
-
-        //     toggle = false
-
-        //     this.setState(state => {
-        //         state.data[key].active = !state.data[key].active
-        //         state.data[key].gainNode.gain.value = value
-        //         state.playList = !state.playList
-
-        //         document.querySelector(`#${input}`).value = value
-        //         const deep = _.cloneDeep(state)
-        //         return deep
-        //     }, () => {
-        //         console.log(this.state);
-
-        //         for (let key in playListActive) {
-
-        //             let input = `input-${key}`
-        //             let value = list[key]
-
-        //             this.state.data[key].source.disconnect(this.state.data[key].gainNode);
-        //             document.getElementById(`${input}`).style.visibility = 'hidden';
-        //             document.querySelector(`[data-key=${key}]`).classList.remove('active')
-        //         }
-        //     })
-
-        //     playListActive = {}
-        //     return
-        // }
-
-if(arr.length){
-    console.log(arr);
-}
-
-        for (let key in playListActive) {
-            // for (let key in this.state.playList ? list : playListActive) {
-            console.log(this.state);
-            toggle = !toggle
-            arr.push(key)
-            let input = `input-${key}`
-            let value = playListActive[key]
-            console.log(input);
+        if (toggle) {
 
             this.setState(state => {
-                state.data[key].active = !state.data[key].active
+
+                for (let key in this.state.data) {
+                    let input = `input-${key}`
+
+                    if (this.state.data[key].active) {
+                        state.data[key].active = false
+                        this.state.data[key].source.disconnect(this.state.data[key].gainNode);
+                        document.getElementById(`${input}`).style.visibility = 'hidden';
+                        document.querySelector(`[data-key=${key}]`).classList.remove('active')
+                    }
+                }
+
+                const deep = _.cloneDeep(state)
+                return deep
+            })
+        }
+    }
+
+    startPlaylist(name) {
+
+        if (name != 'Random') {
+            let number = randomNumber(playList[name]);
+            if (number == playlistNumber) {
+                number == 1 ? number++ : number--
+            }
+            if (!toggle) {
+                playlistNumber = number
+            }
+
+            playlistNumber = number
+            playListActive = playList[name][playlistNumber]
+        } else {
+          
+            playListActive = randomPlalist(obj)
+        }
+
+        this.resetSounds()
+
+        for (let key in playListActive) {
+
+            let input = `input-${key}`
+            let value = playListActive[key]
+            toggle = true
+
+            this.setState(state => {
+
+                state.data[key].active = true
                 state.data[key].gainNode.gain.value = value
                 state.playList = !state.playList
+                console.log(input)
 
                 document.querySelector(`#${input}`).value = value
                 const deep = _.cloneDeep(state)
@@ -436,36 +443,19 @@ if(arr.length){
             }, () => {
                 console.log(this.state);
 
-                if (this.state.data[key].active === true) {
-                    console.log(' start')
+                console.log(' start')
 
-                    if (this.state.data[key].firstStart === true) {
-                        this.state.data[key].source.start(0)
-                        this.setState(state => {
-                            state.data[key].firstStart = false
-                        })
+                if (this.state.data[key].firstStart === true) {
+                    this.state.data[key].source.start(0)
+                    this.setState(state => {
+                        state.data[key].firstStart = false
+                    })
 
-                    } else {
-                        this.state.data[key].source.connect(this.state.data[key].gainNode);
-                    }
-                    // console.log(document.getElementById(`${input}`));
-                    document.getElementById(`${input}`).style.visibility = 'visible';
-                    document.querySelector(`[data-key=${key}]`).classList.add('active')
-
-                } else if (this.state.data[key].active === false) {
-                    console.log(' stop')
-                    this.state.data[key].source.disconnect(this.state.data[key].gainNode);
-                    document.getElementById(`${input}`).style.visibility = 'hidden';
-                    document.querySelector(`[data-key=${key}]`).classList.remove('active')
+                } else {
+                    this.state.data[key].source.connect(this.state.data[key].gainNode);
                 }
-                // } else if (this.state.data[key].active === false) {
-                //     console.log(' stop')
-                //     this.state.data[key].source.disconnect(this.state.data[key].gainNode);
-                //     document.getElementById(`${input}`).style.visibility = 'hidden';
-                //     document.querySelector(`[data-key=${key}]`).classList.remove('active')
-                // }
-
-
+                document.getElementById(`${input}`).style.visibility = 'visible';
+                document.querySelector(`[data-key=${key}]`).classList.add('active')
             })
         }
     }
@@ -500,7 +490,7 @@ if(arr.length){
                     </div>
                 </div>
                 <div className="mouseover"></div>
-                <PlayList startPlaylist={this.startPlaylist} />
+                <PlayList startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} />
                 <div className="container">
                     <div className="standart">
                         <div style={{ pointerEvents: 'none' }} data-key="rain" className={"card rain"} onClick={(e) => this.onClick(e)}>
@@ -547,7 +537,7 @@ if(arr.length){
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='forest-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-forest' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="leaves" className={"card  leaves"} onClick={(e) => this.onClick(e)}>
@@ -665,7 +655,7 @@ if(arr.length){
                             </div>
                         </div>
 
-                        <div style={{ pointerEvents: 'none' }} data-key="fan" className={"card  fan"} onClick={(e) => this.onClick(e)}>
+                        <div style={{ pointerEvents: 'none' }} data-key="tropical" className={"card  tropical"} onClick={(e) => this.onClick(e)}>
                             <div className="mask" ></div>
                             <div className="wrap">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
@@ -676,22 +666,29 @@ if(arr.length){
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                                <input id='input-tropical' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
                             </div>
                         </div>
 
-                        <div style={{ pointerEvents: 'none' }} data-key="fan" className={"card  fan"} onClick={(e) => this.onClick(e)}>
+                        <div style={{ pointerEvents: 'none' }} data-key="typewriter" className={"card  typewriter"} onClick={(e) => this.onClick(e)}>
                             <div className="mask" ></div>
                             <div className="wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
-                                    <title>Tropical forest</title>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="50%" height="50%" viewBox="0 0 40 40">
                                     <g fill="none" fillRule="evenodd">
-                                        <path fill="currentColor" fillRule="nonzero" d="M16.247 29.681c2.174.923 3.317 2.832 2.481 4.7-.757 1.695-2.882 2.617-5.724 2.617H12.301c-6.09-.006-8.31.446-8.474 1.68-.179 1.345-.19 2.389-.099 4.191a432.9 432.9 0 0 0 .056 1.103c.135 2.939-.033 5.165-.823 8.383a1.5 1.5 0 0 1-2.914-.714c.716-2.916.863-4.86.74-7.531a95.926 95.926 0 0 0-.055-1.09c-.1-1.969-.087-3.175.122-4.739.286-2.152 1.941-3.349 4.524-3.875 1.681-.343 3.31-.412 6.926-.408h.7c1.786 0 2.808-.443 2.986-.841.044-.099-.124-.378-.915-.714-2.625-1.114-6.568-.65-11.81 1.534a1.5 1.5 0 0 1-2.076-1.385c0-1.522.004-1.937.03-2.517l.021-.37c.038-.604.084-1.07.273-2.864.228-2.171 1.967-3.39 4.667-3.925 1.877-.373 4.216-.439 7.328-.3.37.017 6.384.4 7.472.382 1.076-.017 1.138.032 1-.359-.32-.45-1.32-.895-3.078-1.157-1.353-.202-4.336-.153-8.08.082a156.37 156.37 0 0 0-4.015.304 67.589 67.589 0 0 0-1.434.144c-.228.054-.47.055-.71-.005-.121-.031-.121-.031-.352-.137-.35-.193-.35-.193-.749-.989.04-.798.049-.967.232-1.197l.1-.18a40.058 40.058 0 0 1 2.225-3.496c1.886-2.639 3.649-4.382 5.446-4.859 1.573-.416 3.66.101 9.378 1.914l.565.18c3.051.967 4.444 1.377 5.696 1.638.265.055.501.097.706.126-.271-1.079-1.268-1.787-4.646-3.704-.666-.378-1.483-.683-2.445-.921-1.094-.272-2.3-.445-3.819-.579-.507-.044-2.157-.168-2.104-.163-.793-.063-1.303-.12-1.736-.205-.839-.163-1.39-.4-1.77-1.058-.566-.983-.159-1.82.626-2.507C15.31 2.982 31.617-1.372 35.676.656c5.891 2.946 9.967 10.576 6.021 15.751a1.5 1.5 0 0 1-2.386-1.818c2.521-3.307-.534-9.028-4.978-11.25-2.274-1.137-12.639 1.303-17.777 3.418l.707.058c1.66.146 3.006.34 4.278.655 1.21.3 2.278.698 3.204 1.224 5.147 2.92 6.26 4.125 6.26 7.304 0 1.25-.917 1.927-2.065 2.041-.622.062-1.382-.02-2.347-.221-1.393-.29-2.831-.713-5.992-1.716l-.564-.179c-4.692-1.488-7-2.06-7.703-1.874-.882.234-2.289 1.625-3.773 3.703-.238.332-.47.673-.698 1.016.887-.07 1.834-.139 2.771-.198 3.97-.25 7.07-.3 8.71-.055 2.692.4 4.492 1.252 5.315 2.76a1.5 1.5 0 0 1 .1.225c.945 2.714-.673 4.448-3.73 4.498-1.229.02-7.402-.373-7.655-.384-5.698-.256-8.753.35-8.878 1.541-.183 1.744-.227 2.195-.262 2.74a18.631 18.631 0 0 0-.025.501c4.94-1.756 8.949-2.026 12.038-.715zm-10.92-7.663l.03-.006c.053-.008.053-.008.329-.115.133-.066.133-.066.382-.269.061-.065.112-.12.155-.17a1.5 1.5 0 0 1-.85.554 3.611 3.611 0 0 0-.047.006zm46.46-.142c-4.535-6.288-6.51-7.364-10.542-5.074a1.5 1.5 0 1 1-1.482-2.608c5.775-3.28 9.136-1.45 14.458 5.927 3.34 4.63 2.121 11.703-3.463 20.2-.71 1.082-2.365.817-2.702-.432-1.456-5.403-2.723-8.679-3.852-10.643a9.452 9.452 0 0 0-1.567-2.017c.073.728.427 2.074 1.297 4.815 2.45 7.721 2.81 10.416.803 13.31-1.914 2.757-10.117 7.058-16.266 9.07-1.928.63-3.31-.432-3.682-2.36-.218-1.127-.169-2.574.08-4.852.075-.7.378-3.192.405-3.42.528-4.55.413-7.077-.32-7.839-.042.114-.09.258-.138.432-.28 1.024-.341 1.543-.724 5.605a93.96 93.96 0 0 1-.2 1.943c-.667 5.809-1.89 8.92-5.104 9.538l-.617.12a34.803 34.803 0 0 1-3.139.463c-2.13.218-4.501.276-7.199.128a67.208 67.208 0 0 1-6.557-.701 1.5 1.5 0 0 1 .457-2.965c2.234.344 4.318.563 6.265.67 2.54.14 4.754.085 6.73-.116a31.812 31.812 0 0 0 2.88-.426l.613-.119c1.303-.25 2.179-2.478 2.691-6.935a91.18 91.18 0 0 0 .193-1.882c.41-4.357.467-4.836.818-6.117.65-2.37 2.203-3.605 4.324-2.396 2.537 1.445 2.755 4.506 2.007 10.944-.029.244-.33 2.72-.404 3.398-.215 1.98-.257 3.224-.116 3.957 5.533-1.833 13.14-5.835 14.538-7.85 1.228-1.771.934-3.978-1.197-10.692-1.448-4.56-1.704-5.964-1.243-7.326.065-.19.116-.314.246-.61.862-1.986 2.584-1.646 4.1-.424.944.76 1.933 1.952 2.627 3.159 1 1.741 2.055 4.286 3.198 8.038 3.43-6.175 3.91-10.967 1.785-13.913zm-26.7 13.773a.426.426 0 0 0 .006-.004l-.006.004z"></path>
-                                        <path fill="currentColor" fillRule="nonzero" d="M33.183 11.368c-1.263-1.402-1.862-3.032-.855-3.939 1.007-.907 2.565-.14 3.828 1.263s1.863 3.032.856 3.94c-1.007.906-2.566.139-3.829-1.264zm.654-2.74a.235.235 0 0 0 .002-.016l-.002.016zm2.14 2.374a.176.176 0 0 0 .018.003l-.017-.003zM32.181 32.058c-.192-2.198.247-4.037 1.644-4.16 1.397-.121 2.149 1.613 2.341 3.811.192 2.198-.247 4.037-1.644 4.16-1.397.122-2.148-1.613-2.34-3.811zm2.182-2.322a.227.227 0 0 0 .012-.015l-.012.015zm.37 4.223a.331.331 0 0 0 .015.02l-.015-.02z"></path>
-                                        <path d="M0 0h56v56H0z"></path>
+                                        <path fill="currentColor" fillRule="nonzero" d="M4,17 C4,15.8954305 4.8954305,15 6,15 L9.76923077,15 C10.8738003,15 11.7692308,15.8954305 11.7692308,17 L11.7692308,18.8888889 C11.7692308,19.4411736 12.216946,19.8888889 12.7692308,19.8888889 L27.2307692,19.8888889 C27.783054,19.8888889 28.2307692,19.4411736 28.2307692,18.8888889 L28.2307692,17 C28.2307692,15.8954305 29.1261997,15 30.2307692,15 L34,15 C35.1045695,15 36,15.8954305 36,17 L36,35 C36,37.209139 34.209139,39 32,39 L8,39 C5.790861,39 4,37.209139 4,35 L4,17 Z M6,17 L6,35 C6,36.1045695 6.8954305,37 8,37 L32,37 C33.1045695,37 34,36.1045695 34,35 L34,17 L30.2307692,17 L30.2307692,18.8888889 C30.2307692,20.5457431 28.8876235,21.8888889 27.2307692,21.8888889 L12.7692308,21.8888889 C11.1123765,21.8888889 9.76923077,20.5457431 9.76923077,18.8888889 L9.76923077,17 L6,17 Z"></path>
+                                        <rect width="22" height="2" x="9" y="33" fill="#FFF" rx="1"></rect>
+                                        <rect width="4" height="2" x="9" y="24" fill="#FFF" rx="1"></rect>
+                                        <rect width="4" height="2" x="15" y="24" fill="#FFF" rx="1"></rect>
+                                        <rect width="4" height="2" x="12" y="28" fill="#FFF" rx="1"></rect>
+                                        <rect width="4" height="2" x="21" y="24" fill="#FFF" rx="1"></rect>
+                                        <rect width="4" height="2" x="18" y="28" fill="#FFF" rx="1"></rect>
+                                        <rect width="4" height="2" x="27" y="24" fill="#FFF" rx="1"></rect>
+                                        <rect width="4" height="2" x="24" y="28" fill="#FFF" rx="1"></rect>
+                                        <path fill="currentColor" fillRule="nonzero" d="M2 19L5 19C5.55228475 19 6 19.4477153 6 20L6 24C6 24.5522847 5.55228475 25 5 25L2 25C1.44771525 25 1 24.5522847 1 24L1 20C1 19.4477153 1.44771525 19 2 19zM35 19L38 19C38.5522847 19 39 19.4477153 39 20L39 24C39 24.5522847 38.5522847 25 38 25L35 25C34.4477153 25 34 24.5522847 34 24L34 20C34 19.4477153 34.4477153 19 35 19zM9 17C7.8954305 17 7 16.1045695 7 15L7 3C7 1.8954305 7.8954305 1 9 1L31 1C32.1045695 1 33 1.8954305 33 3L33 15C33 16.1045695 32.1045695 17 31 17L31 3 9 3 9 17z"></path>
+                                        <path d="M0 0H40V40H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                                <input id='input-typewriter' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
                             </div>
                         </div>
 
