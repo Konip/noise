@@ -12,8 +12,7 @@ export const NavBarVertical = observer(
         constructor() {
             super()
             this.state = {
-                email: '',
-                password: '',
+
                 dropdown: false,
                 playList: false
             }
@@ -68,7 +67,7 @@ export const NavBarVertical = observer(
         }
 
         render() {
-            const { email, password, dropdown, playList } = this.state;
+            const { dropdown, playList } = this.state;
             const store = this.context;
 
             return (

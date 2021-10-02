@@ -184,10 +184,13 @@ function App() {
   const [typeModal, setTypeModal] = useState();
   const [page, setPage] = useState('body');
 
-  const { isAuth, first, sounds } = ctx
+  const { isAuth, sounds, loadSounds, data, checkAuth } = ctx
 
   // startTransition();
+  // loadSounds()
 
+
+  // console.log('data------', data);
   const redraw = () => {
     for (let el of mask) {
       el.style.backgroundImage = 'none'
@@ -210,21 +213,50 @@ function App() {
       <NavBarVertical isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
         logout={ctx.logout} openModal={openModal} setPage={setPage}
       />
-      {
-        page === 'body' ?
-          <Body openModal={openModal} type={typeModal}
-            isAuth={isAuth} setPage={setPage}
-          />
-          : page === 'account' && ctx.isAuth ?
-            <Account openModal={openModal} setPage={setPage} />
-            :
-            <div></div>
+
+      <div style={page === 'body' ? { zIndex: '600', display: 'block' } : { zIndex: '1', display: 'none' }}>
+        <Body openModal={openModal} type={typeModal}
+          isAuth={isAuth} setPage={setPage}
+        />
+      </div>
+
+      {page === 'account' && ctx.isAuth ?
+        <div style={page === 'account' && ctx.isAuth ? { zIndex: '600', display: 'block' } : { zIndex: '1', display: 'none' }}>
+        {/* <div style={page === 'account' && ctx.isAuth ? { zIndex: '600' } : { zIndex: '1', visibility: 'hidden' }}> */}
+          <Account openModal={openModal} setPage={setPage} />
+        </div>
+        :
+        <div></div>
       }
+
       <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration}
         login={ctx.login} email={ctx.email} isAuth={isAuth}
       />
     </div>
   );
+
+  // return (
+  //   <div className="App">
+  //     {console.log('App')}
+  //     <NavBarVertical isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
+  //       logout={ctx.logout} openModal={openModal} setPage={setPage}
+  //     />
+  //     {
+  //       page === 'body' ?
+  //         <Body openModal={openModal} type={typeModal}
+  //           isAuth={isAuth} setPage={setPage}
+  //         />
+  //         : page === 'account' && ctx.isAuth ?
+  //           <Account openModal={openModal} setPage={setPage} />
+  //           :
+  //           <div></div>
+  //     }
+  //     <Modal openModal={openModal} active={modalActive} setActive={setModalActive} type={typeModal} registration={ctx.registration}
+  //       login={ctx.login} email={ctx.email} isAuth={isAuth}
+  //     />
+  //   </div>
+  // );
+  
 }
 
 export default observer(App);

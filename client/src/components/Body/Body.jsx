@@ -14,6 +14,7 @@ import waterStream from '../../assets/music/waterStream_128.txt';
 import water from '../../assets/music/water_128.txt';
 import wind from '../../assets/music/wind_128.txt';
 import { Context } from "../../Context";
+import { base64ToBuffer } from '../../utils/base64ToBuffer';
 import { randomNumber } from '../../utils/randomNumber.js';
 import { randomPlalist } from '../../utils/randomPlaylist';
 import PlayList from '../PlayList/PlayList';
@@ -128,22 +129,6 @@ var bufferToBase64 = function (buffer) {
     return window.btoa(binary);
 };
 
-var base64ToBuffer = function (buffer) {
-    var binary = window.atob(buffer);
-    var buffer = new ArrayBuffer(binary.length);
-    var bytes = new Uint8Array(buffer);
-    for (var i = 0; i < buffer.byteLength; i++) {
-        bytes[i] = binary.charCodeAt(i) & 0xFF;
-    }
-    return buffer;
-};
-
-// function randomNumber(obj) {
-//     let keys = Object.keys(obj);
-//     // return obj[keys[keys.length * Math.random() << 0]];
-//     return keys[keys.length * Math.random() << 0]
-// };
-
 document.addEventListener("DOMContentLoaded", () => {
     let PlayMasterVolumeController = document.querySelector('.PlayMasterVolumeController')
     var clientRect = PlayMasterVolumeController.getBoundingClientRect();
@@ -200,6 +185,7 @@ export class Body extends Component {
                 .then(response => response.text())
                 .then(text => {
                     var audioFromString = base64ToBuffer(text);
+                   
                     aCtx.decodeAudioData(audioFromString, function (buffer) {
                         console.log(buffer);
                         source.buffer = buffer
@@ -223,7 +209,7 @@ export class Body extends Component {
                         }
                     })
                 })
-            console.log(count)
+            // console.log(count)
 
             // if (count == 13) {
             //     alert()
@@ -267,10 +253,6 @@ export class Body extends Component {
         //         });
         // }
         // this.setState({ data }, () => { })
-    }
-
-    componentDidUpdate() {
-
     }
 
     change(e) {
@@ -418,7 +400,7 @@ export class Body extends Component {
             playlistNumber = number
             playListActive = playList[name][playlistNumber]
         } else {
-          
+
             playListActive = randomPlalist(obj)
         }
 
@@ -464,7 +446,8 @@ export class Body extends Component {
         const { isAuth, sounds } = this.props
 
         return (
-            <div className='body' onClick={() => this.props.setPage('body')}>
+            // <div className='body' onClick={() => this.props.setPage('body')}>
+            <div className='body'>
                 {console.log('Body')}
 
                 <div className="sound" >

@@ -1,71 +1,103 @@
 import React from 'react';
+import background01 from '../../assets/img/background-01.svg';
+import background02 from '../../assets/img/background-02.svg';
+import background03 from '../../assets/img/background-03.svg';
+import background04 from '../../assets/img/background-04.svg';
+import background05 from '../../assets/img/background-05.svg';
+import background06 from '../../assets/img/background-06.svg';
+import background07 from '../../assets/img/background-07.svg';
+import background08 from '../../assets/img/background-08.svg';
+import background09 from '../../assets/img/background-09.svg';
+import background10 from '../../assets/img/background-10.svg';
+import { randomNumber } from '../../utils/randomNumber';
 import './PlayList.css';
 
 let toggle = true
 let next
-const styles = {
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
-    boxShadow: "rgb(0 0 0 / 8%) 0px 2px 10px 0px"
-}
-const resetStyles = {
-    backgroundColor: "",
-    boxShadow: ""
-}
+let image = [background01, background02, background03, background04, background05, background06, background07, background08, background09, background10]
+let number
+
 export default function PlayList({ startPlaylist, resetSounds }) {
 
     function activateCard(e) {
 
         let current = document.getElementById(e).parentNode.firstElementChild.firstElementChild
-        current.removeAttribute("class")
-        current.classList.add("playList__card-container-active")
+        document.getElementById(e).parentNode.style.height = "160px"
         
+
         let background1 = current.querySelector(".playList__card-background-1")
         let background2 = current.querySelector(".playList__card-background-2")
-        background1.removeAttribute("class")
-        background2.removeAttribute("class")
-        background1.classList.add("playList__card-background-1-active")
-        background2.classList.add("playList__card-background-2-active")
-        // current.firstElementChild.removeAttribute("class")
-        // current.firstElementChild.classList.add("playList__card-background-1-active")
 
+        //  предыдущий
         if (next) {
             let prev = document.getElementById(next).parentNode.firstElementChild.firstElementChild
-            console.log(prev);
-            // Object.assign(prev.style, resetStyles)
+
+            document.getElementById(next).parentNode.style.height = "128px"
+
             prev.removeAttribute("class")
             prev.classList.add("playList__card-container")
+
+            let background1 = prev.querySelector(".playList__card-background-1-active")
+            let background2 = prev.querySelector(".playList__card-background-2-active")
+            background1.removeAttribute("class")
+            background2.removeAttribute("class")
+            background1.classList.add("playList__card-background-1")
+            background2.classList.add("playList__card-background-2")
         }
 
         next = e == next ? '' : e
+
         // вкл
         if (toggle) {
-            // Object.assign(a.style, styles)
-            console.log(current)
             startPlaylist(e)
             toggle = false
-            // выкл
+
+            current.removeAttribute("class")
+            current.classList.add("playList__card-container-active")
+
+            background1.removeAttribute("class")
+            background2.removeAttribute("class")
+            background1.classList.add("playList__card-background-1-active")
+            background2.classList.add("playList__card-background-2-active")
+
+            // переключить
         } else if (!toggle && next != '') {
 
             startPlaylist(e)
-            // Object.assign(a.style, styles)
 
+            current.removeAttribute("class")
+            current.classList.add("playList__card-container-active")
 
+            background1.removeAttribute("class")
+            background2.removeAttribute("class")
+            background1.classList.add("playList__card-background-1-active")
+            background2.classList.add("playList__card-background-2-active")
+
+            // выкл
         } else {
             resetSounds()
             toggle = true
-            // Object.assign(a.style, resetStyles)
             current.removeAttribute("class")
             current.classList.add("playList__card-container")
-            current.firstElementChild.removeAttribute("class")
-            current.firstElementChild.classList.add("playList__card-background-1")
         }
+    }
+
+    function changeBackground() {
+
+        let n = randomNumber(image)
+
+        if (n == number) {
+            n == 1 ? n++ : n--
+        }
+
+        number = n
+        return image[n]
     }
 
     return (
         <div className="playList1">
             <div className="playList__wrap" >
                 <div className="playList__card" onClick={() => activateCard("Productivity")}>
-                    {/* <img src='https://www.noisli.com/img/playlist-backgrounds/background-04.svg' alt="" /> */}
                     <div className="playList__card-container">
                         <div className="playList__card-background-1"></div>
                         <div className="playList__card-background-2"></div>
@@ -87,12 +119,13 @@ export default function PlayList({ startPlaylist, resetSounds }) {
                             <div className="playList__card-title">Productivity</div>
                         </div>
                     </div>
+                    <img className="playList__card-background-image" src={changeBackground()} alt=""
+                        style={next == "Productivity" ? { display: 'block' } : { display: 'none' }} />
                 </div>
                 <span className="next" id="Productivity" style={next == "Productivity" ? { display: 'inline-block' } : { display: 'none' }} onClick={() => startPlaylist("Productivity")} >Next</span>
             </div>
             <div className="playList__wrap" >
                 <div className="playList__card" onClick={() => activateCard("Random")}>
-                    {/* <img src='https://www.noisli.com/img/playlist-backgrounds/background-04.svg' alt="" /> */}
                     <div className="playList__card-container">
                         <div className="playList__card-background-1"></div>
                         <div className="playList__card-background-2"></div>
@@ -111,12 +144,13 @@ export default function PlayList({ startPlaylist, resetSounds }) {
                             <div className="playList__card-title">Random</div>
                         </div>
                     </div>
+                    <img className="playList__card-background-image" src={changeBackground()} alt=""
+                        style={next == "Random" ? { display: 'block' } : { display: 'none' }} />
                 </div>
                 <span className="next" id="Random" style={next == "Random" ? { display: 'inline-block' } : { display: 'none' }} onClick={() => startPlaylist("Random")} >Next</span>
             </div>
             <div className="playList__wrap" >
                 <div className="playList__card" onClick={() => activateCard("Relax")}>
-                    {/* <img src='https://www.noisli.com/img/playlist-backgrounds/background-04.svg' alt="" /> */}
                     <div className="playList__card-container">
                         <div className="playList__card-background-1"></div>
                         <div className="playList__card-background-2"></div>
@@ -134,6 +168,8 @@ export default function PlayList({ startPlaylist, resetSounds }) {
                             <div className="playList__card-title">Relax</div>
                         </div>
                     </div>
+                    <img className="playList__card-background-image" src={changeBackground()} alt=""
+                        style={next == "Relax" ? { display: 'block' } : { display: 'none' }} />
                 </div>
                 <span className="next" id="Relax" style={next == "Relax" ? { display: 'inline-block' } : { display: 'none' }} onClick={() => startPlaylist("Relax")} >Next</span>
             </div>

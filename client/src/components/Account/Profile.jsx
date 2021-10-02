@@ -1,4 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { observer } from "mobx-react";
 import React from 'react';
 import * as Yup from 'yup';
 import { Context } from "../../Context";
@@ -15,12 +16,13 @@ const SignupSchema = Yup.object().shape({
 });
 
 
-export default function Profile() {
+function Profile() {
 
     const [update, setUpdate] = React.useState(false)
     const ctx = React.useContext(Context)
     const { username, email, firstName, lastName, id } = ctx.user
 
+    console.log("Profile", username, email, firstName, lastName, id);
     const handleSubmit = async ({ email, firstName, lastName, username }, actions) => {
         console.log(email, firstName, lastName, username)
         try {
@@ -85,4 +87,6 @@ export default function Profile() {
                 </Form>
             )}
         </Formik>
-    )}
+    )
+}
+export default observer(Profile);

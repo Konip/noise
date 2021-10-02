@@ -1,10 +1,37 @@
 import axios from 'axios';
 import { makeAutoObservable } from "mobx";
+// import bonfire from '../assets/music/bonfire_128.txt';
+// import coffeeShop from '../assets/music/coffeeShop_128.txt';
+import fan from '../assets/music/fan_128.txt';
+// import forest from '../assets/music/forest_128.txt';
+// import leaves from '../assets/music/leaves_128.txt';
+// import rain from '../assets/music/rain_128.txt';
+// import seaside from '../assets/music/seaside_128.txt';
+// import summerNight from '../assets/music/summerNight_128.txt';
+// import thunderstorm from '../assets/music/thunderstorm_128.txt';
+// import train from '../assets/music/train_128.txt';
+// import waterStream from '../assets/music/waterStream_128.txt';
+// import water from '../assets/music/water_128.txt';
+// import wind from '../assets/music/wind_128.txt';
 import { API_URL } from "../http";
 import AuthService from "../services/AuthService";
 
-
 const obj = {
+    // 'rain': rain,
+    // 'thunderstorm': thunderstorm,
+    // 'wind': wind,
+    // 'forest': forest,
+    // 'leaves': leaves,
+    // 'waterStream': waterStream,
+    // 'seaside': seaside,
+    // 'water': water,
+    // 'bonfire': bonfire,
+    // 'summerNight': summerNight,
+    // 'coffeeShop': coffeeShop,
+    // 'train': train,
+    'fan': fan,
+
+
     // 'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
     // 'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
     // 'wind': 'https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1',
@@ -19,12 +46,13 @@ const obj = {
     // 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
     // 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1'
 }
-
+const aCtx = new AudioContext();
 
 export default class Store {
     user = {};
     isAuth = false;
     sounds;
+    data = {}
 
     constructor() {
         makeAutoObservable(this);
@@ -40,6 +68,40 @@ export default class Store {
 
     setSounds(e) {
         this.sounds = e
+    }
+    setData(e) {
+        this.data = e
+    }
+
+    async loadSounds() {
+        // alert()
+
+
+        // for (let key in obj) {
+
+        //     fetch(obj[key])
+        //         .then(response => response.text())
+        //         .then(text => {
+        //             var audioFromString = base64ToBuffer(text);
+        //             aCtx.decodeAudioData(audioFromString, function (buffer) {
+        //                 console.log('fffff');
+        //                 let d = {}
+
+        //                 // this.data[key] = {
+        //                 //     active: false,
+        //                 //     // source: source,
+        //                 //     // gainNode: gainNode,
+        //                 //     buf: buffer,
+        //                 //     firstStart: true
+        //                 // }
+
+        //             })
+        //         })
+
+        // }
+        // // console.log('store------', d)
+        // this.setData({'a':2})
+        // console.log(this.data);
     }
 
     async login(email, password, toggle) {
@@ -94,7 +156,7 @@ export default class Store {
     async checkAuth() {
         try {
             const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true })
-            // console.log(response);
+            console.log(response);
             localStorage.setItem('token', response.data.accessToken);
             const { isActivated } = response.data.user
             if (isActivated) {

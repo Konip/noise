@@ -3,6 +3,7 @@
     position: fixed;
     /* position: absolute; */
     height: 100%;
+    /* width: 110px; */
     width: 150px;
     flex-direction: column;
     padding: 0 10px;
@@ -84,6 +85,7 @@
     /* box-shadow: rgb(0 0 0 / 20%) 0px 3px 6px; */
     transition: opacity 0.2s ease-in-out 0s;
     left: 90%;
+    text-align: center;
 }
 
 .dropdown {
