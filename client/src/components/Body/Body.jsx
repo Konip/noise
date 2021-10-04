@@ -2,7 +2,6 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import bonfire from '../../assets/music/bonfire_128.txt';
 import coffeeShop from '../../assets/music/coffeeShop_128.txt';
-import fan from '../../assets/music/fan_128.txt';
 import forest from '../../assets/music/forest_128.txt';
 import leaves from '../../assets/music/leaves_128.txt';
 import rain from '../../assets/music/rain_128.txt';
@@ -33,7 +32,39 @@ const obj = {
     'summerNight': summerNight,
     'coffeeShop': coffeeShop,
     'train': train,
-    'fan': fan,
+}
+const objPremium = {
+    'rain': rain,
+    'thunderstorm': thunderstorm,
+    'wind': wind,
+    'forest': forest,
+    'leaves': leaves,
+    'waterStream': waterStream,
+    'seaside': seaside,
+    'water': water,
+    'bonfire': bonfire,
+    'summerNight': summerNight,
+    'coffeeShop': coffeeShop,
+    'train': train,
+    'fan': 'fan',
+    'typewriter': 'typewriter',
+}
+
+// 'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
+// 'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
+// 'wind': 'https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1',
+// 'forest': 'https://dl.dropbox.com/s/ys9x65uqyztu8tp/forest_128.mp3?dl=1',
+// 'leaves': 'https://dl.dropbox.com/s/w9j7bbvofc2lpjk/leaves_128.mp3?dl=1',
+// 'waterStream': 'https://dl.dropbox.com/s/kp0gx0fju792d5a/waterStream_128.mp3?dl=1',
+// 'seaside': 'https://dl.dropbox.com/s/2n2vjgyzcpbwp5v/seaside_128.mp3?dl=1',
+// 'water': 'https://dl.dropbox.com/s/z896skrs5j0njq2/water_128.mp3?dl=1',
+// 'bonfire': 'https://dl.dropbox.com/s/h9vf3ugy8r6mx2o/bonfire_128.mp3?dl=1',
+// 'summerNight': 'https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1',
+// 'coffeeShop': 'https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1',
+// 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
+// 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1'
+
+const premium = {
 
     // 'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
     // 'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
@@ -47,10 +78,71 @@ const obj = {
     // 'summerNight': 'https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1',
     // 'coffeeShop': 'https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1',
     // 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
-    // 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1'
+    'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1',
+    'typewriter': 'https://dl.dropbox.com/s/2h1epz1moabr74v/typewriter.mp3?dl=1'
 }
 
-const playList = {
+const playListStandard = {
+    "Productivity": {
+        1: {
+            "forest": 0.6,
+            "leaves": 0.75,
+            "waterStream": 0.7
+        },
+        2: {
+            "summerNight": 0.18,
+            "coffeeShop": 0.36,
+            "train": 0.75
+        },
+        3: {
+            "rain": 1,
+            "waterStream": 0.45,
+            // "brownNoise": 1
+        },
+        4: {
+            "seaside": 0.12,
+            "bonfire": 0.82,
+            "summerNight": 0.14,
+            // "fan": 0.53
+        },
+        5: {
+            "rain": 0.87,
+            "thunderstorm": 0.25,
+            "wind": 0.5,
+            "coffeeShop": 1
+        }
+
+    },
+    "Relax": {
+        1: {
+            "forest": 0.5,
+            "leaves": 0.5,
+            "water": 0.18,
+        },
+        2: {
+            "forest": 0.26,
+            "leaves": 0.72,
+            "seaside": 0.08,
+        },
+        3: {
+            "rain": 0.5,
+            "thunderstorm": 0.21,
+            "bonfire": 1
+        },
+        4: {
+            "bonfire": 1,
+            "summerNight": 0.13,
+            // "fan": 0.2,
+        },
+        5: {
+            "thunderstorm": 0.15,
+            "seaside": 0.15,
+            "summerNight": 0.1,
+        },
+
+    }
+}
+const playListPremium = {
     "Productivity": {
         1: {
             "forest": 0.6,
@@ -81,7 +173,6 @@ const playList = {
         }
 
     },
-    // "Random":{},
     "Relax": {
         1: {
             "forest": 0.5,
@@ -112,22 +203,13 @@ const playList = {
     }
 }
 
+
 const aCtx = new AudioContext();
 let constantNode = aCtx.createGain()
 let volume1 = 1
 let toggle = false
 let playListActive = {}
 let playlistNumber
-
-var bufferToBase64 = function (buffer) {
-    var bytes = new Uint8Array(buffer);
-    var len = buffer.byteLength;
-    var binary = "";
-    for (var i = 0; i < len; i++) {
-        binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
-};
 
 document.addEventListener("DOMContentLoaded", () => {
     let PlayMasterVolumeController = document.querySelector('.PlayMasterVolumeController')
@@ -152,12 +234,15 @@ export class Body extends Component {
     constructor() {
 
         super()
+
         this.state = {
             tooltip: false,
             muted: false,
-            volume: 1,
-            playList: false,
+            // volume: 1,
+            playList: '',
+            number: 0,
             soundLoaded: false,
+            data: {}
         }
 
         this.change = this.change.bind(this)
@@ -167,16 +252,17 @@ export class Body extends Component {
         this.muted = this.muted.bind(this)
         this.startPlaylist = this.startPlaylist.bind(this)
         this.resetSounds = this.resetSounds.bind(this)
+        this.stopPlaylist = this.stopPlaylist.bind(this)
     }
+
 
     componentDidMount() {
 
-        let data = {}
-        console.log('body')
-        let count = 0
+        console.log(this.props.isAuth);
+        let count = Object.keys(obj).length
+
         for (let key in obj) {
 
-            let buf;
             let gainNode = aCtx.createGain()
             gainNode.gain.value = 0.75
             let source = aCtx.createBufferSource();
@@ -185,8 +271,8 @@ export class Body extends Component {
                 .then(response => response.text())
                 .then(text => {
                     var audioFromString = base64ToBuffer(text);
-                   
-                    aCtx.decodeAudioData(audioFromString, function (buffer) {
+
+                    aCtx.decodeAudioData(audioFromString, (buffer) => {
                         console.log(buffer);
                         source.buffer = buffer
                         source.loop = true;
@@ -198,26 +284,80 @@ export class Body extends Component {
                         // source.start(0)
                         // source.start(0, source.buffer.duration - 5)
                         // source.disconnect(gainNode);
-                        count++
+                        count--
+
                         document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
 
-                        return data[key] = {
-                            active: false,
-                            source: source,
-                            gainNode: gainNode,
-                            firstStart: true
+                        if (count === 0) {
+
+                            alert('soundLoaded')
                         }
+
+                        this.setState(state => {
+                            state.data[key] = {
+                                active: false,
+                                source: source,
+                                gainNode: gainNode,
+                                firstStart: true
+                            }
+                        })
                     })
                 })
-            // console.log(count)
-
-            // if (count == 13) {
-            //     alert()
-            //     this.setState(state => { state.soundLoaded = true })
-            // }
         }
-        this.setState({ data }, () => { })
 
+
+        // --------------------------------------------------------
+
+        // let data = {}
+        // console.log('body')
+        // let count = 0
+        // for (let key in obj) {
+
+        //     let buf;
+        //     let gainNode = aCtx.createGain()
+        //     gainNode.gain.value = 0.75
+        //     let source = aCtx.createBufferSource();
+
+        //     fetch(obj[key])
+        //         .then(response => response.text())
+        //         .then(text => {
+        //             var audioFromString = base64ToBuffer(text);
+
+        //             aCtx.decodeAudioData(audioFromString, function (buffer) {
+        //                 console.log(buffer);
+        //                 source.buffer = buffer
+        //                 source.loop = true;
+
+        //                 source.connect(gainNode);
+        //                 gainNode.connect(constantNode)
+        //                 constantNode.connect(aCtx.destination);
+
+        //                 // source.start(0)
+        //                 // source.start(0, source.buffer.duration - 5)
+        //                 // source.disconnect(gainNode);
+        //                 count++
+        //                 document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
+
+        //                 return data[key] = {
+        //                     active: false,
+        //                     source: source,
+        //                     gainNode: gainNode,
+        //                     firstStart: true
+        //                 }
+        //             })
+        //         })
+        //     // console.log(count)
+
+        //     // if (count == 13) {
+        //     //     alert()
+        //     //     this.setState(state => { state.soundLoaded = true })
+        //     // }
+        // }
+
+        // this.setState({ data }, () =>  console.log('pppppp'))
+
+
+        // --------------------------------------------------------
 
         // const data = {}
         // console.log('body')
@@ -255,46 +395,93 @@ export class Body extends Component {
         // this.setState({ data }, () => { })
     }
 
+    componentDidUpdate(prevProps) {
+
+        if (this.props.isAuth !== prevProps.isAuth) {
+
+            for (let key in premium) {
+
+                let buf;
+                let gainNode = aCtx.createGain()
+                let source = aCtx.createBufferSource();
+
+                fetch(premium[key])
+                    .then(resp => resp.arrayBuffer())
+                    .then(buf => aCtx.decodeAudioData(buf))
+                    .then(decoded => {
+                        console.log('fetch');
+                        source.buffer = buf = decoded;
+                        source.loop = true;
+
+                        source.connect(gainNode);
+                        gainNode.connect(constantNode)
+                        constantNode.connect(aCtx.destination);
+
+                        // source.start(0)
+                        // source.start(0, source.buffer.duration - 5)
+                        // source.disconnect(gainNode);
+                        document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
+
+                        this.setState(state => {
+                            state.data[key] = {
+                                active: false,
+                                source: source,
+                                gainNode: gainNode,
+                                firstStart: true
+                            }
+                        })
+                    });
+            }
+        }
+    }
+
     change(e) {
-        let key = e.target.parentNode.dataset.key
+        let key = e.target.id.replace('input-', '');
         this.state.data[key].gainNode.gain.value = e.target.value
     }
 
     onClick(e) {
-        const target = e.target.localName
 
-        console.log(this.state)
-
+        let target = e.target.localName
         let input
         let key
 
-        if (e.target.localName === 'path') {
-            input = e.target.parentNode.parentNode.parentNode.lastElementChild.id
-            key = e.target.parentNode.parentNode.parentNode.dataset.key
+        if (this.state.playList) {
+            this.stopPlaylist()
         }
-        else if (e.target.localName === 'svg') {
-            input = e.target.parentNode.lastElementChild.id
-            key = e.target.parentNode.dataset.key
-        }
-        else if (e.target.localName === 'input') {
-            key = e.target.parentNode.dataset.key
-            input = e.target.id
-        }
-        else {
-            key = e.target.dataset.key
-            input = e.target.lastElementChild.id
-        }
-        console.log(input)
 
-        if (e.target.localName !== 'input') {
+        switch (target) {
+            case 'path':
+                input = e.target.parentNode.parentNode.parentNode.lastElementChild.id
+                key = input.replace('input-', '');
+                break;
+            case 'svg':
+                input = e.target.parentNode.lastElementChild.id
+                key = input.replace('input-', '');
+                break;
+            case 'input':
+                input = e.target.id
+                key = input.replace('input-', '');
+                break;
+            default:
+                input = e.target.lastElementChild.id
+                key = input.replace('input-', '');
+                break;
+        }
+
+        if (target !== 'input') {
             console.log(key);
 
             this.setState(state => {
+                console.log(state);
+                if (this.state.playList) {
+                    state.tooltip = true
+                }
                 state.data[key].active = !state.data[key].active
                 const deep = _.cloneDeep(state)
                 return deep
             }, () => {
-                console.log(this.state);
+                // console.log(this.state);
 
                 if (this.state.data[key].active === true) {
                     console.log(' start')
@@ -355,12 +542,12 @@ export class Body extends Component {
             constantNode.gain.value = volume1
             volumeController.value = volume1
             this.setState({ muted: false })
-        }
-        if (!muted) {
+        } else if (!muted) {
             constantNode.gain.value = 0
             volumeController.value = 0
             this.setState({ muted: true })
         }
+
     }
 
     resetSounds() {
@@ -374,6 +561,7 @@ export class Body extends Component {
 
                     if (this.state.data[key].active) {
                         state.data[key].active = false
+                        state.playList = ''
                         this.state.data[key].source.disconnect(this.state.data[key].gainNode);
                         document.getElementById(`${input}`).style.visibility = 'hidden';
                         document.querySelector(`[data-key=${key}]`).classList.remove('active')
@@ -386,10 +574,13 @@ export class Body extends Component {
         }
     }
 
-    startPlaylist(name) {
+    startPlaylist(name, number) {
 
         if (name != 'Random') {
-            let number = randomNumber(playList[name]);
+
+            let playlist = this.props.isAuth ? playListPremium : playListStandard
+            let number = randomNumber(playlist[name]);
+
             if (number == playlistNumber) {
                 number == 1 ? number++ : number--
             }
@@ -398,9 +589,10 @@ export class Body extends Component {
             }
 
             playlistNumber = number
-            playListActive = playList[name][playlistNumber]
-        } else {
+            playListActive = playlist[name][playlistNumber]
 
+        } else {
+            let obj = this.props.isAuth ? objPremium : obj
             playListActive = randomPlalist(obj)
         }
 
@@ -416,15 +608,17 @@ export class Body extends Component {
 
                 state.data[key].active = true
                 state.data[key].gainNode.gain.value = value
-                state.playList = !state.playList
+                state.playList = name
+                state.number = number
+                state.tooltip = false
                 console.log(input)
 
                 document.querySelector(`#${input}`).value = value
                 const deep = _.cloneDeep(state)
                 return deep
             }, () => {
-                console.log(this.state);
 
+                console.log(this.state);
                 console.log(' start')
 
                 if (this.state.data[key].firstStart === true) {
@@ -432,7 +626,6 @@ export class Body extends Component {
                     this.setState(state => {
                         state.data[key].firstStart = false
                     })
-
                 } else {
                     this.state.data[key].source.connect(this.state.data[key].gainNode);
                 }
@@ -442,13 +635,20 @@ export class Body extends Component {
         }
     }
 
+    stopPlaylist() {
+
+        this.setState({
+            playList: '',
+            tooltip: false
+        })
+    }
+
     render() {
-        const { isAuth, sounds } = this.props
+        const { isAuth } = this.props
 
         return (
             // <div className='body' onClick={() => this.props.setPage('body')}>
             <div className='body'>
-                {console.log('Body')}
 
                 <div className="sound" >
                     <input className="volumeController" type="range" min='0' max='1' step='0.01' onChange={(e) => this.changeVolume(e)} ></input>
@@ -473,7 +673,11 @@ export class Body extends Component {
                     </div>
                 </div>
                 <div className="mouseover"></div>
-                <PlayList startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} />
+
+                <PlayList startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} playlist={this.state.playList} tooltip={this.state.tooltip}
+                    number={this.state.number} isAuth={this.props.isAuth}
+                />
+
                 <div className="container">
                     <div className="standart">
                         <div style={{ pointerEvents: 'none' }} data-key="rain" className={"card rain"} onClick={(e) => this.onClick(e)}>

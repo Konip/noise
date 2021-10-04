@@ -222,7 +222,6 @@ function App() {
 
       {page === 'account' && ctx.isAuth ?
         <div style={page === 'account' && ctx.isAuth ? { zIndex: '600', display: 'block' } : { zIndex: '1', display: 'none' }}>
-        {/* <div style={page === 'account' && ctx.isAuth ? { zIndex: '600' } : { zIndex: '1', visibility: 'hidden' }}> */}
           <Account openModal={openModal} setPage={setPage} />
         </div>
         :
@@ -256,7 +255,7 @@ function App() {
   //     />
   //   </div>
   // );
-  
+
 }
 
 export default observer(App);

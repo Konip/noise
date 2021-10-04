@@ -1,11 +1,18 @@
 .playList1 {
     display: flex;
     justify-content: center;
-    /* align-items: center; */
-    height: 160px;
+    align-items: center;
+    flex-direction: column;
+    /* height: 160px; */
+    height: 200px;
     text-align: initial;
+    width: 534px;
+    margin: 0 auto;
 }
-
+.playList__list{
+    display: flex;
+    height: 160px;
+}
 .playList__wrap {
     -webkit-font-smoothing: antialiased;
     text-size-adjust: 100%;

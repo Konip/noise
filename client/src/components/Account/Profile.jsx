@@ -24,7 +24,7 @@ function Profile() {
 
     console.log("Profile", username, email, firstName, lastName, id);
     const handleSubmit = async ({ email, firstName, lastName, username }, actions) => {
-        console.log(email, firstName, lastName, username)
+       
         try {
             await ctx.changeData(email, firstName, lastName, username, id)
             actions.setSubmitting(false);
