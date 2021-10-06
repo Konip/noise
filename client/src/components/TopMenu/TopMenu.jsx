@@ -1,9 +1,12 @@
-import React from 'react'
-import './TopMenu.css'
+import React from 'react';
+import './TopMenu.css';
 
-export default function TopMenu({ isAuth }) {
 
-    const [activeButton, setActiveButton] = React.useState("playlist")
+const TopMenu = React.memo(({ isAuth, savePlaylist, resetSounds, setActiveButton, activeButton }) => {
+
+    function save() {
+        console.log(savePlaylist());
+    }
 
     return (
         <div className="topMenu" style={isAuth ? { visibility: "visible" } : { visibility: "hidden" }}>
@@ -18,9 +21,10 @@ export default function TopMenu({ isAuth }) {
                 </span>
             </div>
             <div className="topMenu__section">
-                <span className="topMenu__SaveButton">Save</span>
-                <span className="topMenu__ClearButton">Clear</span>
+                <span className="topMenu__SaveButton" onClick={() => save()}>Save</span>
+                <span className="topMenu__ClearButton" onClick={() => resetSounds()}>Clear</span>
             </div>
         </div>
     )
-}
+})
+export default TopMenu

@@ -79,6 +79,7 @@ span::selection {
     line-height: 1.5em;
     color: rgb(141 138 138);
     margin-top: 10px;
+    text-align: center;
 }
 
 form {

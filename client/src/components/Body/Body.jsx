@@ -16,10 +16,10 @@ import { Context } from "../../Context";
 import { base64ToBuffer } from '../../utils/base64ToBuffer';
 import { randomNumber } from '../../utils/randomNumber.js';
 import { randomPlalist } from '../../utils/randomPlaylist';
-import PlayList from '../PlayList/PlayList';
+import PlayListContainer from '../PlayList/PlayListContainer';
 import './Body.css';
 
-const obj = {
+const objStandard = {
     'rain': rain,
     'thunderstorm': thunderstorm,
     'wind': wind,
@@ -65,7 +65,6 @@ const objPremium = {
 // 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1'
 
 const premium = {
-
     // 'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
     // 'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
     // 'wind': 'https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1',
@@ -207,8 +206,7 @@ const playListPremium = {
 const aCtx = new AudioContext();
 let constantNode = aCtx.createGain()
 let volume1 = 1
-let toggle = false
-let playListActive = {}
+// let playListActive = {}
 let playlistNumber
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -236,38 +234,35 @@ export class Body extends Component {
         super()
 
         this.state = {
-            tooltip: false,
+            // toggle: false,
             muted: false,
-            // volume: 1,
             playList: '',
-            number: 0,
-            soundLoaded: false,
+            playListActive: {},
+            standardSoundsLoaded: false,
+            premiumSoundsLoaded: false,
             data: {}
         }
-
-        this.change = this.change.bind(this)
+        this.changeSoundVolume = this.changeSoundVolume.bind(this)
         this.onClick = this.onClick.bind(this)
         this.openRegistrationTool = this.openRegistrationTool.bind(this)
-        this.changeVolume = this.changeVolume.bind(this)
+        this.changeGeneralSound = this.changeGeneralSound.bind(this)
         this.muted = this.muted.bind(this)
         this.startPlaylist = this.startPlaylist.bind(this)
         this.resetSounds = this.resetSounds.bind(this)
-        this.stopPlaylist = this.stopPlaylist.bind(this)
+        this.savePlaylist = this.savePlaylist.bind(this)
     }
-
 
     componentDidMount() {
 
-        console.log(this.props.isAuth);
-        let count = Object.keys(obj).length
+        let count = Object.keys(objStandard).length
 
-        for (let key in obj) {
+        for (let key in objStandard) {
 
             let gainNode = aCtx.createGain()
             gainNode.gain.value = 0.75
             let source = aCtx.createBufferSource();
 
-            fetch(obj[key])
+            fetch(objStandard[key])
                 .then(response => response.text())
                 .then(text => {
                     var audioFromString = base64ToBuffer(text);
@@ -289,8 +284,7 @@ export class Body extends Component {
                         document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
 
                         if (count === 0) {
-
-                            alert('soundLoaded')
+                            alert('standardSoundsLoaded')
                         }
 
                         this.setState(state => {
@@ -399,45 +393,65 @@ export class Body extends Component {
 
         if (this.props.isAuth !== prevProps.isAuth) {
 
-            for (let key in premium) {
+            let count = Object.keys(premium).length
 
-                let buf;
-                let gainNode = aCtx.createGain()
-                let source = aCtx.createBufferSource();
+            if (!this.state.premiumSoundsLoaded) {
 
-                fetch(premium[key])
-                    .then(resp => resp.arrayBuffer())
-                    .then(buf => aCtx.decodeAudioData(buf))
-                    .then(decoded => {
-                        console.log('fetch');
-                        source.buffer = buf = decoded;
-                        source.loop = true;
+                for (let key in premium) {
 
-                        source.connect(gainNode);
-                        gainNode.connect(constantNode)
-                        constantNode.connect(aCtx.destination);
+                    let buf;
+                    let gainNode = aCtx.createGain()
+                    let source = aCtx.createBufferSource();
 
-                        // source.start(0)
-                        // source.start(0, source.buffer.duration - 5)
-                        // source.disconnect(gainNode);
-                        document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
+                    fetch(premium[key])
+                        .then(resp => resp.arrayBuffer())
+                        .then(buf => aCtx.decodeAudioData(buf))
+                        .then(decoded => {
+                            console.log('fetch');
+                            source.buffer = buf = decoded;
+                            source.loop = true;
 
-                        this.setState(state => {
-                            state.data[key] = {
-                                active: false,
-                                source: source,
-                                gainNode: gainNode,
-                                firstStart: true
-                            }
-                        })
-                    });
+                            source.connect(gainNode);
+                            gainNode.connect(constantNode)
+                            constantNode.connect(aCtx.destination);
+
+                            // source.start(0)
+                            // source.start(0, source.buffer.duration - 5)
+                            // source.disconnect(gainNode);
+                            document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
+                            count--
+
+                            this.setState(state => {
+                                if (count === 0) {
+                                    alert('premiumSoundsLoaded')
+                                    state.premiumSoundsLoaded = true
+                                }
+                                state.data[key] = {
+                                    active: false,
+                                    source: source,
+                                    gainNode: gainNode,
+                                    firstStart: true
+                                }
+
+                            })
+                        });
+                }
+            } else if (this.state.premiumSoundsLoaded && !this.props.isAuth) {
+                alert('GGGGGGGGGGGGGGGGGGGGGGGG')
+
+                this.resetSounds(true)
             }
         }
     }
 
-    change(e) {
+    changeSoundVolume(e) {
         let key = e.target.id.replace('input-', '');
-        this.state.data[key].gainNode.gain.value = e.target.value
+        this.setState(state => {
+            state.data[key].gainNode.gain.value = e.target.value
+            state.playListActive[key] = e.target.value
+        })
+        // this.state.data[key].gainNode.gain.value = e.target.value
+        // this.state.data[key].gainNode.gain.value = e.target.value
     }
 
     onClick(e) {
@@ -447,7 +461,7 @@ export class Body extends Component {
         let key
 
         if (this.state.playList) {
-            this.stopPlaylist()
+            this.setState({ playList: '' })
         }
 
         switch (target) {
@@ -471,13 +485,16 @@ export class Body extends Component {
 
         if (target !== 'input') {
             console.log(key);
+            let value = this.state.data[key].gainNode.gain.value
 
             this.setState(state => {
                 console.log(state);
-                if (this.state.playList) {
-                    state.tooltip = true
-                }
                 state.data[key].active = !state.data[key].active
+                if (this.state.data[key].active === true) {
+                    state.playListActive[key] = value
+                } else {
+                    delete state.playListActive[key]
+                }
                 const deep = _.cloneDeep(state)
                 return deep
             }, () => {
@@ -487,11 +504,12 @@ export class Body extends Component {
                     console.log(' start')
 
                     if (this.state.data[key].firstStart === true) {
-                        this.state.data[key].source.start(0)
+                        // this.state.data[key].source.start(0)
                         this.setState(state => {
+                            state.data[key].source.start(0)
                             state.data[key].firstStart = false
-                        })
 
+                        })
                     } else {
                         this.state.data[key].source.connect(this.state.data[key].gainNode);
                     }
@@ -521,7 +539,7 @@ export class Body extends Component {
         }, 500)
     }
 
-    changeVolume(e) {
+    changeGeneralSound(e) {
         let muted = this.state.muted
         let volume = Number(e.target.value)
         volume1 = volume
@@ -550,32 +568,37 @@ export class Body extends Component {
 
     }
 
-    resetSounds() {
+    resetSounds(e) {
 
-        if (toggle) {
+        let data
 
-            this.setState(state => {
-
-                for (let key in this.state.data) {
-                    let input = `input-${key}`
-
-                    if (this.state.data[key].active) {
-                        state.data[key].active = false
-                        state.playList = ''
-                        this.state.data[key].source.disconnect(this.state.data[key].gainNode);
-                        document.getElementById(`${input}`).style.visibility = 'hidden';
-                        document.querySelector(`[data-key=${key}]`).classList.remove('active')
-                    }
-                }
-
-                const deep = _.cloneDeep(state)
-                return deep
-            })
+        if (Object.keys(this.state.playListActive).length && !e) {
+            data = this.state.data
+        } else if (e) {
+            data = premium
         }
+
+        this.setState(state => {
+
+            for (let key in data ? data : this.state.data) {
+                let input = `input-${key}`
+
+                if (this.state.data[key].active) {
+                    state.data[key].active = false
+                    state.playList = ''
+                    this.state.data[key].source.disconnect(this.state.data[key].gainNode);
+                    document.getElementById(`${input}`).style.visibility = 'hidden';
+                    document.querySelector(`[data-key=${key}]`).classList.remove('active')
+                    delete this.state.playListActive[key]
+                }
+            }
+            const deep = _.cloneDeep(state)
+            return deep
+        })
     }
 
-    startPlaylist(name, number) {
-
+    startPlaylist(name) {
+        let play
         if (name != 'Random') {
 
             let playlist = this.props.isAuth ? playListPremium : playListStandard
@@ -584,33 +607,30 @@ export class Body extends Component {
             if (number == playlistNumber) {
                 number == 1 ? number++ : number--
             }
-            if (!toggle) {
+            if (!Object.keys(this.state.playListActive).length) {
                 playlistNumber = number
             }
 
             playlistNumber = number
-            playListActive = playlist[name][playlistNumber]
+            play = playlist[name][playlistNumber]
 
         } else {
-            let obj = this.props.isAuth ? objPremium : obj
-            playListActive = randomPlalist(obj)
+            let obj = this.props.isAuth ? objPremium : objStandard
+            play = randomPlalist(obj)
         }
 
         this.resetSounds()
 
-        for (let key in playListActive) {
+        for (let key in play) {
 
             let input = `input-${key}`
-            let value = playListActive[key]
-            toggle = true
+            let value = play[key]
 
             this.setState(state => {
-
+                state.playListActive = play
                 state.data[key].active = true
                 state.data[key].gainNode.gain.value = value
                 state.playList = name
-                state.number = number
-                state.tooltip = false
                 console.log(input)
 
                 document.querySelector(`#${input}`).value = value
@@ -635,23 +655,28 @@ export class Body extends Component {
         }
     }
 
-    stopPlaylist() {
+    savePlaylist() {
 
-        this.setState({
-            playList: '',
-            tooltip: false
-        })
+        let data = {}
+
+        for (let key in this.state.data) {
+
+            if (this.state.data[key].active) {
+                data[key] = this.state.data[key].gainNode.gain.value
+            }
+        }
+
+        return data
     }
 
     render() {
         const { isAuth } = this.props
 
         return (
-            // <div className='body' onClick={() => this.props.setPage('body')}>
             <div className='body'>
 
                 <div className="sound" >
-                    <input className="volumeController" type="range" min='0' max='1' step='0.01' onChange={(e) => this.changeVolume(e)} ></input>
+                    <input className="volumeController" type="range" min='0' max='1' step='0.01' onChange={(e) => this.changeGeneralSound(e)} ></input>
                     <div className="PlayMasterVolumeController" onClick={this.muted}>
                         {this.state.muted
                             ?
@@ -674,8 +699,8 @@ export class Body extends Component {
                 </div>
                 <div className="mouseover"></div>
 
-                <PlayList startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} playlist={this.state.playList} tooltip={this.state.tooltip}
-                    number={this.state.number} isAuth={this.props.isAuth}
+                <PlayListContainer startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} playlist={this.state.playList}
+                     savePlaylist={this.savePlaylist} playListActive={this.state.playListActive}
                 />
 
                 <div className="container">
@@ -688,7 +713,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="thunderstorm" className={"card  thunderstorm"} onClick={(e) => this.onClick(e)}>
@@ -700,7 +725,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="wind" className={"card  wind"} onClick={(e) => this.onClick(e)}>
@@ -712,7 +737,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="forest" className={"card  forest"} onClick={(e) => this.onClick(e)}>
@@ -724,7 +749,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-forest' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-forest' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="leaves" className={"card  leaves"} onClick={(e) => this.onClick(e)}>
@@ -737,7 +762,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-leaves' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-leaves' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="waterStream" className={"card  waterStream"} onClick={(e) => this.onClick(e)}>
@@ -750,7 +775,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="seaside" className={"card  seaside"} onClick={(e) => this.onClick(e)}>
@@ -761,7 +786,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-seaside' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-seaside' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="water" className={"card  water"} onClick={(e) => this.onClick(e)}>
@@ -773,7 +798,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="bonfire" className={"card  bonfire"} onClick={(e) => this.onClick(e)}>
@@ -784,7 +809,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="summerNight" className={"card  summer-night"} onClick={(e) => this.onClick(e)}>
@@ -795,7 +820,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="coffeeShop" className={"card  coffee-shop"} onClick={(e) => this.onClick(e)}>
@@ -807,7 +832,7 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-coffeeShop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-coffeeShop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="train" className={"card  train"} onClick={(e) => this.onClick(e)}>
@@ -818,9 +843,10 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                            <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
                     </div>
+
                     <div className={isAuth ? "premium" : "premium tooltip-active"} >
                         <div className="tool" >
                             <span id='text'>These Sounds<br />
@@ -838,7 +864,7 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -853,7 +879,7 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-tropical' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                                <input id='input-tropical' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -875,7 +901,7 @@ export class Body extends Component {
                                         <path d="M0 0H40V40H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-typewriter' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                                <input id='input-typewriter' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -890,7 +916,7 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -904,7 +930,7 @@ export class Body extends Component {
                             </g>
                         </svg>
                         <audio id='wind' src={wind} loop></audio>
-                        <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.change(e)} ></input>
+                        <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                     </div> */}
                     </div>
                 </div>

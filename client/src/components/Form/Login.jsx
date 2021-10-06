@@ -89,4 +89,3 @@ function Login({ setActive, openModal }) {
 }
 
 export default observer(Login);
-

@@ -2,8 +2,7 @@ import axios from 'axios';
 import { makeAutoObservable } from "mobx";
 import { API_URL } from "../http";
 import AuthService from "../services/AuthService";
-
-const aCtx = new AudioContext();
+import { redraw } from '../utils/transition';
 
 export default class Store {
     user = {};
@@ -16,6 +15,7 @@ export default class Store {
 
     setAuth(bool) {
         this.isAuth = bool;
+        redraw(bool)
     }
 
     setUser(user) {
@@ -164,5 +164,24 @@ export default class Store {
                 reject(error)
             })
         }
+    }
+
+    async savePlaylist(playlist) {
+        // try {
+        //     console.log('playlist----', playlist)
+        //     const response = await AuthService.resetPassword(email);
+        //     // console.log(response);
+        //     // this.setAuth(true);
+        //     // this.setUser(response.data.user);
+        //     return new Promise((resolve, reject) => {
+        //         resolve(response)
+        //     })
+        // } catch (e) {
+        //     let error = e.response?.data?.message
+        //     console.log(error);
+        //     return new Promise((resolve, reject) => {
+        //         reject(error)
+        //     })
+        // }
     }
 }

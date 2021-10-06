@@ -180,16 +180,6 @@ input[type=range]::-ms-thumb {
     position: relative;
 }
 
-/* input::before{
-    content: '';
-    background: #fff;
-    left: -58px;
-    height: 2px;
-    width: 64px;
-    display: block;
-    position: absolute;
-} */
-
 .container {
     display: flex;
     flex-direction: column;
