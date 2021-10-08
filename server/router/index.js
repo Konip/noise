@@ -17,5 +17,7 @@ router.post('/delete', userController.delete);
 router.post('/change', authMiddleware, userController.changeData);
 router.post('/password', authMiddleware, userController.changePassword);
 router.post('/reset', userController.resetPassword);
+router.post('/set', userController.savePlaylist);
+router.post('/get', userController.getPlaylist);
 
 module.exports = router

@@ -33,6 +33,7 @@
 .favorites__wrap {
     padding-bottom: 20px;
     position: relative;
+    display: flex;
 }
 
 .favorites__btn {
@@ -52,6 +53,11 @@
     font-weight: 500;
     user-select: none;
 }
+
+.favorites__btn:hover {
+    background-color: rgba(0, 0, 0, 0.16);
+}
+
 .favorites__btn-input {
     display: inline-flex;
     color: rgb(255, 255, 255);
@@ -69,6 +75,7 @@
     max-width: 174px;
     font-weight: 600;
 }
+
 .favorites__btn:hover .card {
     opacity: 1;
     transition: 0.1s;
@@ -117,14 +124,14 @@
     transform: translateX(-50%) rotate(45deg);
 }
 
-.favorites__item {
+.favorites__details {
     display: flex;
     position: relative;
     min-width: 44px;
     color: transparent;
 }
 
-.favorites__item-btn {
+.favorites__details-btn {
     display: flex;
     position: absolute;
     top: 0px;
@@ -135,7 +142,7 @@
     height: 100%;
 }
 
-.favorites__item-btn input {
+.favorites__details-btn input {
     border: none;
     background-color: transparent;
     color: rgb(255, 255, 255);
@@ -148,3 +155,38 @@
     padding-right: 8px;
 }
 
+.favorites__container {
+    max-width: 234px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    max-width: 172px;
+    color: rgb(255, 255, 255);
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 22px;
+    border: none;
+    cursor: pointer;
+    margin: 8px 4px;
+    position: relative;
+    transition: background-color 0.2s ease-in-out 0s;
+    user-select: none;
+    height: 44px;
+}
+
+.favorites__container:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.favorites__inner-container {
+    padding: 14px 30px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.favorites__text {
+    display: block;
+    position: relative;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

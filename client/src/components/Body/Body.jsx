@@ -206,7 +206,6 @@ const playListPremium = {
 const aCtx = new AudioContext();
 let constantNode = aCtx.createGain()
 let volume1 = 1
-// let playListActive = {}
 let playlistNumber
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -298,95 +297,6 @@ export class Body extends Component {
                     })
                 })
         }
-
-
-        // --------------------------------------------------------
-
-        // let data = {}
-        // console.log('body')
-        // let count = 0
-        // for (let key in obj) {
-
-        //     let buf;
-        //     let gainNode = aCtx.createGain()
-        //     gainNode.gain.value = 0.75
-        //     let source = aCtx.createBufferSource();
-
-        //     fetch(obj[key])
-        //         .then(response => response.text())
-        //         .then(text => {
-        //             var audioFromString = base64ToBuffer(text);
-
-        //             aCtx.decodeAudioData(audioFromString, function (buffer) {
-        //                 console.log(buffer);
-        //                 source.buffer = buffer
-        //                 source.loop = true;
-
-        //                 source.connect(gainNode);
-        //                 gainNode.connect(constantNode)
-        //                 constantNode.connect(aCtx.destination);
-
-        //                 // source.start(0)
-        //                 // source.start(0, source.buffer.duration - 5)
-        //                 // source.disconnect(gainNode);
-        //                 count++
-        //                 document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
-
-        //                 return data[key] = {
-        //                     active: false,
-        //                     source: source,
-        //                     gainNode: gainNode,
-        //                     firstStart: true
-        //                 }
-        //             })
-        //         })
-        //     // console.log(count)
-
-        //     // if (count == 13) {
-        //     //     alert()
-        //     //     this.setState(state => { state.soundLoaded = true })
-        //     // }
-        // }
-
-        // this.setState({ data }, () =>  console.log('pppppp'))
-
-
-        // --------------------------------------------------------
-
-        // const data = {}
-        // console.log('body')
-
-        // for (let key in obj) {
-
-        //     let buf;
-        //     let gainNode = aCtx.createGain()
-        //     let source = aCtx.createBufferSource();
-
-        //     fetch(obj[key])
-        //         .then(resp => resp.arrayBuffer())
-        //         .then(buf => aCtx.decodeAudioData(buf))
-        //         .then(decoded => {
-        //             console.log('fetch');
-        //             source.buffer = buf = decoded;
-        //             source.loop = true;
-
-        //             source.connect(gainNode);
-        //             gainNode.connect(constantNode)
-        //             constantNode.connect(aCtx.destination);
-
-        //             // source.start(0)
-        //             // source.start(0, source.buffer.duration - 5)
-        //             // source.disconnect(gainNode);
-        // document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
-        //             return data[key] = {
-        //                 active: false,
-        //                 source: source,
-        //                 gainNode: gainNode,
-        //                 firstStart: true
-        //             }
-        //         });
-        // }
-        // this.setState({ data }, () => { })
     }
 
     componentDidUpdate(prevProps) {
@@ -401,6 +311,7 @@ export class Body extends Component {
 
                     let buf;
                     let gainNode = aCtx.createGain()
+                    gainNode.gain.value = 0.5
                     let source = aCtx.createBufferSource();
 
                     fetch(premium[key])
@@ -570,53 +481,51 @@ export class Body extends Component {
 
     resetSounds(e) {
 
-        let data
-
-        if (Object.keys(this.state.playListActive).length && !e) {
-            data = this.state.data
-        } else if (e) {
-            data = premium
-        }
-
         this.setState(state => {
 
-            for (let key in data ? data : this.state.data) {
+            for (let key in this.state.playListActive) {
                 let input = `input-${key}`
 
-                if (this.state.data[key].active) {
-                    state.data[key].active = false
-                    state.playList = ''
-                    this.state.data[key].source.disconnect(this.state.data[key].gainNode);
-                    document.getElementById(`${input}`).style.visibility = 'hidden';
-                    document.querySelector(`[data-key=${key}]`).classList.remove('active')
-                    delete this.state.playListActive[key]
-                }
+                state.data[key].active = false
+                state.playList = ''
+                this.state.data[key].source.disconnect(this.state.data[key].gainNode);
+                document.getElementById(`${input}`).style.visibility = 'hidden';
+                document.querySelector(`[data-key=${key}]`).classList.remove('active')
+                delete this.state.playListActive[key]
             }
             const deep = _.cloneDeep(state)
             return deep
         })
     }
 
-    startPlaylist(name) {
+    startPlaylist(name, object) {
+        // console.log(object);
         let play
-        if (name != 'Random') {
 
-            let playlist = this.props.isAuth ? playListPremium : playListStandard
-            let number = randomNumber(playlist[name]);
+        if (name !== null && !object) {
+            if (name != 'Random') {
 
-            if (number == playlistNumber) {
-                number == 1 ? number++ : number--
-            }
-            if (!Object.keys(this.state.playListActive).length) {
+                let playlist = this.props.isAuth ? playListPremium : playListStandard
+                let number = randomNumber(playlist[name]);
+
+                if (number == playlistNumber) {
+                    number == 1 ? number++ : number--
+                }
+                if (!Object.keys(this.state.playListActive).length) {
+                    playlistNumber = number
+                }
+
                 playlistNumber = number
+                play = playlist[name][playlistNumber]
+
+            } else {
+                let obj = this.props.isAuth ? objPremium : objStandard
+                play = randomPlalist(obj)
             }
+        }
 
-            playlistNumber = number
-            play = playlist[name][playlistNumber]
-
-        } else {
-            let obj = this.props.isAuth ? objPremium : objStandard
-            play = randomPlalist(obj)
+        if (object) {
+            play = object
         }
 
         this.resetSounds()
@@ -638,8 +547,8 @@ export class Body extends Component {
                 return deep
             }, () => {
 
-                console.log(this.state);
-                console.log(' start')
+                // console.log(this.state);
+                // console.log(' start')
 
                 if (this.state.data[key].firstStart === true) {
                     this.state.data[key].source.start(0)
@@ -655,18 +564,9 @@ export class Body extends Component {
         }
     }
 
-    savePlaylist() {
+    savePlaylist(e) {
 
-        let data = {}
-
-        for (let key in this.state.data) {
-
-            if (this.state.data[key].active) {
-                data[key] = this.state.data[key].gainNode.gain.value
-            }
-        }
-
-        return data
+        console.log('savePlaylist----', e);
     }
 
     render() {
@@ -700,7 +600,7 @@ export class Body extends Component {
                 <div className="mouseover"></div>
 
                 <PlayListContainer startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} playlist={this.state.playList}
-                     savePlaylist={this.savePlaylist} playListActive={this.state.playListActive}
+                    savePlaylist={this.savePlaylist} playListActive={this.state.playListActive} isAuth={isAuth}
                 />
 
                 <div className="container">
@@ -864,7 +764,7 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -879,7 +779,7 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-tropical' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-tropical' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -901,7 +801,7 @@ export class Body extends Component {
                                         <path d="M0 0H40V40H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-typewriter' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-typewriter' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -916,7 +816,7 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-fa1111n' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
@@ -930,7 +830,7 @@ export class Body extends Component {
                             </g>
                         </svg>
                         <audio id='wind' src={wind} loop></audio>
-                        <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                        <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                     </div> */}
                     </div>
                 </div>

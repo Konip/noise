@@ -24,9 +24,17 @@ export default class AuthService {
     static async changePassword(currentPassword, newPassword, id) {
         return $api.post('/password', { currentPassword, newPassword, id })
     }
-    
+
     static async resetPassword(email) {
         return $api.post('/reset', { email })
+    }
+
+    static async savePlaylist(playlist, id) {
+        return $api.post('/set', { playlist, id })
+    }
+
+    static async getPlaylist(id) {
+        return $api.post('/get', { id })
     }
 
 }

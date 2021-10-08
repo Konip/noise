@@ -6,29 +6,41 @@ import TopMenu from '../TopMenu/TopMenu';
 import PlayList from './PlayList';
 import './PlayList.css';
 
-const PlayListContainer = ({ startPlaylist, resetSounds, savePlaylist, playlist, playListActive }) => {
+const PlayListContainer = ({ startPlaylist, resetSounds, savePlaylist, playlist, playListActive, isAuth }) => {
 
     const [activeButton, setActiveButton] = React.useState("playlist")
-    const [activePlaylist, setPlaylist] = React.useState()
+    const [activePlaylist, setActivePlaylist] = React.useState()
+    const [activeFavorites, setActiveFavorites] = React.useState()
+    const [response, setResponse] = React.useState()
     const ctx = useContext(Context)
 
-    console.log(activePlaylist);
 
+    React.useEffect(async () => {
+        if (isAuth) {
+            let res = await ctx.getPlaylist(ctx.user.id)
+            setResponse(res)
+            savePlaylist(res)
+        }
+
+    }, [isAuth])
 
     return (
         <div className="playListContainer">
 
             <TopMenu isAuth={ctx.isAuth} savePlaylist={savePlaylist} resetSounds={resetSounds}
-                setActiveButton={(e) => setActiveButton(e)} activeButton={activeButton}
+                setActiveButton={ setActiveButton} activeButton={activeButton}
             />
             {
                 activeButton == "playlist"
                     ?
-                    <PlayList startPlaylist={(e) => startPlaylist(e)} activePlaylist={activePlaylist}
-                        resetSounds={resetSounds} playlist={playlist} setPlaylist={setPlaylist}
+                    <PlayList startPlaylist={e => startPlaylist(e)} activePlaylist={activePlaylist}
+                        resetSounds={resetSounds} playlist={playlist} setActivePlaylist={setActivePlaylist}
                     />
                     :
-                    <Favorites playListActive={playListActive} />
+                    <Favorites startPlaylist={(e, r) => startPlaylist(e, r)} playListActive={playListActive} 
+                    response={response} activeFavorites={activeFavorites} setActiveFavorites={setActiveFavorites}
+                    resetSounds={resetSounds} playlist={playlist}
+                     />
             }
 
         </div>

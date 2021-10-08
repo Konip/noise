@@ -6,7 +6,6 @@ import { Body } from './components/Body/Body';
 import Modal from './components/Modal/Modal';
 import { NavBarVertical } from './components/NavBar/NavBarVertical';
 import { Context } from "./Context";
-import { startTransition } from "./utils/transition";
 
 function App() {
   const ctx = useContext(Context)
@@ -15,12 +14,10 @@ function App() {
   const [typeModal, setTypeModal] = useState();
   const [page, setPage] = useState('body');
 
-  const { isAuth, sounds, loadSounds, data, checkAuth } = ctx
+  const { isAuth } = ctx
 
-  startTransition();
-  // loadSounds()
+  // startTransition();
 
-  // console.log('data------', data);
 
   const openModal = (activeModal, typeModal) => {
     console.log(activeModal, typeModal);
@@ -31,7 +28,7 @@ function App() {
   return (
     <div className="App">
       {console.log('App')}
-      <NavBarVertical isAuth={ctx.isAuth} checkAuth={ctx.checkAuth}
+      <NavBarVertical isAuth={isAuth} checkAuth={ctx.checkAuth}
         logout={ctx.logout} openModal={openModal} setPage={setPage}
       />
 
@@ -41,7 +38,7 @@ function App() {
         />
       </div>
 
-      {page === 'account' && ctx.isAuth ?
+      {page === 'account' && isAuth ?
         <div style={page === 'account' && ctx.isAuth ? { zIndex: '600', display: 'block' } : { zIndex: '1', display: 'none' }}>
           <Account openModal={openModal} setPage={setPage} />
         </div>

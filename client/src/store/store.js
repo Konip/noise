@@ -6,8 +6,8 @@ import { redraw } from '../utils/transition';
 
 export default class Store {
     user = {};
+    playlist = {};
     isAuth = false;
-    sounds;
 
     constructor() {
         makeAutoObservable(this);
@@ -22,10 +22,9 @@ export default class Store {
         this.user = user;
     }
 
-    setSounds(e) {
-        this.sounds = e
+    setPlaylist(playlist) {
+        this.playlist = playlist;
     }
-
 
     async login(email, password, toggle) {
         try {
@@ -51,7 +50,6 @@ export default class Store {
             const response = await AuthService.registration(email, password);
             console.log(response)
             localStorage.setItem('token', response.data.accessToken);
-            // this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)
@@ -115,7 +113,7 @@ export default class Store {
         try {
             const response = await AuthService.changeData(email, firstName, lastName, username, id);
             console.log(response);
-            this.setAuth(true);
+            // this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)
@@ -133,7 +131,7 @@ export default class Store {
         try {
             const response = await AuthService.changePassword(currentPassword, newPassword, id);
             console.log(response);
-            this.setAuth(true);
+            // this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)
@@ -151,9 +149,6 @@ export default class Store {
         try {
             console.log('email----', email)
             const response = await AuthService.resetPassword(email);
-            // console.log(response);
-            // this.setAuth(true);
-            // this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)
             })
@@ -166,22 +161,37 @@ export default class Store {
         }
     }
 
-    async savePlaylist(playlist) {
-        // try {
-        //     console.log('playlist----', playlist)
-        //     const response = await AuthService.resetPassword(email);
-        //     // console.log(response);
-        //     // this.setAuth(true);
-        //     // this.setUser(response.data.user);
-        //     return new Promise((resolve, reject) => {
-        //         resolve(response)
-        //     })
-        // } catch (e) {
-        //     let error = e.response?.data?.message
-        //     console.log(error);
-        //     return new Promise((resolve, reject) => {
-        //         reject(error)
-        //     })
-        // }
+    async savePlaylist(playlist, id) {
+        try {
+            const response = await AuthService.savePlaylist(playlist, id);
+            console.log(response.data);
+            this.setPlaylist(response.data)
+            // return new Promise((resolve, reject) => {
+            //     resolve(response)
+            // })
+        } catch (e) {
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
+        }
+    }
+
+    async getPlaylist(id) {
+        try {
+            const response = await AuthService.getPlaylist(id);
+            console.log(response.data);
+            this.setPlaylist(response.data)
+            return new Promise((resolve, reject) => {
+                resolve(response.data)
+            })
+        } catch (e) {
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
+        }
     }
 }

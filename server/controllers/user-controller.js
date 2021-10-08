@@ -100,6 +100,28 @@ class UserController {
             next(e);
         }
     }
+
+    async savePlaylist(req, res, next) {
+        try {
+            const { playlist, id } = req.body;
+            const playlistData = await userService.savePlaylist(playlist, id);
+            // console.log(playlistData);
+            return res.json(playlistData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getPlaylist(req, res, next) {
+        try {
+            const { id } = req.body;
+            const playlistData = await userService.getPlaylist(id);
+            // console.log(playlistData);
+            return res.json(playlistData);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 

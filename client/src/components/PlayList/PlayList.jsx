@@ -16,30 +16,23 @@ let prev
 let image = [background01, background02, background03, background04, background05, background06, background07, background08, background09, background10]
 let numberImage
 
-const PlayList = React.memo(({ startPlaylist, resetSounds, playlist, activePlaylist, setPlaylist }) => {
+const PlayList = React.memo(({ startPlaylist, resetSounds, playlist, activePlaylist, setActivePlaylist }) => {
 
-    
-    // alert(toggle)
     if (!playlist && prev) {
         prev = ''
-        setPlaylist('')
+        setActivePlaylist('')
     }
-    // if (toggle && prev) {
-    //     prev = ''
-    //     setPlaylist('')
-    // }
 
-    function activateCard(e, toggle) {
+    function activateCard(e) {
         if (activePlaylist === e) {
-            setPlaylist('')
+            setActivePlaylist('')
             resetSounds()
             prev = ''
         } else {
             prev = e
             startPlaylist(e)
-            setPlaylist(e)
+            setActivePlaylist(e)
         }
-
     }
 
     function changeBackground() {
@@ -53,11 +46,6 @@ const PlayList = React.memo(({ startPlaylist, resetSounds, playlist, activePlayl
         return image[n]
     }
 
-    function reset() {
-        resetSounds()
-        prev = ''
-        setPlaylist('')
-    }
     return (
         <div className="playList1">
 

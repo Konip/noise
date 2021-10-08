@@ -1,4 +1,5 @@
-const UserModel = require('../models/user-model');
+const UserModel = require('../models/user-models');
+const PlaylistModel = require('../models/playlist-models');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
 const mailService = require('./mail-service');
@@ -82,7 +83,7 @@ class UserService {
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
         return { ...tokens, user: userDto };
     }
-    
+
     async delete(id, password) {
         const user = await UserModel.findById(id);
         const isPassEquals = await bcrypt.compare(password, user.password);
@@ -137,6 +138,34 @@ class UserService {
         await mailService.sendResetMail(email, password);
         const userDto = new UserDto(user);
         return { user: userDto };
+    }
+
+    async savePlaylist(playlist, userId) {
+        console.log('playlist-----', playlist);
+        const user = await PlaylistModel.findOne({ user: userId });
+        let key = Object.keys(playlist)[0];
+        console.log(key);
+        let playlistData;
+        if (!user) {
+            playlistData = await PlaylistModel.create({ user: userId, playlist });
+            return
+        } else if (user.playlist[key]) {
+            console.log(user.playlist[key]);
+            console.log('Совпадение');
+            user.playlist[key] = playlist[key];
+            user.markModified(`playlist.${key}`);
+            playlistData = await user.save();
+        } else {
+            user.playlist[key] = playlist[key];
+            user.markModified(`playlist.${key}`);
+            playlistData = await user.save();
+        }
+        return { playlist } = playlistData
+    }
+
+    async getPlaylist(userId) {
+        const { playlist } = await PlaylistModel.findOne({ user: userId });
+        return playlist
     }
 }
 
