@@ -16,18 +16,23 @@ let prev
 let image = [background01, background02, background03, background04, background05, background06, background07, background08, background09, background10]
 let numberImage
 
-const PlayList = React.memo(({ startPlaylist, resetSounds, playlist, activePlaylist, setActivePlaylist }) => {
-
+const PlayList = React.memo(({ startPlaylist, resetSounds, playlist, activePlaylist, setActivePlaylist, setActiveFavorites }) => {
+    // alert('PlayList');
+    console.log(activePlaylist);
     if (!playlist && prev) {
         prev = ''
         setActivePlaylist('')
+        setActiveFavorites('')
     }
 
     function activateCard(e) {
+        setActiveFavorites('')
+        // выкл
         if (activePlaylist === e) {
             setActivePlaylist('')
             resetSounds()
             prev = ''
+              // вкл
         } else {
             prev = e
             startPlaylist(e)

@@ -165,10 +165,10 @@ export default class Store {
         try {
             const response = await AuthService.savePlaylist(playlist, id);
             console.log(response.data);
-            this.setPlaylist(response.data)
-            // return new Promise((resolve, reject) => {
-            //     resolve(response)
-            // })
+            this.setPlaylist(response.data.playlist)
+            return new Promise((resolve, reject) => {
+                resolve(response.data.playlist)
+            })
         } catch (e) {
             let error = e.response?.data?.message
             console.log(error);
@@ -182,10 +182,27 @@ export default class Store {
         try {
             const response = await AuthService.getPlaylist(id);
             console.log(response.data);
-            this.setPlaylist(response.data)
+            this.setPlaylist(response.data.playlist)
             return new Promise((resolve, reject) => {
                 resolve(response.data)
             })
+        } catch (e) {
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
+        }
+    }
+
+    async changeNamePlaylist(id) {
+        try {
+            const response = await AuthService.changeNamePlaylist(id);
+            console.log(response.data);
+            this.setPlaylist(response.data)
+            // return new Promise((resolve, reject) => {
+            //     resolve(response.data)
+            // })
         } catch (e) {
             let error = e.response?.data?.message
             console.log(error);

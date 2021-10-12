@@ -17,7 +17,7 @@ function App() {
   const { isAuth } = ctx
 
   // startTransition();
-
+  
 
   const openModal = (activeModal, typeModal) => {
     console.log(activeModal, typeModal);
@@ -34,7 +34,7 @@ function App() {
 
       <div style={page === 'body' ? { zIndex: '600', display: 'block' } : { zIndex: '1', display: 'none' }}>
         <Body openModal={openModal} type={typeModal}
-          isAuth={isAuth} setPage={setPage}
+          isAuth={isAuth} setPage={setPage} 
         />
       </div>
 

@@ -147,8 +147,7 @@ class UserService {
         console.log(key);
         let playlistData;
         if (!user) {
-            playlistData = await PlaylistModel.create({ user: userId, playlist });
-            return
+            return await PlaylistModel.create({ user: userId, playlist });
         } else if (user.playlist[key]) {
             console.log(user.playlist[key]);
             console.log('Совпадение');
@@ -160,11 +159,13 @@ class UserService {
             user.markModified(`playlist.${key}`);
             playlistData = await user.save();
         }
-        return { playlist } = playlistData
+
+        return playlistData
     }
 
     async getPlaylist(userId) {
-        const { playlist } = await PlaylistModel.findOne({ user: userId });
+        const playlist = await PlaylistModel.findOne({ user: userId });
+        console.log(playlist);
         return playlist
     }
 }

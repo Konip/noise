@@ -20,9 +20,9 @@ const TopMenu = React.memo(({ isAuth, savePlaylist, resetSounds, setActiveButton
                 >Favorites
                 </span>
             </div>
-            <div className="topMenu__section">
+            <div className="topMenu__section" >
                 <span className="topMenu__SaveButton" onClick={() => save()}
-                    style={activeButton !== "playlist" ? { visibility: "hidden" } : { visibility: "visible" }}>
+                    style={activeButton !== "playlist" || !isAuth ? { visibility: "hidden" } : { visibility: "visible" }}>
                     Save</span>
                 <span className="topMenu__ClearButton" onClick={() => resetSounds()}>Clear</span>
             </div>

@@ -248,7 +248,7 @@ export class Body extends Component {
         this.muted = this.muted.bind(this)
         this.startPlaylist = this.startPlaylist.bind(this)
         this.resetSounds = this.resetSounds.bind(this)
-        this.savePlaylist = this.savePlaylist.bind(this)
+     
     }
 
     componentDidMount() {
@@ -304,9 +304,9 @@ export class Body extends Component {
         if (this.props.isAuth !== prevProps.isAuth) {
 
             let count = Object.keys(premium).length
-
+            
             if (!this.state.premiumSoundsLoaded) {
-
+               
                 for (let key in premium) {
 
                     let buf;
@@ -502,7 +502,7 @@ export class Body extends Component {
         // console.log(object);
         let play
 
-        if (name !== null && !object) {
+        if (name !== 'Favorites' && !object) {
             if (name != 'Random') {
 
                 let playlist = this.props.isAuth ? playListPremium : playListStandard
@@ -540,7 +540,7 @@ export class Body extends Component {
                 state.data[key].active = true
                 state.data[key].gainNode.gain.value = value
                 state.playList = name
-                console.log(input)
+                // console.log(input)
 
                 document.querySelector(`#${input}`).value = value
                 const deep = _.cloneDeep(state)
@@ -564,10 +564,7 @@ export class Body extends Component {
         }
     }
 
-    savePlaylist(e) {
-
-        console.log('savePlaylist----', e);
-    }
+  
 
     render() {
         const { isAuth } = this.props
@@ -600,7 +597,7 @@ export class Body extends Component {
                 <div className="mouseover"></div>
 
                 <PlayListContainer startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} playlist={this.state.playList}
-                    savePlaylist={this.savePlaylist} playListActive={this.state.playListActive} isAuth={isAuth}
+                  playListActive={this.state.playListActive} isAuth={isAuth}
                 />
 
                 <div className="container">
