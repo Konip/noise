@@ -36,8 +36,13 @@ export default class AuthService {
     static async getPlaylist(id) {
         return $api.post('/get', { id })
     }
-    static async changeNamePlaylist(id) {
-        return $api.post('/name', { id })
+
+    static async changeNamePlaylist(id, currentName, newName) {
+        return $api.post('/name', { id, currentName, newName })
+    }
+
+    static async deletePlaylist(id, name) {
+        return $api.post('/delPlaylist', { id, name })
     }
 
 }

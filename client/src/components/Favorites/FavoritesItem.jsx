@@ -1,16 +1,16 @@
 import React from 'react';
 import './FavoritesContainer.css';
 
-export default function FavoritesItem({ id, activateCard, setEditMode }) {
+export default function FavoritesItem({ name, activateCard, setEditMode, changeNamePlaylist, deletePlaylist }) {
 
     const [value, setValue] = React.useState()
     const [changeName, setChangeName] = React.useState(false)
     const [detailsButton, setDetailsButton] = React.useState(false)
-    const ref = React.useRef(id)
+    const ref = React.useRef(name)
 
     React.useEffect(() => {
-        setValue(id)
-    }, [id])
+        setValue(name)
+    }, [name])
 
     function handleChange(e) {
         e.preventDefault()
@@ -21,7 +21,8 @@ export default function FavoritesItem({ id, activateCard, setEditMode }) {
         e.preventDefault()
 
         setChangeName(true)
-        let a = document.getElementById(id)
+
+        let a = document.getElementById(name)
 
         a.querySelector(".favorites__edit-container").style.display = 'none'
         a.querySelector(".favorites__text").style.display = 'block'
@@ -33,7 +34,6 @@ export default function FavoritesItem({ id, activateCard, setEditMode }) {
         setEditMode(true)
     }
 
-
     function activateFavorites(e) {
         e.preventDefault()
         activateCard(e)
@@ -43,10 +43,10 @@ export default function FavoritesItem({ id, activateCard, setEditMode }) {
         if (e.key === 'Enter') {
             setEditMode(false)
             setChangeName(false)
-
+            changeNamePlaylist(name, value)
             setDetailsButton(false)
 
-            let a = document.getElementById(id)
+            let a = document.getElementById(name)
             a.querySelector(".favorites__edit-container").style.display = 'flex'
             a.querySelector(".favorites__text").style.display = 'none'
             a.querySelector(".favorites__text").classList.remove('jSqNqh')
@@ -55,11 +55,10 @@ export default function FavoritesItem({ id, activateCard, setEditMode }) {
     }
 
     function openEditMode() {
-
         // setChangeName(false)
         setDetailsButton(!detailsButton)
-        let a = document.getElementById(id)
-        let element = document.querySelector(`[data-key=${id}]`)
+        let a = document.getElementById(name)
+        let element = document.querySelector(`[data-key=${name}]`)
 
         if (!changeName && detailsButton || changeName && !detailsButton) {
             // скрыв кнопки
@@ -83,25 +82,17 @@ export default function FavoritesItem({ id, activateCard, setEditMode }) {
         }
     }
 
-    function a() {
-        setChangeName(false)
-        setDetailsButton(!detailsButton)
-        if (changeName) {
-            let a = document.getElementById(id)
-            a.querySelector(".favorites__edit-container").style.display = 'flex'
-            a.querySelector(".favorites__text").style.display = 'none'
-            a.querySelector(".favorites__text").classList.remove('jSqNqh')
-            a.querySelector(".favorites__text input").style.display = 'none'
-        }
+    function del() {
+        deletePlaylist(name)
     }
 
     return (
-        <div className="favorites__container" id={id}
-        // <div className="favorites__container" id={id} onClick={() => openEditMode()}
+        <div className="favorites__container" id={name}
+        // <div className="favorites__container" id={name} onClick={() => openEditMode()}
         // style={detailsButton ? { backgroundColor: 'rgba(255, 255, 255, 0.3)' } : { backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
         >
             <div className="favorites__inner-container" onClick={e => activateFavorites(e)}>
-                <button className="favorites__edit" data-key={id} onClick={() => openEditMode()}>
+                <button className="favorites__edit" data-key={name} onClick={() => openEditMode()}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                         <g fill="none" fillRule="evenodd">
                             <path fill="currentColor" fillRule="nonzero" d="M7 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
@@ -128,7 +119,9 @@ export default function FavoritesItem({ id, activateCard, setEditMode }) {
                             </svg>
                         </button>
                         {/* <button className="favorites__edit-btn" style={e && !detailsButton ? { display: "none" } : { display: "inline-block" }}> */}
-                        <button className="favorites__edit-btn" style={changeName && !detailsButton ? { visibility: "hidden" } : { visibility: "visible" }}>
+                        <button className="favorites__edit-btn" style={changeName && !detailsButton ? { visibility: "hidden" } : { visibility: "visible" }}
+                            onClick={() => del()}
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                 <g fill="none" fillRule="evenodd">
                                     <path fill="currentColor" fillRule="nonzero" d="M1 5a1 1 0 1 1 0-2h12a1 1 0 0 1 0 2H1z"></path>
@@ -140,7 +133,7 @@ export default function FavoritesItem({ id, activateCard, setEditMode }) {
                         </button>
                     </div>
                 </div>
-                <div className="favorites__text" style={changeName || detailsButton ? { display: 'none' } : { display: 'block' }}>{id}
+                <div className="favorites__text" style={changeName || detailsButton ? { display: 'none' } : { display: 'block' }}>{name}
                     <input type="text" style={changeName ? { display: "inline-block" } : { display: "none" }}
                         onChange={e => handleChange(e)} onKeyDown={e => handleKeyDown(e)} ref={ref} value={value}
 

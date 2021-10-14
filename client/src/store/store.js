@@ -195,14 +195,31 @@ export default class Store {
         }
     }
 
-    async changeNamePlaylist(id) {
+    async changeNamePlaylist(id, currentName, newName) {
         try {
-            const response = await AuthService.changeNamePlaylist(id);
-            console.log(response.data);
+            const response = await AuthService.changeNamePlaylist(id, currentName, newName);
+            console.log(response);
             this.setPlaylist(response.data)
-            // return new Promise((resolve, reject) => {
-            //     resolve(response.data)
-            // })
+            return new Promise((resolve, reject) => {
+                resolve(response.data)
+            })
+        } catch (e) {
+            let error = e.response?.data?.message
+            console.log(error);
+            return new Promise((resolve, reject) => {
+                reject(error)
+            })
+        }
+    }
+
+    async deletePlaylist(id, name) {
+        try {
+            const response = await AuthService.deletePlaylist(id, name);
+            console.log(response);
+            this.setPlaylist(response.data)
+            return new Promise((resolve, reject) => {
+                resolve(response.status)
+            })
         } catch (e) {
             let error = e.response?.data?.message
             console.log(error);

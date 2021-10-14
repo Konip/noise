@@ -141,16 +141,15 @@ class UserService {
     }
 
     async savePlaylist(playlist, userId) {
-        console.log('playlist-----', playlist);
+
         const user = await PlaylistModel.findOne({ user: userId });
         let key = Object.keys(playlist)[0];
-        console.log(key);
+
         let playlistData;
         if (!user) {
             return await PlaylistModel.create({ user: userId, playlist });
         } else if (user.playlist[key]) {
-            console.log(user.playlist[key]);
-            console.log('Совпадение');
+
             user.playlist[key] = playlist[key];
             user.markModified(`playlist.${key}`);
             playlistData = await user.save();
@@ -165,8 +164,33 @@ class UserService {
 
     async getPlaylist(userId) {
         const playlist = await PlaylistModel.findOne({ user: userId });
-        console.log(playlist);
         return playlist
+    }
+
+    async changeNamePlaylist(id, currentName, newName) {
+        const user = await PlaylistModel.findOne({ user: id });
+        const clone = {};
+        let key
+        for (key in user.playlist) {
+            if (user.playlist.hasOwnProperty(key) && key !== currentName) {
+                clone[key] = user.playlist[key];
+            } else clone[newName] = user.playlist[key];
+        }
+
+        PlaylistModel.updateOne({ user: id }, { playlist: clone }, (err, ac) => {
+            if (err) console.log(err);
+        })
+        return clone
+    }
+
+    async deletePlaylist(id, name) {
+        let res = await PlaylistModel.findOneAndUpdate({ user: id },
+            { $unset: { [`playlist.${name}`]: "" } },
+            { new: true },
+            (err, ac) => {
+                if (err) console.log(err);
+            })
+        return res.playlist
     }
 }
 

@@ -5,9 +5,10 @@
     justify-content: space-between;
     padding: 0 4px;
     margin-bottom: 13px;
+    position: relative;
 }
 
-.topMenu__PlaylistsButton, .topMenu__PlaylistsButton-active, .topMenu__FavouritesButton, .topMenu__FavouritesButton-active, .topMenu__SaveButton, .topMenu__ClearButton {
+.topMenu__PlaylistsButton, .topMenu__PlaylistsButton-active, .topMenu__FavouritesButton, .topMenu__FavouritesButton-active, .topMenu__SaveButton, .topMenu__SaveButton-active, .topMenu__ClearButton {
     display: inline-flex;
     justify-content: center;
     color: rgb(255, 255, 255);
@@ -23,7 +24,7 @@
     margin: 0 2px;
 }
 
-.topMenu__PlaylistsButton:hover, .topMenu__FavouritesButton:hover, .topMenu__SaveButton:hover, .topMenu__ClearButton:hover {
+.topMenu__PlaylistsButton:hover, .topMenu__FavouritesButton:hover, .topMenu__SaveButton-active:hover, .topMenu__ClearButton:hover {
     background-color: rgba(0, 0, 0, 0.16);
 }
 
@@ -34,8 +35,20 @@
     letter-spacing: -0.1px;
 }
 
-.topMenu__PlaylistsButton, .topMenu__FavouritesButton, .topMenu__SaveButton, .topMenu__ClearButton {
+.topMenu__PlaylistsButton, .topMenu__FavouritesButton, .topMenu__SaveButton, .topMenu__SaveButton-active, .topMenu__ClearButton {
     font-weight: 500;
     background-color: rgba(0, 0, 0, 0.04);
     padding: 5px 10px 6px 11px;
+}
+
+.topMenu__SaveButton:hover .favorites-tool-active {
+    bottom: -50px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.eeP {
+    background-color: rgba(0, 0, 0, 0.04);
+    transition: background-color 0.2s ease-in-out 0s;
+    color: rgba(255, 255, 255, 0.5);
 }

@@ -77,8 +77,9 @@ const premium = {
     // 'summerNight': 'https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1',
     // 'coffeeShop': 'https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1',
     // 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
-    'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1',
-    'typewriter': 'https://dl.dropbox.com/s/2h1epz1moabr74v/typewriter.mp3?dl=1'
+    
+    // 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1',
+    // 'typewriter': 'https://dl.dropbox.com/s/2h1epz1moabr74v/typewriter.mp3?dl=1'
 }
 
 const playListStandard = {
@@ -248,7 +249,8 @@ export class Body extends Component {
         this.muted = this.muted.bind(this)
         this.startPlaylist = this.startPlaylist.bind(this)
         this.resetSounds = this.resetSounds.bind(this)
-     
+        this.savePlaylist = this.savePlaylist.bind(this)
+        this.resetPlaylist = this.resetPlaylist.bind(this)
     }
 
     componentDidMount() {
@@ -304,9 +306,9 @@ export class Body extends Component {
         if (this.props.isAuth !== prevProps.isAuth) {
 
             let count = Object.keys(premium).length
-            
+
             if (!this.state.premiumSoundsLoaded) {
-               
+
                 for (let key in premium) {
 
                     let buf;
@@ -564,7 +566,13 @@ export class Body extends Component {
         }
     }
 
-  
+    savePlaylist() {
+        this.setState({ playList: 'Favorites' })
+    }
+
+    resetPlaylist(){
+        this.setState({ playList: '' })
+    }
 
     render() {
         const { isAuth } = this.props
@@ -597,7 +605,8 @@ export class Body extends Component {
                 <div className="mouseover"></div>
 
                 <PlayListContainer startPlaylist={this.startPlaylist} resetSounds={this.resetSounds} playlist={this.state.playList}
-                  playListActive={this.state.playListActive} isAuth={isAuth}
+                    playListActive={this.state.playListActive} isAuth={isAuth} savePlaylist={this.savePlaylist}
+                    resetPlaylist={this.resetPlaylist}
                 />
 
                 <div className="container">

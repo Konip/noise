@@ -20,5 +20,6 @@ router.post('/reset', userController.resetPassword);
 router.post('/set', userController.savePlaylist);
 router.post('/get', userController.getPlaylist);
 router.post('/name', userController.changeNamePlaylist);
+router.post('/delPlaylist', userController.deletePlaylist);
 
 module.exports = router

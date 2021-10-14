@@ -1,12 +1,16 @@
 import React from 'react';
+import '../Favorites/FavoritesContainer.css';
+import TooltipAlreadySaved from '../Tooltip/TooltipAlreadySaved';
+import TooltipNotActiveSound from '../Tooltip/TooltipNotActiveSound ';
 import './TopMenu.css';
 
 
-const TopMenu = React.memo(({ isAuth, savePlaylist, resetSounds, setActiveButton, activeButton }) => {
+const TopMenu = React.memo(({ isAuth, resetSounds, setActiveButton, activeButton, activeFavorites, playListActive,
+    playlist
+}) => {
+    React.useEffect(() => {
 
-    function save() {
-        console.log(savePlaylist());
-    }
+    }, [playlist])
 
     return (
         <div className="topMenu" style={isAuth ? { visibility: "visible" } : { visibility: "hidden" }}>
@@ -21,12 +25,23 @@ const TopMenu = React.memo(({ isAuth, savePlaylist, resetSounds, setActiveButton
                 </span>
             </div>
             <div className="topMenu__section" >
-                <span className="topMenu__SaveButton" onClick={() => save()}
-                    style={activeButton !== "playlist" || !isAuth ? { visibility: "hidden" } : { visibility: "visible" }}>
-                    Save</span>
+                <button className={!playlist && Object.keys(playListActive).length && !activeFavorites ? "topMenu__SaveButton-active" : "topMenu__SaveButton eeP"}
+                    style={activeButton !== "playlist" || !isAuth ? { visibility: "hidden" } : { visibility: "visible" }}
+                    onClick={() => setActiveButton("favourites")} disabled={ false}
+                >
+                    Save
+                    <div className={!playlist && Object.keys(playListActive).length && !activeFavorites ? "favorites-tool" : "favorites-tool-active"} >
+                        {!activeFavorites
+                            ? <TooltipNotActiveSound />
+                            : <TooltipAlreadySaved />
+                        }
+                    </div>
+                </button>
+
                 <span className="topMenu__ClearButton" onClick={() => resetSounds()}>Clear</span>
             </div>
         </div>
     )
 })
+
 export default TopMenu
