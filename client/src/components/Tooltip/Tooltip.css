@@ -1,0 +1,27 @@
+.actionsWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+}
+
+.actionsWrapper {
+    margin-top: 12px;
+}
+
+.cancelAction {
+    font-size: 13px;
+    line-height: 18px;
+    color: rgb(102, 102, 102);
+    cursor: pointer;
+}
+
+.deleteAction {
+    font-size: 13px;
+    line-height: 18px;
+    color: rgb(255, 0, 0);
+    cursor: pointer;
+}
+
+.cancelAction:hover, .deleteAction:hover {
+    text-decoration: underline;
+}

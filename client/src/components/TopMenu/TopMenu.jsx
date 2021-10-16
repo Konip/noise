@@ -1,17 +1,18 @@
 import React from 'react';
 import '../Favorites/FavoritesContainer.css';
 import TooltipAlreadySaved from '../Tooltip/TooltipAlreadySaved';
+import TooltipMaximumNumber from '../Tooltip/TooltipMaximumNumber';
 import TooltipNotActiveSound from '../Tooltip/TooltipNotActiveSound ';
 import './TopMenu.css';
 
 
 const TopMenu = React.memo(({ isAuth, resetSounds, setActiveButton, activeButton, activeFavorites, playListActive,
-    playlist
+    playlist, response
 }) => {
-    React.useEffect(() => {
 
-    }, [playlist])
-
+    let soundsActive = Object.keys(playListActive).length,
+        maxNumber = Object.keys(response).length === 3 ? true : false
+    
     return (
         <div className="topMenu" style={isAuth ? { visibility: "visible" } : { visibility: "hidden" }}>
             <div className="topMenu__section">
@@ -25,20 +26,30 @@ const TopMenu = React.memo(({ isAuth, resetSounds, setActiveButton, activeButton
                 </span>
             </div>
             <div className="topMenu__section" >
-                <button className={!playlist && Object.keys(playListActive).length && !activeFavorites ? "topMenu__SaveButton-active" : "topMenu__SaveButton eeP"}
+                <button className={!soundsActive && activeFavorites && maxNumber || soundsActive && !activeFavorites && !maxNumber
+                    ? "topMenu__SaveButton-active" : "topMenu__SaveButton eeP"}
+                    // <button className={soundsActive && !activeFavorites || !soundsActive && activeFavorites && Object.keys(response).length !== 3
+                    //     ? "topMenu__SaveButton-active" : "topMenu__SaveButton eeP"}
                     style={activeButton !== "playlist" || !isAuth ? { visibility: "hidden" } : { visibility: "visible" }}
-                    onClick={() => setActiveButton("favourites")} disabled={ false}
+                    onClick={soundsActive && !activeFavorites && !maxNumber ? () => setActiveButton("favourites") : null}
                 >
                     Save
-                    <div className={!playlist && Object.keys(playListActive).length && !activeFavorites ? "favorites-tool" : "favorites-tool-active"} >
-                        {!activeFavorites
+                    {/* <div className={playlist && soundsActive && !activeFavorites ? "favorites-tool" : "favorites-tool-active"} > */}
+                    <div className={playlist && soundsActive && !activeFavorites ? "favorites-tool" : "favorites-tool-active"} >
+                        {!activeFavorites && soundsActive && maxNumber
+                            ? <TooltipMaximumNumber />
+                            : !activeFavorites && !soundsActive
+                                ? <TooltipNotActiveSound />
+                                : <TooltipAlreadySaved />
+                        }
+                        {/* {!activeFavorites
                             ? <TooltipNotActiveSound />
                             : <TooltipAlreadySaved />
-                        }
+                        } */}
                     </div>
                 </button>
 
-                <span className="topMenu__ClearButton" onClick={() => resetSounds()}>Clear</span>
+                <span className="topMenu__ClearButton" onClick={resetSounds}>Clear</span>
             </div>
         </div>
     )

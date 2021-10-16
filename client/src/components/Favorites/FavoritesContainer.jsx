@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { Context } from "../../Context";
 import TooltipAlreadySaved from "../Tooltip/TooltipAlreadySaved";
 import TooltipNotActiveSound from "../Tooltip/TooltipNotActiveSound ";
+import TooltipMaximumNumber from './../Tooltip/TooltipMaximumNumber';
 import Empty from "./Empty";
 import './FavoritesContainer.css';
 import FavoritesItem from "./FavoritesItem";
@@ -18,33 +19,33 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
     const [editMode, setEditMode] = React.useState(false)
     const ctx = useContext(Context)
 
-    // alert('FavoritesContainer')
     console.log('playListActive', playListActive, 'response',
         response, 'activeFavorites', activeFavorites, 'playlist', playlist);
 
     const { id } = ctx.user
-    let keys
-    let soundsActive = Object.keys(playListActive).length
-    console.log('soundsActive', soundsActive);
+    let keys,
+        soundsActive = Object.keys(playListActive).length,
+        maxNumber = Object.keys(response).length === 3 ? true : false
+
     if (response) {
         keys = Object.keys(response)
     }
 
     React.useEffect(() => {
+        if (!soundsActive) {
+            setActive(false)
+        }
         if (activeFavorites) {
             document.getElementById(activeFavorites).style.backgroundColor = 'rgba(255, 255, 255, 0.3)'
-
         }
         if (!playlist && prev) {
-            debugger
-            document.getElementById(activeFavorites).style.backgroundColor = 'rgba(255, 255, 255, 0.15)'
-
+            if (activeFavorites) document.getElementById(activeFavorites).style.backgroundColor = 'rgba(255, 255, 255, 0.15)'
             prev = ''
             setActiveFavorites('')
             setActivePlaylist('')
             setActive(false)
         }
-    }, [playlist, activeFavorites])
+    }, [playlist, activeFavorites, playListActive])
 
     function handleChange(e) {
         e.preventDefault()
@@ -61,8 +62,8 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
             setActive(false)
             setValue('')
             try {
-                let res = await ctx.savePlaylist(obj, id)
-                let name = Object.keys(res)
+                let res = await ctx.savePlaylist(obj, id),
+                    name = Object.keys(res)
                 setActiveFavorites(name[name.length - 1])
                 savePlaylist()
                 prev = name[name.length - 1]
@@ -76,23 +77,21 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
     function activateCard(e) {
         console.log(e);
         if (e.target.localName !== "path" && e.target.localName !== "svg" && !editMode) {
-            debugger
-            let name = e.target.innerText
-            let object = response[name]
+            let name = e.target?.innerText,
+                object = response[name]
             setActivePlaylist('')
             setActive(false)
             soundsActive = 0
             // выкл
             if (activeFavorites === name) {
-
-                document.getElementById(name).style.backgroundColor = 'rgba(255, 255, 255, 0.15)'
+                if (name) document.getElementById(name).style.backgroundColor = 'rgba(255, 255, 255, 0.15)'
                 setActiveFavorites('')
                 resetSounds()
                 prev = ''
                 // перекл
             } else if (activeFavorites) {
                 document.getElementById(activeFavorites).style.backgroundColor = 'rgba(255, 255, 255, 0.15)'
-                document.getElementById(name).style.backgroundColor = 'rgba(255, 255, 255, 0.3)'
+                if (name) document.getElementById(name).style.backgroundColor = 'rgba(255, 255, 255, 0.3)'
                 setActiveFavorites(name)
                 startPlaylist('Favorites', object)
                 prev = activeFavorites
@@ -116,36 +115,17 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
             if (name === activeFavorites) {
                 await resetPlaylist()
                 await setActiveFavorites('')
+                resetSounds()
             }
-
             await ctx.deletePlaylist(id, name)
-            resetSounds()
+
         } catch (error) {
             console.log(error);
         }
     }
-    // let element = document.querySelector('.favorites__wrap')
-    // element?.addEventListener("", () => {
-
-    //     setActive(false)
-    //     console.log("active", active)
-    // })
-
-
-    // let PlayMasterVolumeController = document.querySelector('.PlayMasterVolumeController')
-    //     var clientRect = PlayMasterVolumeController.getBoundingClientRect();
-
-    //     let volumeController = document.querySelector('.volumeController')
-    //     let mouseover = document.querySelector('.mouseover')
-
-    //     PlayMasterVolumeController.addEventListener("mouseover", () => {
-    //         volumeController.className = "volumeController-active"
-    //     })
-
-    //     mouseover.addEventListener("mouseover", () => {
-    //         volumeController.className = "volumeController"
+    
     return (
-        <div className="favorites">
+        <div className={keys?.length ? "favorites" : "favorites  gYVsrS"}>
             <div className="favorites__wrap" >
                 {keys && keys.map((el, index) => {
                     return <FavoritesItem key={index + el} name={el} activateCard={activateCard} handleKeyDown={handleKeyDown}
@@ -155,18 +135,21 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
                     />
                 })
                 }
-                <button className={active ? "favorites__btn-input" : "favorites__btn"} style={!activeFavorites && soundsActive ? { color: "rgb(255, 255, 255)" } : { color: "" }}
-                    onClick={soundsActive && !active && !activeFavorites ? () => setActive(true) : null}
+                <button className={active ? "favorites__btn-input" : "favorites__btn"}
+                    style={!activeFavorites && soundsActive && !maxNumber ? { color: "rgb(255, 255, 255)" } : { color: "" }}
+                    onClick={soundsActive && !active && !activeFavorites && !maxNumber ? () => setActive(true) : null}
                 >
                     {active
                         ? ''
                         : 'Save Combo'
                     }
+                    <div className={soundsActive && maxNumber || !soundsActive && !activeFavorites || activeFavorites ? "favorites-tool-active" : "favorites-tool"} >
 
-                    <div className={soundsActive && !activeFavorites ? "favorites-tool" : "favorites-tool-active"} >
-                        {!activeFavorites
-                            ? <TooltipNotActiveSound />
-                            : <TooltipAlreadySaved />
+                        {!activeFavorites && soundsActive && maxNumber
+                            ? <TooltipMaximumNumber />
+                            : !activeFavorites && !soundsActive
+                                ? <TooltipNotActiveSound />
+                                : <TooltipAlreadySaved />
                         }
                     </div>
 
@@ -180,20 +163,6 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
                 </button>
             </div>
             <Empty keys={keys} />
-            {/* <div style={keys ? { visibility: "hidden" } : { visibility: "visible" }}>
-                <div className="favorites__text1">
-                    <p>
-                        Oh no! It looks sooo   empty in here.
-                    </p>
-                </div>
-                <div className="favorites__text2">
-                    <p>
-                        Activate one or more sounds and mix and match them as you like. <br />
-                        Once you’re happy you can save it to your Favorites.
-                    </p>
-                </div>
-            </div> */}
-
         </div>
     )
 }

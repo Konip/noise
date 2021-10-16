@@ -105,7 +105,6 @@ class UserController {
         try {
             const { playlist, id } = req.body;
             const playlistData = await userService.savePlaylist(playlist, id);
-            console.log('savePlaylist', playlistData);
             return res.json(playlistData);
         } catch (e) {
             next(e);
@@ -126,7 +125,6 @@ class UserController {
         try {
             const { id, currentName, newName } = req.body;
             const playlistData = await userService.changeNamePlaylist(id, currentName, newName);
-            console.log(playlistData);
             return res.json(playlistData);
         } catch (e) {
             next(e);

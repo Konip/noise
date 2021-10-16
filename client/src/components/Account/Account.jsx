@@ -4,12 +4,11 @@ import Del from "./Del";
 import Password from "./Password";
 import Profile from "./Profile";
 
-export default  function Account({ openModal, setPage }) {
+export default function Account({ openModal, setPage }) {
 
     return (
         <div className="account">
             <div className="account__container">
-                {console.log('account')}
                 <div className="account__title">
                     Account
                 </div>

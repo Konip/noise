@@ -1,4 +1,5 @@
 import React from 'react';
+import TooltipDelete from '../Tooltip/TooltipDelete';
 import './FavoritesContainer.css';
 
 export default function FavoritesItem({ name, activateCard, setEditMode, changeNamePlaylist, deletePlaylist }) {
@@ -6,6 +7,7 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
     const [value, setValue] = React.useState()
     const [changeName, setChangeName] = React.useState(false)
     const [detailsButton, setDetailsButton] = React.useState(false)
+    const [tooltip, setTooltip] = React.useState(false)
     const ref = React.useRef(name)
 
     React.useEffect(() => {
@@ -82,17 +84,15 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
         }
     }
 
+
     function del() {
         deletePlaylist(name)
     }
 
     return (
-        <div className="favorites__container" id={name}
-        // <div className="favorites__container" id={name} onClick={() => openEditMode()}
-        // style={detailsButton ? { backgroundColor: 'rgba(255, 255, 255, 0.3)' } : { backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
-        >
+        <div className="favorites__container" id={name}>
             <div className="favorites__inner-container" onClick={e => activateFavorites(e)}>
-                <button className="favorites__edit" data-key={name} onClick={() => openEditMode()}>
+                <button className="favorites__edit" data-key={name} onClick={openEditMode}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                         <g fill="none" fillRule="evenodd">
                             <path fill="currentColor" fillRule="nonzero" d="M7 4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 5a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 5a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"></path>
@@ -102,8 +102,6 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
                 </button>
                 <div className="favorites__edit-container" style={detailsButton ? { display: 'flex' } : { display: 'none' }}>
                     <div className="favorites__edit-container-text">
-                        {/* <input type="text" style={e ? { display: "inline-block" } : { display: "none" }}
-                            onChange={e => handleChange(e)} onKeyDown={e => handleKeyDown(e)} value={value} /> */}
                     </div>
                     <div className="favorites__edit-container-btn" style={detailsButton ? { display: 'flex' } : { display: 'none' }}>
                         <button className="favorites__edit-btn" style={changeName && !detailsButton ? { display: "none" } : { display: "inline-block" }}
@@ -118,10 +116,12 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
                                 </g>
                             </svg>
                         </button>
-                        {/* <button className="favorites__edit-btn" style={e && !detailsButton ? { display: "none" } : { display: "inline-block" }}> */}
-                        <button className="favorites__edit-btn" style={changeName && !detailsButton ? { visibility: "hidden" } : { visibility: "visible" }}
-                            onClick={() => del()}
-                        >
+
+                        <button className="favorites__edit-btn"
+                            style={changeName && !detailsButton ? { visibility: "hidden" } : { visibility: "visible" },
+                                tooltip ? { opacity: "1" } : {}
+                            }
+                            onClick={() => setTooltip(true)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
                                 <g fill="none" fillRule="evenodd">
                                     <path fill="currentColor" fillRule="nonzero" d="M1 5a1 1 0 1 1 0-2h12a1 1 0 0 1 0 2H1z"></path>
@@ -130,15 +130,18 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
                                     <path d="M0 0h14v14H0z"></path>
                                 </g>
                             </svg>
+
                         </button>
                     </div>
                 </div>
                 <div className="favorites__text" style={changeName || detailsButton ? { display: 'none' } : { display: 'block' }}>{name}
                     <input type="text" style={changeName ? { display: "inline-block" } : { display: "none" }}
                         onChange={e => handleChange(e)} onKeyDown={e => handleKeyDown(e)} ref={ref} value={value}
-
                     />
                 </div>
+            </div>
+            <div className={"favorites-tool-active cRLSrs"} style={tooltip ? { opacity: '1', visibility: 'visible' } : { opacity: '0', visibility: 'hidden' }}>
+                <TooltipDelete del={del} setTooltip={setTooltip} />
             </div>
         </div>
     )

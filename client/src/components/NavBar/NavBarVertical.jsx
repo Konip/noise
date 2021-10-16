@@ -4,6 +4,9 @@ import { Context } from "../../Context";
 import Menu from "./Menu";
 import './NavBarVertical.css';
 
+// document.onclick = function(){
+//     alert('hello')
+//   }
 
 export const NavBarVertical = observer(
     class NavBarVertical extends Component {

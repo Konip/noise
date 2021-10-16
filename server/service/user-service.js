@@ -101,10 +101,12 @@ class UserService {
         if (userEmail.email !== email && exists) {
             throw ApiError.BadRequest(`This email already exists`);
         }
+
         const user = await UserModel.findByIdAndUpdate(id,
             { $set: { email, firstName, lastName, username } },
             (err, ac) => {
                 if (err) throw err;
+                return ac
             })
         const userDto = new UserDto(user);
         return { user: userDto };

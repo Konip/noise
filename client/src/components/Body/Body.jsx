@@ -17,6 +17,7 @@ import { base64ToBuffer } from '../../utils/base64ToBuffer';
 import { randomNumber } from '../../utils/randomNumber.js';
 import { randomPlalist } from '../../utils/randomPlaylist';
 import PlayListContainer from '../PlayList/PlayListContainer';
+import TooltipUpgrade from '../Tooltip/TooltipUpgrade';
 import './Body.css';
 
 const objStandard = {
@@ -48,38 +49,16 @@ const objPremium = {
     'train': train,
     'fan': 'fan',
     'typewriter': 'typewriter',
+    'bazar': 'bazar',
+    'tropical': 'tropical',
 }
 
-// 'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
-// 'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
-// 'wind': 'https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1',
-// 'forest': 'https://dl.dropbox.com/s/ys9x65uqyztu8tp/forest_128.mp3?dl=1',
-// 'leaves': 'https://dl.dropbox.com/s/w9j7bbvofc2lpjk/leaves_128.mp3?dl=1',
-// 'waterStream': 'https://dl.dropbox.com/s/kp0gx0fju792d5a/waterStream_128.mp3?dl=1',
-// 'seaside': 'https://dl.dropbox.com/s/2n2vjgyzcpbwp5v/seaside_128.mp3?dl=1',
-// 'water': 'https://dl.dropbox.com/s/z896skrs5j0njq2/water_128.mp3?dl=1',
-// 'bonfire': 'https://dl.dropbox.com/s/h9vf3ugy8r6mx2o/bonfire_128.mp3?dl=1',
-// 'summerNight': 'https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1',
-// 'coffeeShop': 'https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1',
-// 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
-// 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1'
 
 const premium = {
-    // 'rain': 'https://dl.dropbox.com/s/qkd6429kifawls9/rain_128.mp3?dl=1',
-    // 'thunderstorm': 'https://dl.dropbox.com/s/0teabn2n9wz8kf1/thunderstorm_128.mp3?dl=1',
-    // 'wind': 'https://dl.dropbox.com/s/mcimqq0wjrr6k6l/wind_128.mp3?dl=1',
-    // 'forest': 'https://dl.dropbox.com/s/ys9x65uqyztu8tp/forest_128.mp3?dl=1',
-    // 'leaves': 'https://dl.dropbox.com/s/w9j7bbvofc2lpjk/leaves_128.mp3?dl=1',
-    // 'waterStream': 'https://dl.dropbox.com/s/kp0gx0fju792d5a/waterStream_128.mp3?dl=1',
-    // 'seaside': 'https://dl.dropbox.com/s/2n2vjgyzcpbwp5v/seaside_128.mp3?dl=1',
-    // 'water': 'https://dl.dropbox.com/s/z896skrs5j0njq2/water_128.mp3?dl=1',
-    // 'bonfire': 'https://dl.dropbox.com/s/h9vf3ugy8r6mx2o/bonfire_128.mp3?dl=1',
-    // 'summerNight': 'https://dl.dropbox.com/s/751vndcd009bung/summerNigh_128t.mp3?dl=1',
-    // 'coffeeShop': 'https://dl.dropbox.com/s/uh7h19gk1b3yfuy/coffeeShop_128.mp3?dl=1',
-    // 'train': 'https://dl.dropbox.com/s/j5jsu7e42vmljns/train_128.mp3?dl=1',
-    
-    // 'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1',
-    // 'typewriter': 'https://dl.dropbox.com/s/2h1epz1moabr74v/typewriter.mp3?dl=1'
+    'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1',
+    'typewriter': 'https://dl.dropbox.com/s/2h1epz1moabr74v/typewriter.mp3?dl=1',
+    'bazar': 'https://dl.dropbox.com/s/b1273snrdkxgw2x/bazar.mp3?dl=0',
+    'tropical': 'https://dl.dropbox.com/s/m9awmsk5h42byuv/tropicalForest.mp3?dl=0'
 }
 
 const playListStandard = {
@@ -205,9 +184,9 @@ const playListPremium = {
 
 
 const aCtx = new AudioContext();
-let constantNode = aCtx.createGain()
-let volume1 = 1
-let playlistNumber
+let constantNode = aCtx.createGain(),
+    volume1 = 1,
+    playlistNumber
 
 document.addEventListener("DOMContentLoaded", () => {
     let PlayMasterVolumeController = document.querySelector('.PlayMasterVolumeController')
@@ -246,7 +225,7 @@ export class Body extends Component {
         this.onClick = this.onClick.bind(this)
         this.openRegistrationTool = this.openRegistrationTool.bind(this)
         this.changeGeneralSound = this.changeGeneralSound.bind(this)
-        this.muted = this.muted.bind(this)
+        this.muteTheSound = this.muteTheSound.bind(this)
         this.startPlaylist = this.startPlaylist.bind(this)
         this.resetSounds = this.resetSounds.bind(this)
         this.savePlaylist = this.savePlaylist.bind(this)
@@ -350,8 +329,6 @@ export class Body extends Component {
                         });
                 }
             } else if (this.state.premiumSoundsLoaded && !this.props.isAuth) {
-                alert('GGGGGGGGGGGGGGGGGGGGGGGG')
-
                 this.resetSounds(true)
             }
         }
@@ -369,9 +346,9 @@ export class Body extends Component {
 
     onClick(e) {
 
-        let target = e.target.localName
-        let input
-        let key
+        let target = e.target.localName,
+            input,
+            key
 
         if (this.state.playList) {
             this.setState({ playList: '' })
@@ -453,8 +430,8 @@ export class Body extends Component {
     }
 
     changeGeneralSound(e) {
-        let muted = this.state.muted
-        let volume = Number(e.target.value)
+        let muted = this.state.muted,
+            volume = Number(e.target.value)
         volume1 = volume
         if (volume == 0) {
             this.setState({ muted: true })
@@ -465,9 +442,9 @@ export class Body extends Component {
         constantNode.gain.value = volume
     }
 
-    muted() {
-        let muted = this.state.muted
-        let volumeController = document.querySelector('.volumeController-active')
+    muteTheSound() {
+        let muted = this.state.muted,
+            volumeController = document.querySelector('.volumeController-active')
 
         if (muted) {
             constantNode.gain.value = volume1
@@ -534,8 +511,8 @@ export class Body extends Component {
 
         for (let key in play) {
 
-            let input = `input-${key}`
-            let value = play[key]
+            let input = `input-${key}`,
+                value = play[key]
 
             this.setState(state => {
                 state.playListActive = play
@@ -570,7 +547,7 @@ export class Body extends Component {
         this.setState({ playList: 'Favorites' })
     }
 
-    resetPlaylist(){
+    resetPlaylist() {
         this.setState({ playList: '' })
     }
 
@@ -582,7 +559,7 @@ export class Body extends Component {
 
                 <div className="sound" >
                     <input className="volumeController" type="range" min='0' max='1' step='0.01' onChange={(e) => this.changeGeneralSound(e)} ></input>
-                    <div className="PlayMasterVolumeController" onClick={this.muted}>
+                    <div className="PlayMasterVolumeController" onClick={this.muteTheSound}>
                         {this.state.muted
                             ?
                             <svg className="volumeContrl" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
@@ -619,7 +596,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-rain' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="thunderstorm" className={"card  thunderstorm"} onClick={(e) => this.onClick(e)}>
@@ -631,7 +609,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-thunderstorm' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="wind" className={"card  wind"} onClick={(e) => this.onClick(e)}>
@@ -643,7 +622,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="forest" className={"card  forest"} onClick={(e) => this.onClick(e)}>
@@ -655,7 +635,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-forest' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-forest' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="leaves" className={"card  leaves"} onClick={(e) => this.onClick(e)}>
@@ -668,7 +649,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-leaves' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-leaves' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="waterStream" className={"card  waterStream"} onClick={(e) => this.onClick(e)}>
@@ -681,7 +663,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-waterStream' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="seaside" className={"card  seaside"} onClick={(e) => this.onClick(e)}>
@@ -692,7 +675,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-seaside' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-seaside' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="water" className={"card  water"} onClick={(e) => this.onClick(e)}>
@@ -704,7 +688,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-water' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="bonfire" className={"card  bonfire"} onClick={(e) => this.onClick(e)}>
@@ -715,7 +700,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-bonfire' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="summerNight" className={"card  summer-night"} onClick={(e) => this.onClick(e)}>
@@ -726,7 +712,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-summerNight' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="coffeeShop" className={"card  coffee-shop"} onClick={(e) => this.onClick(e)}>
@@ -738,7 +725,8 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-coffeeShop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-coffeeShop' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
 
                         <div style={{ pointerEvents: 'none' }} data-key="train" className={"card  train"} onClick={(e) => this.onClick(e)}>
@@ -749,17 +737,16 @@ export class Body extends Component {
                                     <path d="M0 0h56v56H0z"></path>
                                 </g>
                             </svg>
-                            <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                            <input id='input-train' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                defaultValue='0.75' onChange={(e) => this.changeSoundVolume(e)} ></input>
                         </div>
                     </div>
 
                     <div className={isAuth ? "premium" : "premium tooltip-active"} >
-                        <div className="tool" >
-                            <span id='text'>These Sounds<br />
-                                are a <strong id='pro' onClick={this.openRegistrationTool}>Sign up</strong> feature.<br />
-                                Upgrade to enjoy them.</span>
-                        </div>
-                        <div style={{ pointerEvents: 'none' }} data-key="fan" className={"card  fan prem"} onClick={(e) => this.onClick(e)}>
+
+                        <TooltipUpgrade openRegistrationTool={this.openRegistrationTool} />
+
+                        <div style={{ pointerEvents: 'none' }} data-key="fan" className={"card  fan prem"} onClick={isAuth ? (e) => this.onClick(e) : null}>
                             <div className="mask" id='mask'></div>
                             <div className="wrap">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
@@ -770,11 +757,12 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-fan' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                    defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
-                        <div style={{ pointerEvents: 'none' }} data-key="tropical" className={"card  tropical"} onClick={(e) => this.onClick(e)}>
+                        <div style={{ pointerEvents: 'none' }} data-key="tropical" className={"card  tropical"} onClick={isAuth ? (e) => this.onClick(e) : null}>
                             <div className="mask" ></div>
                             <div className="wrap">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
@@ -785,14 +773,16 @@ export class Body extends Component {
                                         <path d="M0 0h56v56H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-tropical' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-tropical' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                    defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
-                        <div style={{ pointerEvents: 'none' }} data-key="typewriter" className={"card  typewriter"} onClick={(e) => this.onClick(e)}>
+                        <div style={{ pointerEvents: 'none' }} data-key="typewriter" className={"card  typewriter"} onClick={isAuth ? (e) => this.onClick(e) : null}>
                             <div className="mask" ></div>
                             <div className="wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="50%" height="50%" viewBox="0 0 40 40">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="56%" height="56%" viewBox="0 0 40 40">
+                                    <title>Typewriter</title>
                                     <g fill="none" fillRule="evenodd">
                                         <path fill="currentColor" fillRule="nonzero" d="M4,17 C4,15.8954305 4.8954305,15 6,15 L9.76923077,15 C10.8738003,15 11.7692308,15.8954305 11.7692308,17 L11.7692308,18.8888889 C11.7692308,19.4411736 12.216946,19.8888889 12.7692308,19.8888889 L27.2307692,19.8888889 C27.783054,19.8888889 28.2307692,19.4411736 28.2307692,18.8888889 L28.2307692,17 C28.2307692,15.8954305 29.1261997,15 30.2307692,15 L34,15 C35.1045695,15 36,15.8954305 36,17 L36,35 C36,37.209139 34.209139,39 32,39 L8,39 C5.790861,39 4,37.209139 4,35 L4,17 Z M6,17 L6,35 C6,36.1045695 6.8954305,37 8,37 L32,37 C33.1045695,37 34,36.1045695 34,35 L34,17 L30.2307692,17 L30.2307692,18.8888889 C30.2307692,20.5457431 28.8876235,21.8888889 27.2307692,21.8888889 L12.7692308,21.8888889 C11.1123765,21.8888889 9.76923077,20.5457431 9.76923077,18.8888889 L9.76923077,17 L6,17 Z"></path>
                                         <rect width="22" height="2" x="9" y="33" fill="#FFF" rx="1"></rect>
@@ -807,37 +797,24 @@ export class Body extends Component {
                                         <path d="M0 0H40V40H0z"></path>
                                     </g>
                                 </svg>
-                                <input id='input-typewriter' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-typewriter' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                    defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
 
-                        <div style={{ pointerEvents: 'none' }} data-key="fan" className={"card  fan"} onClick={(e) => this.onClick(e)}>
+                        <div style={{ pointerEvents: 'none' }} data-key="bazar" className={"card  bazar"} onClick={isAuth ? (e) => this.onClick(e) : null}>
                             <div className="mask" ></div>
                             <div className="wrap">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
-                                    <title>Tropical forest</title>
-                                    <g fill="none" fillRule="evenodd">
-                                        <path fill="currentColor" fillRule="nonzero" d="M16.247 29.681c2.174.923 3.317 2.832 2.481 4.7-.757 1.695-2.882 2.617-5.724 2.617H12.301c-6.09-.006-8.31.446-8.474 1.68-.179 1.345-.19 2.389-.099 4.191a432.9 432.9 0 0 0 .056 1.103c.135 2.939-.033 5.165-.823 8.383a1.5 1.5 0 0 1-2.914-.714c.716-2.916.863-4.86.74-7.531a95.926 95.926 0 0 0-.055-1.09c-.1-1.969-.087-3.175.122-4.739.286-2.152 1.941-3.349 4.524-3.875 1.681-.343 3.31-.412 6.926-.408h.7c1.786 0 2.808-.443 2.986-.841.044-.099-.124-.378-.915-.714-2.625-1.114-6.568-.65-11.81 1.534a1.5 1.5 0 0 1-2.076-1.385c0-1.522.004-1.937.03-2.517l.021-.37c.038-.604.084-1.07.273-2.864.228-2.171 1.967-3.39 4.667-3.925 1.877-.373 4.216-.439 7.328-.3.37.017 6.384.4 7.472.382 1.076-.017 1.138.032 1-.359-.32-.45-1.32-.895-3.078-1.157-1.353-.202-4.336-.153-8.08.082a156.37 156.37 0 0 0-4.015.304 67.589 67.589 0 0 0-1.434.144c-.228.054-.47.055-.71-.005-.121-.031-.121-.031-.352-.137-.35-.193-.35-.193-.749-.989.04-.798.049-.967.232-1.197l.1-.18a40.058 40.058 0 0 1 2.225-3.496c1.886-2.639 3.649-4.382 5.446-4.859 1.573-.416 3.66.101 9.378 1.914l.565.18c3.051.967 4.444 1.377 5.696 1.638.265.055.501.097.706.126-.271-1.079-1.268-1.787-4.646-3.704-.666-.378-1.483-.683-2.445-.921-1.094-.272-2.3-.445-3.819-.579-.507-.044-2.157-.168-2.104-.163-.793-.063-1.303-.12-1.736-.205-.839-.163-1.39-.4-1.77-1.058-.566-.983-.159-1.82.626-2.507C15.31 2.982 31.617-1.372 35.676.656c5.891 2.946 9.967 10.576 6.021 15.751a1.5 1.5 0 0 1-2.386-1.818c2.521-3.307-.534-9.028-4.978-11.25-2.274-1.137-12.639 1.303-17.777 3.418l.707.058c1.66.146 3.006.34 4.278.655 1.21.3 2.278.698 3.204 1.224 5.147 2.92 6.26 4.125 6.26 7.304 0 1.25-.917 1.927-2.065 2.041-.622.062-1.382-.02-2.347-.221-1.393-.29-2.831-.713-5.992-1.716l-.564-.179c-4.692-1.488-7-2.06-7.703-1.874-.882.234-2.289 1.625-3.773 3.703-.238.332-.47.673-.698 1.016.887-.07 1.834-.139 2.771-.198 3.97-.25 7.07-.3 8.71-.055 2.692.4 4.492 1.252 5.315 2.76a1.5 1.5 0 0 1 .1.225c.945 2.714-.673 4.448-3.73 4.498-1.229.02-7.402-.373-7.655-.384-5.698-.256-8.753.35-8.878 1.541-.183 1.744-.227 2.195-.262 2.74a18.631 18.631 0 0 0-.025.501c4.94-1.756 8.949-2.026 12.038-.715zm-10.92-7.663l.03-.006c.053-.008.053-.008.329-.115.133-.066.133-.066.382-.269.061-.065.112-.12.155-.17a1.5 1.5 0 0 1-.85.554 3.611 3.611 0 0 0-.047.006zm46.46-.142c-4.535-6.288-6.51-7.364-10.542-5.074a1.5 1.5 0 1 1-1.482-2.608c5.775-3.28 9.136-1.45 14.458 5.927 3.34 4.63 2.121 11.703-3.463 20.2-.71 1.082-2.365.817-2.702-.432-1.456-5.403-2.723-8.679-3.852-10.643a9.452 9.452 0 0 0-1.567-2.017c.073.728.427 2.074 1.297 4.815 2.45 7.721 2.81 10.416.803 13.31-1.914 2.757-10.117 7.058-16.266 9.07-1.928.63-3.31-.432-3.682-2.36-.218-1.127-.169-2.574.08-4.852.075-.7.378-3.192.405-3.42.528-4.55.413-7.077-.32-7.839-.042.114-.09.258-.138.432-.28 1.024-.341 1.543-.724 5.605a93.96 93.96 0 0 1-.2 1.943c-.667 5.809-1.89 8.92-5.104 9.538l-.617.12a34.803 34.803 0 0 1-3.139.463c-2.13.218-4.501.276-7.199.128a67.208 67.208 0 0 1-6.557-.701 1.5 1.5 0 0 1 .457-2.965c2.234.344 4.318.563 6.265.67 2.54.14 4.754.085 6.73-.116a31.812 31.812 0 0 0 2.88-.426l.613-.119c1.303-.25 2.179-2.478 2.691-6.935a91.18 91.18 0 0 0 .193-1.882c.41-4.357.467-4.836.818-6.117.65-2.37 2.203-3.605 4.324-2.396 2.537 1.445 2.755 4.506 2.007 10.944-.029.244-.33 2.72-.404 3.398-.215 1.98-.257 3.224-.116 3.957 5.533-1.833 13.14-5.835 14.538-7.85 1.228-1.771.934-3.978-1.197-10.692-1.448-4.56-1.704-5.964-1.243-7.326.065-.19.116-.314.246-.61.862-1.986 2.584-1.646 4.1-.424.944.76 1.933 1.952 2.627 3.159 1 1.741 2.055 4.286 3.198 8.038 3.43-6.175 3.91-10.967 1.785-13.913zm-26.7 13.773a.426.426 0 0 0 .006-.004l-.006.004z"></path>
-                                        <path fill="currentColor" fillRule="nonzero" d="M33.183 11.368c-1.263-1.402-1.862-3.032-.855-3.939 1.007-.907 2.565-.14 3.828 1.263s1.863 3.032.856 3.94c-1.007.906-2.566.139-3.829-1.264zm.654-2.74a.235.235 0 0 0 .002-.016l-.002.016zm2.14 2.374a.176.176 0 0 0 .018.003l-.017-.003zM32.181 32.058c-.192-2.198.247-4.037 1.644-4.16 1.397-.121 2.149 1.613 2.341 3.811.192 2.198-.247 4.037-1.644 4.16-1.397.122-2.148-1.613-2.34-3.811zm2.182-2.322a.227.227 0 0 0 .012-.015l-.012.015zm.37 4.223a.331.331 0 0 0 .015.02l-.015-.02z"></path>
-                                        <path d="M0 0h56v56H0z"></path>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="58px" height="58px" viewBox="0 0 56 56">
+                                    <title>Bazar</title>
+                                    <g id="surface1">
+                                        <path fill="currentColor" stroke='none' fillRule='nonzero' strokeWidth='1' fillOpacity='1' d="M 8.707031 0.175781 C 7.789062 0.394531 6.8125 0.953125 6.125 1.640625 C 5.292969 2.472656 0.492188 10.03125 0.207031 10.960938 C -0.0429688 11.757812 -0.0546875 12.4375 0.175781 13.289062 C 0.480469 14.480469 1.269531 15.53125 2.265625 16.101562 L 2.84375 16.429688 L 2.84375 25.933594 C 2.84375 33.730469 2.820312 35.4375 2.703125 35.4375 C 2.265625 35.4375 1.355469 35.820312 0.972656 36.171875 C -0.449219 37.460938 -0.25 39.691406 1.367188 40.644531 L 1.859375 40.929688 L 1.859375 50.585938 L 1.519531 50.738281 C 0.625 51.132812 0.0546875 52.085938 0.0664062 53.210938 C 0.0664062 54.347656 0.558594 55.15625 1.585938 55.714844 L 2.023438 55.945312 L 53.976562 55.945312 L 54.414062 55.703125 C 55.421875 55.167969 55.933594 54.316406 55.945312 53.210938 C 55.945312 52.085938 55.375 51.132812 54.480469 50.738281 L 54.140625 50.585938 L 54.140625 40.929688 L 54.632812 40.644531 C 56.261719 39.679688 56.449219 37.40625 54.992188 36.160156 C 54.589844 35.808594 53.714844 35.4375 53.296875 35.4375 C 53.179688 35.4375 53.15625 33.730469 53.15625 25.933594 L 53.15625 16.429688 L 53.734375 16.101562 C 55.484375 15.105469 56.394531 12.863281 55.792969 10.960938 C 55.507812 10.039062 50.707031 2.472656 49.863281 1.628906 C 49.175781 0.929688 48.234375 0.40625 47.226562 0.164062 C 46.222656 -0.078125 9.691406 -0.0664062 8.707031 0.175781 Z M 47.480469 2.199219 C 48.386719 2.625 48.835938 3.140625 50.3125 5.46875 C 51.054688 6.640625 52.050781 8.203125 52.523438 8.9375 L 53.375 10.28125 L 45.433594 10.28125 L 44.582031 8.148438 C 43.695312 5.929688 43.464844 5.578125 42.90625 5.578125 C 42.570312 5.578125 42 6.136719 42 6.476562 C 42 6.617188 42.230469 7.296875 42.503906 7.984375 C 42.777344 8.671875 43.105469 9.472656 43.214844 9.757812 L 43.421875 10.28125 L 34.5625 10.28125 L 34.5625 9.265625 C 34.5625 8.136719 34.441406 7.789062 33.972656 7.570312 C 33.609375 7.382812 33.21875 7.46875 32.921875 7.789062 C 32.734375 7.996094 32.703125 8.171875 32.703125 9.15625 L 32.703125 10.28125 L 23.296875 10.28125 L 23.296875 9.15625 C 23.296875 8.171875 23.265625 7.996094 23.078125 7.789062 C 22.78125 7.46875 22.390625 7.382812 22.027344 7.570312 C 21.558594 7.789062 21.4375 8.136719 21.4375 9.265625 L 21.4375 10.28125 L 12.578125 10.28125 L 12.808594 9.703125 C 13.714844 7.449219 14 6.660156 14 6.464844 C 14 6.148438 13.5625 5.699219 13.179688 5.621094 C 12.566406 5.5 12.347656 5.820312 11.417969 8.148438 L 10.566406 10.28125 L 2.625 10.28125 L 3.476562 8.9375 C 3.949219 8.203125 4.945312 6.640625 5.6875 5.46875 C 7.371094 2.8125 7.90625 2.273438 9.15625 1.980469 C 9.394531 1.925781 17.566406 1.890625 28.21875 1.890625 L 46.867188 1.914062 Z M 10.28125 12.28125 C 10.28125 12.664062 9.921875 13.550781 9.625 13.914062 C 9.4375 14.132812 9.011719 14.449219 8.664062 14.625 C 8.050781 14.929688 8.007812 14.929688 6.070312 14.929688 C 4.234375 14.929688 4.070312 14.90625 3.523438 14.667969 C 2.84375 14.359375 2.265625 13.738281 2.035156 13.039062 C 1.695312 12.054688 1.3125 12.140625 6.070312 12.140625 C 9.484375 12.140625 10.28125 12.164062 10.28125 12.28125 Z M 21.4375 12.4375 C 21.4375 13.222656 20.585938 14.351562 19.699219 14.753906 C 19.109375 15.015625 14.460938 15.007812 13.878906 14.742188 C 12.992188 14.328125 12.328125 13.484375 12.183594 12.601562 L 12.109375 12.140625 L 21.4375 12.140625 Z M 32.636719 12.546875 C 32.527344 13.179688 32.035156 14 31.578125 14.339844 C 30.832031 14.886719 30.539062 14.929688 28 14.929688 C 25.460938 14.929688 25.167969 14.886719 24.421875 14.339844 C 23.964844 14 23.472656 13.179688 23.363281 12.546875 L 23.285156 12.140625 L 32.714844 12.140625 Z M 43.816406 12.601562 C 43.671875 13.484375 43.007812 14.328125 42.121094 14.742188 C 41.539062 15.007812 36.890625 15.015625 36.300781 14.753906 C 35.414062 14.351562 34.5625 13.222656 34.5625 12.4375 L 34.5625 12.140625 L 43.890625 12.140625 Z M 54.140625 12.335938 C 54.140625 12.742188 53.789062 13.550781 53.429688 13.96875 C 53.222656 14.207031 52.796875 14.523438 52.476562 14.667969 C 51.929688 14.90625 51.765625 14.929688 49.929688 14.929688 C 47.992188 14.929688 47.949219 14.929688 47.335938 14.625 C 46.988281 14.449219 46.5625 14.132812 46.375 13.914062 C 46.078125 13.550781 45.71875 12.664062 45.71875 12.28125 C 45.71875 12.164062 46.515625 12.140625 49.929688 12.140625 C 53.933594 12.140625 54.140625 12.152344 54.140625 12.335938 Z M 11.726562 15.488281 C 12.382812 16.101562 13.441406 16.601562 14.351562 16.734375 C 15.269531 16.875 18.351562 16.867188 19.28125 16.734375 C 20.246094 16.59375 21.066406 16.199219 21.808594 15.519531 L 22.410156 14.972656 L 22.914062 15.464844 C 23.546875 16.089844 24.566406 16.582031 25.484375 16.734375 C 26.402344 16.875 29.597656 16.875 30.515625 16.734375 C 31.433594 16.582031 32.40625 16.109375 33.0625 15.476562 L 33.589844 14.972656 L 34.191406 15.519531 C 34.933594 16.199219 35.753906 16.59375 36.71875 16.734375 C 37.648438 16.867188 40.730469 16.875 41.648438 16.734375 C 42.558594 16.601562 43.617188 16.101562 44.273438 15.488281 L 44.8125 14.984375 L 45.335938 15.488281 C 45.785156 15.914062 46.660156 16.417969 47.390625 16.667969 C 47.566406 16.722656 47.578125 17.269531 47.578125 26.085938 L 47.578125 35.4375 L 43.980469 35.4375 L 44.035156 35.078125 C 44.375 32.878906 44.8125 28.789062 44.734375 28.589844 C 44.515625 28.023438 44.375 28 41.070312 28 C 37.765625 28 37.625 28.023438 37.40625 28.589844 C 37.328125 28.789062 37.765625 32.878906 38.105469 35.078125 L 38.160156 35.4375 L 30.84375 35.4375 L 30.84375 33.492188 C 30.832031 30.976562 30.679688 30.515625 29.695312 30.066406 C 29.289062 29.882812 28.863281 29.859375 23.984375 29.859375 L 18.703125 29.859375 L 18.703125 26.140625 L 19.335938 26.140625 C 20.167969 26.140625 20.847656 25.800781 21.195312 25.199219 C 21.425781 24.804688 21.4375 24.664062 21.414062 23.230469 C 21.382812 21.753906 21.371094 21.679688 21.085938 21.304688 C 20.507812 20.550781 20.53125 20.550781 15.726562 20.585938 L 11.429688 20.617188 L 11.070312 20.867188 C 10.433594 21.328125 10.28125 21.796875 10.28125 23.308594 C 10.28125 24.421875 10.3125 24.730469 10.5 25.089844 C 10.828125 25.757812 11.351562 26.074219 12.261719 26.117188 L 13.015625 26.164062 L 13.015625 29.835938 L 12.261719 29.882812 C 11.351562 29.925781 10.828125 30.242188 10.5 30.910156 C 10.304688 31.304688 10.28125 31.578125 10.28125 33.390625 L 10.28125 35.4375 L 8.421875 35.4375 L 8.421875 26.085938 C 8.421875 17.269531 8.433594 16.722656 8.617188 16.667969 C 9.351562 16.417969 10.203125 15.925781 10.621094 15.507812 C 10.882812 15.234375 11.125 15.007812 11.144531 15.007812 C 11.167969 14.996094 11.429688 15.214844 11.726562 15.488281 Z M 6.5625 26.140625 L 6.5625 35.4375 L 4.703125 35.4375 L 4.703125 16.84375 L 6.5625 16.84375 Z M 51.296875 26.140625 L 51.296875 35.4375 L 49.4375 35.4375 L 49.4375 16.84375 L 51.296875 16.84375 Z M 19.578125 23.351562 L 19.578125 24.28125 L 12.140625 24.28125 L 12.140625 22.421875 L 19.578125 22.421875 Z M 16.84375 28 L 16.84375 29.859375 L 14.984375 29.859375 L 14.984375 26.140625 L 16.84375 26.140625 Z M 42.765625 30.046875 C 42.765625 30.15625 42.613281 31.402344 42.4375 32.8125 C 42.261719 34.222656 42.109375 35.394531 42.109375 35.40625 C 42.109375 35.425781 41.640625 35.4375 41.070312 35.4375 L 40.042969 35.4375 L 39.976562 35.078125 C 39.878906 34.464844 39.375 30.339844 39.375 30.101562 C 39.375 29.859375 39.40625 29.859375 41.070312 29.859375 C 42.613281 29.859375 42.765625 29.882812 42.765625 30.046875 Z M 28.960938 33.601562 L 28.984375 35.4375 L 12.140625 35.4375 L 12.140625 31.71875 L 20.539062 31.742188 L 28.929688 31.773438 Z M 53.890625 37.667969 C 54.109375 37.929688 54.152344 38.0625 54.097656 38.378906 C 54.0625 38.597656 53.933594 38.859375 53.800781 38.960938 C 53.582031 39.144531 52.195312 39.15625 28.011719 39.15625 C -0.304688 39.15625 2.054688 39.222656 1.902344 38.445312 C 1.828125 38.007812 2.054688 37.558594 2.4375 37.40625 C 2.582031 37.351562 13.550781 37.320312 28.140625 37.328125 L 53.617188 37.351562 Z M 52.257812 45.742188 L 52.28125 50.421875 L 3.71875 50.421875 L 3.71875 45.796875 C 3.71875 43.246094 3.75 41.125 3.796875 41.09375 C 3.828125 41.046875 14.742188 41.027344 28.042969 41.039062 L 52.226562 41.070312 Z M 53.714844 52.421875 C 54.21875 52.804688 54.261719 53.386719 53.824219 53.824219 L 53.507812 54.140625 L 2.492188 54.140625 L 2.175781 53.824219 C 1.738281 53.386719 1.78125 52.804688 2.285156 52.421875 C 2.539062 52.226562 53.460938 52.226562 53.714844 52.421875 Z M 53.714844 52.421875 " />
                                     </g>
                                 </svg>
-                                <input id='input-fa1111n' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
+                                <input id='input-bazar' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01'
+                                    defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
                             </div>
                         </div>
-
-                        {/* <div data-key="wind" className={ "card  wind"} onClick={(e) => this.onClick(e)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
-                            <title>Forest</title>
-                            <g fill="none" fillRule="evenodd">
-                                <path fill="currentColor" fillRule="nonzero" d="M14 50h2v2a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-5H1a1 1 0 0 1-.868-1.496L3.277 40H2a1 1 0 0 1-.848-1.53L5.196 32H5a1 1 0 0 1-.868-1.496L7.277 25H7a1 1 0 0 1-.878-1.479l6-11a1 1 0 0 1 1.752-.007l3.895 7.011-1.188 1.98-3.573-6.431L8.685 23H9a1 1 0 0 1 .868 1.496L6.723 30H7a1 1 0 0 1 .848 1.53L3.804 38H5a1 1 0 0 1 .868 1.496L2.723 45H10c.294 0 .558.127.74.328l-.516 1.137A2.499 2.499 0 0 0 11 49.502V51h3v-1zm24.23-30.475l3.896-7.01a1 1 0 0 1 1.752.006l6 11A1 1 0 0 1 49 25h-.277l3.145 5.504A1 1 0 0 1 51 32h-.196l4.044 6.47A1 1 0 0 1 54 40h-1.277l3.145 5.504A1 1 0 0 1 55 47h-8v5a1 1 0 0 1-1 1h-5a1 1 0 0 1-1-1v-2h2v1h3v-1.498a2.499 2.499 0 0 0 .776-3.037l-.517-1.137A.997.997 0 0 1 46 45h7.277l-3.145-5.504A1 1 0 0 1 51 38h1.196l-4.044-6.47A1 1 0 0 1 49 30h.277l-3.145-5.504A1 1 0 0 1 47 23h.315l-4.323-7.926-3.573 6.431-1.188-1.98z"></path>
-                                <path fill="currentColor" fillRule="nonzero" d="M33 49v5.5a1.5 1.5 0 0 1-1.5 1.5h-7a1.5 1.5 0 0 1-1.5-1.5V49H12.5a1.5 1.5 0 0 1-1.366-2.12L15.17 38H13.5a1.5 1.5 0 0 1-1.286-2.272L16.85 28H16.5a1.5 1.5 0 0 1-1.286-2.272L19.85 18H19.5a1.5 1.5 0 0 1-1.305-2.24l8.5-15a1.5 1.5 0 0 1 2.61 0l8.5 15A1.5 1.5 0 0 1 36.5 18h-.35l4.636 7.728A1.5 1.5 0 0 1 39.5 28h-.35l4.636 7.728A1.5 1.5 0 0 1 42.5 38h-1.67l4.036 8.88A1.5 1.5 0 0 1 43.5 49H33zm-2.56-2.56c.27-.272.646-.44 1.06-.44h9.67l-4.036-8.88A1.5 1.5 0 0 1 38.5 35h1.35l-4.636-7.728A1.5 1.5 0 0 1 36.5 25h.35l-4.636-7.728A1.5 1.5 0 0 1 33.5 15h.426L28 4.543 22.074 15h.426a1.5 1.5 0 0 1 1.286 2.272L19.15 25h.351a1.5 1.5 0 0 1 1.286 2.272L16.15 35H17.5a1.5 1.5 0 0 1 1.366 2.12L14.83 46h9.67a1.5 1.5 0 0 1 1.5 1.5V53h4v-5.5c0-.414.168-.79.44-1.06z"></path>
-                                <path d="M0 0h56v56H0z"></path>
-                            </g>
-                        </svg>
-                        <audio id='wind' src={wind} loop></audio>
-                        <input id='input-wind' style={{ visibility: 'hidden' }} type="range" min='0' max='1' step='0.01' defaultValue='0.5' onChange={(e) => this.changeSoundVolume(e)} ></input>
-                    </div> */}
                     </div>
                 </div>
             </div>

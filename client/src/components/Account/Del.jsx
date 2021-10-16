@@ -12,7 +12,7 @@ export default function Del({ openModal, setPage }) {
         <div className="account__change">
             <div className="delete-wrapp">
                 <div className="input-label">Want to delete your lovely Noise account?</div>
-                <button className="account__btn" onClick={() => del()}>Delete</button>
+                <button className="account__btn" onClick={del}>Delete</button>
             </div>
         </div>
     )

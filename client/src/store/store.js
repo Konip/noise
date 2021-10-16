@@ -113,7 +113,6 @@ export default class Store {
         try {
             const response = await AuthService.changeData(email, firstName, lastName, username, id);
             console.log(response);
-            // this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)
@@ -131,7 +130,6 @@ export default class Store {
         try {
             const response = await AuthService.changePassword(currentPassword, newPassword, id);
             console.log(response);
-            // this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
                 resolve(response)

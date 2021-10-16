@@ -28,14 +28,18 @@ const PlayListContainer = ({ startPlaylist, resetSounds, playlist, playListActiv
         }
     }, [isAuth])
 
-    debugger
+    React.useEffect(() => {
+        if (Object.keys(playListActive).length && !playlist || !Object.keys(playListActive).length) {
+            setActiveFavorites('')
+        }
+    }, [playListActive])
+
     return (
         <div className="playListContainer">
-
             <TopMenu isAuth={ctx.isAuth} resetSounds={resetSounds}
                 setActiveButton={setActiveButton} activeButton={activeButton}
                 activeFavorites={activeFavorites} playListActive={playListActive}
-                playlist={playlist}
+                playlist={playlist} response={toJS(ctx.playlist)}
             />
             {
                 activeButton == "playlist"
@@ -51,7 +55,6 @@ const PlayListContainer = ({ startPlaylist, resetSounds, playlist, playListActiv
                         savePlaylist={savePlaylist} resetPlaylist={resetPlaylist}
                     />
             }
-
         </div>
     )
 }

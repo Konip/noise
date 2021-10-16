@@ -6,7 +6,8 @@
     /* height: 160px; */
     height: 200px;
     text-align: initial;
-    width: 534px;
+    width: 530px;
+    /* width: 534px; */
     margin: 0 auto;
 }
 
@@ -52,6 +53,7 @@
     max-width: 174px;
     font-weight: 500;
     user-select: none;
+    position: relative;
 }
 
 .favorites__btn-input {
@@ -115,7 +117,7 @@ input::placeholder {
 }
 
 .favorites__btn:hover .favorites-tool-active {
-    bottom: -50px;
+    bottom: -77px;
     opacity: 1;
     visibility: visible;
 }
@@ -126,7 +128,8 @@ input::placeholder {
     height: 15px;
     width: 15px;
     background: var(--tooltip-color);
-    bottom: 52px;
+    /* bottom: 52px; */
+    top: -4px;
     left: 50%;
     transform: translateX(-50%) rotate(45deg);
 }
@@ -149,7 +152,7 @@ input::placeholder {
     height: 100%;
 }
 
-.favorites__details-btn input,.favorites__edit-container-text input {
+.favorites__details-btn input, .favorites__edit-container-text input {
     border: none;
     background-color: transparent;
     color: rgb(255, 255, 255);
@@ -204,7 +207,6 @@ input::placeholder {
     opacity: 0.5;
 }
 
-
 .favorites__inner-container {
     padding: 14px 30px;
     text-overflow: ellipsis;
@@ -218,7 +220,6 @@ input::placeholder {
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: center;
-
     min-width: 44px;
 }
 
@@ -260,27 +261,26 @@ input::placeholder {
 .favorites__edit-container-text input {
     display: none;
 }
-.favorites__text input{
+
+.favorites__text input {
     display: inherit;
     position: absolute;
     left: 0;
-
-    
-        border: none;
-        background-color: transparent;
-        color: rgb(255, 255, 255);
-        width: calc(100% + 2px);
-        /* margin-right: -2px;
+    border: none;
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+    width: calc(100% + 2px);
+    /* margin-right: -2px;
         margin-top: -1px; */
-        font-weight: 500;
-        flex-shrink: 0;
-        height: 18px;
-        /* padding-right: 8px; */
-        min-width: 44px;
-        margin: 0 auto;
-
+    font-weight: 500;
+    flex-shrink: 0;
+    height: 18px;
+    /* padding-right: 8px; */
+    min-width: 44px;
+    margin: 0 auto;
 }
-.jSqNqh{
+
+.jSqNqh {
     color: transparent;
     display: flex;
 }
@@ -288,7 +288,15 @@ input::placeholder {
 .eePtjH {
     opacity: 1;
 }
-.addjSqNqh{
+
+.addjSqNqh {
     display: flex;
 }
 
+.cRLSrs {
+    bottom: -110px;
+}
+
+.gYVsrS {
+    background-image: url('../../assets/img/empty.png');
+}

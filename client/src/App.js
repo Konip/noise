@@ -18,7 +18,6 @@ function App() {
 
   // startTransition();
   
-
   const openModal = (activeModal, typeModal) => {
     console.log(activeModal, typeModal);
     setModalActive(activeModal)
