@@ -4,7 +4,10 @@ let distance = [];
 let targetColor = generateRGB();
 let mask = document.body.getElementsByClassName('mask')
 let isAuth = false
-
+let nav
+document.addEventListener("DOMContentLoaded", () => {
+    nav = document.querySelector(".nav")
+})
 
 function getElementBG(elm) {
     var bg = getComputedStyle(elm).backgroundColor;
@@ -92,7 +95,8 @@ var fps = 30;
 var duration = 4;
 var transElement = document.body;
 transElement.style.backgroundColor = "rgb(67, 148, 121)"
-// transElement.style.backgroundColor = "rgb(92, 229, 180)" // initial color
+if (nav) nav.style.backgroundColor = "rgb(67, 148, 121)"
+
 var currentColor = getElementBG(transElement);
 var transHandler = null;
 
@@ -152,6 +156,7 @@ function transition() {
 
     let color = rgb(currentColor)
     transElement.style.backgroundColor = `rgb(${color})`
+    if (nav) nav.style.backgroundColor = `rgb(${color})`
     let gradient = `linear-gradient(0deg, rgb(${color}) 0%, rgb(${color}) 30%, rgba(${color.slice(0, color.length - 1) + ', 0)'} 100%)`
 
 
@@ -162,7 +167,7 @@ function transition() {
         }
     }
 
-    
+
     if (increment[0] == 0 && increment[1] == 0 && increment[2] == 0) {
         startTransition();
     }

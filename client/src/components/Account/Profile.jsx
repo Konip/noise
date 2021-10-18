@@ -22,9 +22,8 @@ function Profile() {
     const ctx = React.useContext(Context)
     const { username, email, firstName, lastName, id } = ctx.user
 
-    console.log("Profile", username, email, firstName, lastName, id);
     const handleSubmit = async ({ email, firstName, lastName, username }, actions) => {
-       
+
         try {
             await ctx.changeData(email, firstName, lastName, username, id)
             actions.setSubmitting(false);
@@ -47,43 +46,47 @@ function Profile() {
         >
             {({ isSubmitting, errors }) => (
                 <Form>
-                    <div className="input-wrapp">
-                        <div className="input-label__container">
-                            {console.log(errors)}
-                            <div className="input-label">Username</div>
-                            <Field className="" type="text" name="username" />
-                            {/* <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
+                    <div className="data__change">
+                        <div className="input-wrapp">
+                            <div className="input-label__container">
+                                {console.log(errors)}
+                                <div className="input-label">Username</div>
+                                <Field className="" type="text" name="username" />
+                                {/* <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
                         <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
-                            <ErrorMessage className="inp-Error" name="username" component="div" />
-                        </div>
-                        <div className="input-label__container">
-                            <div className="input-label">Email</div>
-                            <Field className="" type="email" name="email" />
-                            {/* <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
+                                <ErrorMessage className="inp-Error" name="username" component="div" />
+                            </div>
+                            <div className="input-label__container">
+                                <div className="input-label">Email</div>
+                                <Field className="" type="email" name="email" />
+                                {/* <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
                     <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
-                            <ErrorMessage className="inp-Error-email" name="email" component="div" />
-                            {errors.incorrect && <div className="inp-Error-email">{errors.incorrect}</div>}
+                                <ErrorMessage className="inp-Error-email" name="email" component="div" />
+                                {errors.incorrect && <div className="inp-Error-email">{errors.incorrect}</div>}
+                            </div>
+
                         </div>
 
-                    </div>
-
-                    <div className="input-wrapp">
-                        <div className="input-label__container">
-                            <div className="input-label">First Name</div>
-                            <Field className="" type="text" name="firstName" />
-                            {/* <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
+                        <div className="input-wrapp">
+                            <div className="input-label__container">
+                                <div className="input-label">First Name</div>
+                                <Field className="" type="text" name="firstName" />
+                                {/* <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
                         <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
-                            <ErrorMessage className="inp-Error" name="firstName" component="div" />
-                        </div>
-                        <div className="input-label__container">
-                            <div className="input-label">Last Name</div>
-                            <Field className="" type="text" name="lastName" />
-                            {/* <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
+                                <ErrorMessage className="inp-Error" name="firstName" component="div" />
+                            </div>
+                            <div className="input-label__container">
+                                <div className="input-label">Last Name</div>
+                                <Field className="" type="text" name="lastName" />
+                                {/* <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
                         <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
-                            <ErrorMessage className="inp-Error" name="lastName" component="div" />
+                                <ErrorMessage className="inp-Error" name="lastName" component="div" />
+                            </div>
+                        </div>
+                        <div className="wrap-btn">
+                            <button className="account__btn" type="submit" disabled={isSubmitting}>{!update ? 'Update' : 'Updated! 🎉'}</button>
                         </div>
                     </div>
-                    <button className="account__btn" type="submit" disabled={isSubmitting}>{!update ? 'Update' : 'Updated! 🎉'}</button>
                 </Form>
             )}
         </Formik>

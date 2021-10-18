@@ -4,11 +4,6 @@
     text-align: center;
 }
 
-#video {
-    z-index: 500;
-    width: 600px;
-}
-
 .sound {
     display: flex;
     position: absolute;
@@ -311,4 +306,24 @@ audio::-webkit-media-controls-play-button {
 
 audio::-webkit-media-controls-volume-slider-container {
     display: block
+}
+
+@media (max-width: 1000px) {
+    .volumeContrl {
+        height: 25px;
+        width: 25px;
+    }
+    .mouseover {
+        width: 200px;
+        height: 110px;
+    }
+    .sound {
+        top: 23px;
+        right: 75px;
+        width: 150px;
+        position: fixed;
+    }
+    .body {
+        padding-top: 120px;
+    }
 }

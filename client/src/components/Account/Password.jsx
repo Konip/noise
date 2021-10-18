@@ -42,7 +42,7 @@ export default function Password() {
         >
             {({ isSubmitting, errors }) => (
                 <Form>
-                    <div className="account__change">
+                    <div className="password__change">
                         <div className="basic__title">
                             change password
                         </div>

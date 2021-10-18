@@ -17,8 +17,7 @@ let image = [background01, background02, background03, background04, background0
 let numberImage
 
 const PlayList = React.memo(({ startPlaylist, resetSounds, playlist, activePlaylist, setActivePlaylist, setActiveFavorites }) => {
-    // alert('PlayList');
-    console.log(activePlaylist);
+
     if (!playlist && prev) {
         prev = ''
         setActivePlaylist('')
@@ -32,7 +31,7 @@ const PlayList = React.memo(({ startPlaylist, resetSounds, playlist, activePlayl
             setActivePlaylist('')
             resetSounds()
             prev = ''
-              // вкл
+            // вкл
         } else {
             prev = e
             startPlaylist(e)

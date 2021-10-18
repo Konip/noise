@@ -53,7 +53,6 @@ const objPremium = {
     'tropical': 'tropical',
 }
 
-
 const premium = {
     'fan': 'https://dl.dropbox.com/s/z3zb04gd0x6lwem/fan_128.mp3?dl=1',
     'typewriter': 'https://dl.dropbox.com/s/2h1epz1moabr74v/typewriter.mp3?dl=1',
@@ -190,7 +189,6 @@ let constantNode = aCtx.createGain(),
 
 document.addEventListener("DOMContentLoaded", () => {
     let PlayMasterVolumeController = document.querySelector('.PlayMasterVolumeController')
-    var clientRect = PlayMasterVolumeController.getBoundingClientRect();
 
     let volumeController = document.querySelector('.volumeController')
     let mouseover = document.querySelector('.mouseover')
@@ -213,7 +211,6 @@ export class Body extends Component {
         super()
 
         this.state = {
-            // toggle: false,
             muted: false,
             playList: '',
             playListActive: {},
@@ -248,7 +245,6 @@ export class Body extends Component {
                     var audioFromString = base64ToBuffer(text);
 
                     aCtx.decodeAudioData(audioFromString, (buffer) => {
-                        console.log(buffer);
                         source.buffer = buffer
                         source.loop = true;
 
@@ -256,9 +252,6 @@ export class Body extends Component {
                         gainNode.connect(constantNode)
                         constantNode.connect(aCtx.destination);
 
-                        // source.start(0)
-                        // source.start(0, source.buffer.duration - 5)
-                        // source.disconnect(gainNode);
                         count--
 
                         document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
@@ -299,7 +292,6 @@ export class Body extends Component {
                         .then(resp => resp.arrayBuffer())
                         .then(buf => aCtx.decodeAudioData(buf))
                         .then(decoded => {
-                            console.log('fetch');
                             source.buffer = buf = decoded;
                             source.loop = true;
 
@@ -340,15 +332,13 @@ export class Body extends Component {
             state.data[key].gainNode.gain.value = e.target.value
             state.playListActive[key] = e.target.value
         })
-        // this.state.data[key].gainNode.gain.value = e.target.value
-        // this.state.data[key].gainNode.gain.value = e.target.value
     }
 
     onClick(e) {
 
-        let target = e.target.localName,
-            input,
-            key
+        let target = e.target.localName
+        let input
+        let key
 
         if (this.state.playList) {
             this.setState({ playList: '' })
@@ -374,11 +364,10 @@ export class Body extends Component {
         }
 
         if (target !== 'input') {
-            console.log(key);
+
             let value = this.state.data[key].gainNode.gain.value
 
             this.setState(state => {
-                console.log(state);
                 state.data[key].active = !state.data[key].active
                 if (this.state.data[key].active === true) {
                     state.playListActive[key] = value
@@ -388,13 +377,10 @@ export class Body extends Component {
                 const deep = _.cloneDeep(state)
                 return deep
             }, () => {
-                // console.log(this.state);
 
                 if (this.state.data[key].active === true) {
-                    console.log(' start')
 
                     if (this.state.data[key].firstStart === true) {
-                        // this.state.data[key].source.start(0)
                         this.setState(state => {
                             state.data[key].source.start(0)
                             state.data[key].firstStart = false
@@ -403,12 +389,10 @@ export class Body extends Component {
                     } else {
                         this.state.data[key].source.connect(this.state.data[key].gainNode);
                     }
-                    console.log(document.getElementById(`${input}`));
                     document.getElementById(`${input}`).style.visibility = 'visible';
                     document.querySelector(`[data-key=${key}]`).classList.add('active')
 
                 } else if (this.state.data[key].active === false) {
-                    console.log(' stop')
                     this.state.data[key].source.disconnect(this.state.data[key].gainNode);
                     document.getElementById(`${input}`).style.visibility = 'hidden';
                     document.querySelector(`[data-key=${key}]`).classList.remove('active')
@@ -423,15 +407,14 @@ export class Body extends Component {
         let tool = document.querySelector('.tool')
         tool.style.opacity = 0
 
-        console.log(tool)
         setTimeout(() => {
             tool.style.opacity = 1
         }, 500)
     }
 
     changeGeneralSound(e) {
-        let muted = this.state.muted,
-            volume = Number(e.target.value)
+        let muted = this.state.muted
+        let volume = Number(e.target.value)
         volume1 = volume
         if (volume == 0) {
             this.setState({ muted: true })
@@ -478,7 +461,7 @@ export class Body extends Component {
     }
 
     startPlaylist(name, object) {
-        // console.log(object);
+
         let play
 
         if (name !== 'Favorites' && !object) {
@@ -519,15 +502,11 @@ export class Body extends Component {
                 state.data[key].active = true
                 state.data[key].gainNode.gain.value = value
                 state.playList = name
-                // console.log(input)
 
                 document.querySelector(`#${input}`).value = value
                 const deep = _.cloneDeep(state)
                 return deep
             }, () => {
-
-                // console.log(this.state);
-                // console.log(' start')
 
                 if (this.state.data[key].firstStart === true) {
                     this.state.data[key].source.start(0)

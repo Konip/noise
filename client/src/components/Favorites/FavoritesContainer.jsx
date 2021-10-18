@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { Context } from "../../Context";
 import TooltipAlreadySaved from "../Tooltip/TooltipAlreadySaved";
 import TooltipNotActiveSound from "../Tooltip/TooltipNotActiveSound ";
+import { useOnClickOutside } from './../../hooks/useOnClickOutside';
 import TooltipMaximumNumber from './../Tooltip/TooltipMaximumNumber';
 import Empty from "./Empty";
 import './FavoritesContainer.css';
@@ -18,18 +19,17 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
     const [value, setValue] = React.useState()
     const [editMode, setEditMode] = React.useState(false)
     const ctx = useContext(Context)
+    const ref = React.useRef();
 
-    console.log('playListActive', playListActive, 'response',
-        response, 'activeFavorites', activeFavorites, 'playlist', playlist);
+    useOnClickOutside(ref, () => {
+        let res = document.querySelector(".favorites__btn-input")
+        if (res) save()
+    });
 
     const { id } = ctx.user
-    let keys,
-        soundsActive = Object.keys(playListActive).length,
-        maxNumber = Object.keys(response).length === 3 ? true : false
-
-    if (response) {
-        keys = Object.keys(response)
-    }
+    let keys = Object.keys(response ?? {})
+    let soundsActive = Object.keys(playListActive).length
+    let maxNumber = Object.keys(response ?? {}).length === 3 ? true : false
 
     React.useEffect(() => {
         if (!soundsActive) {
@@ -52,33 +52,34 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
         setValue(e.target.value)
     }
 
-    async function handleKeyDown(e) {
+    async function save() {
 
         const obj = {
             [value]: { ...playListActive }
         }
 
-        if (e.key === 'Enter') {
-            setActive(false)
-            setValue('')
-            try {
-                let res = await ctx.savePlaylist(obj, id),
-                    name = Object.keys(res)
-                setActiveFavorites(name[name.length - 1])
-                savePlaylist()
-                prev = name[name.length - 1]
-                // prev = ''
-            } catch (error) {
-                console.log(error);
-            }
+        setActive(false)
+        setValue('')
+        try {
+            let res = await ctx.savePlaylist(obj, id)
+            let name = Object.keys(res)
+            setActiveFavorites(name[name.length - 1])
+            savePlaylist()
+            prev = name[name.length - 1]
+        } catch (error) {
+            console.log(error);
         }
     }
 
+    function handleKeyDown(e) {
+        if (e.key === 'Enter') save()
+    }
+
     function activateCard(e) {
-        console.log(e);
+
         if (e.target.localName !== "path" && e.target.localName !== "svg" && !editMode) {
-            let name = e.target?.innerText,
-                object = response[name]
+            let name = e.target?.innerText
+            let object = response[name]
             setActivePlaylist('')
             setActive(false)
             soundsActive = 0
@@ -107,7 +108,7 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
 
     async function changeNamePlaylist(currentName, newName) {
         await ctx.changeNamePlaylist(id, currentName, newName)
-        setActiveFavorites(newName)
+        if (activeFavorites) setActiveFavorites(newName)
     }
 
     async function deletePlaylist(name) {
@@ -118,12 +119,11 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
                 resetSounds()
             }
             await ctx.deletePlaylist(id, name)
-
         } catch (error) {
             console.log(error);
         }
     }
-    
+
     return (
         <div className={keys?.length ? "favorites" : "favorites  gYVsrS"}>
             <div className="favorites__wrap" >
@@ -135,7 +135,7 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
                     />
                 })
                 }
-                <button className={active ? "favorites__btn-input" : "favorites__btn"}
+                <button ref={ref} className={active ? "favorites__btn-input" : "favorites__btn"}
                     style={!activeFavorites && soundsActive && !maxNumber ? { color: "rgb(255, 255, 255)" } : { color: "" }}
                     onClick={soundsActive && !active && !activeFavorites && !maxNumber ? () => setActive(true) : null}
                 >

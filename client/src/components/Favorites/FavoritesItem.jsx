@@ -1,4 +1,5 @@
 import React from 'react';
+import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import TooltipDelete from '../Tooltip/TooltipDelete';
 import './FavoritesContainer.css';
 
@@ -8,14 +9,19 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
     const [changeName, setChangeName] = React.useState(false)
     const [detailsButton, setDetailsButton] = React.useState(false)
     const [tooltip, setTooltip] = React.useState(false)
-    const ref = React.useRef(name)
+    const [textInput, setTextInput] = React.useState(false)
+    const ref = React.useRef()
+    const ref1 = React.useRef()
+
+    useOnClickOutside(ref1, () => {
+        if (textInput) save()
+    });
 
     React.useEffect(() => {
         setValue(name)
     }, [name])
 
     function handleChange(e) {
-        e.preventDefault()
         setValue(e.target.value)
     }
 
@@ -23,6 +29,7 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
         e.preventDefault()
 
         setChangeName(true)
+        setTextInput(true)
 
         let a = document.getElementById(name)
 
@@ -41,19 +48,23 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
         activateCard(e)
     }
 
-    async function handleKeyDown(e) {
-        if (e.key === 'Enter') {
-            setEditMode(false)
-            setChangeName(false)
-            changeNamePlaylist(name, value)
-            setDetailsButton(false)
+    async function save() {
 
-            let a = document.getElementById(name)
-            a.querySelector(".favorites__edit-container").style.display = 'flex'
-            a.querySelector(".favorites__text").style.display = 'none'
-            a.querySelector(".favorites__text").classList.remove('jSqNqh')
-            a.querySelector(".favorites__text input").style.display = 'none'
-        }
+        setEditMode(false)
+        setChangeName(false)
+        changeNamePlaylist(name, value)
+        setDetailsButton(false)
+        setTextInput(false)
+
+        let a = document.getElementById(name)
+        a.querySelector(".favorites__edit-container").style.display = 'flex'
+        a.querySelector(".favorites__text").classList.remove('jSqNqh')
+        a.querySelector(".favorites__edit").classList.remove('eePtjH')
+        a.querySelector(".favorites__text input").style.display = 'none'
+    }
+
+    async function handleKeyDown(e) {
+        if (e.key === 'Enter') save()
     }
 
     function openEditMode() {
@@ -103,8 +114,10 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
                 <div className="favorites__edit-container" style={detailsButton ? { display: 'flex' } : { display: 'none' }}>
                     <div className="favorites__edit-container-text">
                     </div>
-                    <div className="favorites__edit-container-btn" style={detailsButton ? { display: 'flex' } : { display: 'none' }}>
-                        <button className="favorites__edit-btn" style={changeName && !detailsButton ? { display: "none" } : { display: "inline-block" }}
+                    <div ref={ref1} className={"favorites__edit-container-btn"}
+                        style={detailsButton ? { display: 'flex' } : { display: 'none' }}>
+                        <button className={"favorites__edit-btn"}
+                            style={changeName && !detailsButton ? { display: "none" } : { display: "inline-block" }}
                             onClick={(e) => editName(e)}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
@@ -134,7 +147,8 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
                         </button>
                     </div>
                 </div>
-                <div className="favorites__text" style={changeName || detailsButton ? { display: 'none' } : { display: 'block' }}>{name}
+                <div className={"favorites__text"}
+                    style={changeName || detailsButton ? { display: 'none' } : { display: 'block' }}>{name}
                     <input type="text" style={changeName ? { display: "inline-block" } : { display: "none" }}
                         onChange={e => handleChange(e)} onKeyDown={e => handleKeyDown(e)} ref={ref} value={value}
                     />

@@ -2,7 +2,6 @@ import React from 'react';
 import './SignupInformation.css';
 
 export default function ResetInformation({ email, setActive }) {
-    { console.log(email) }
     return (
         <div className='verification'>
             <div className="verification__logo">

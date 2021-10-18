@@ -15,11 +15,9 @@ export default function Reset({ openModal, setEmail }) {
     const ctx = useContext(Context)
 
     const handleOnSubmit = async ({ email }, actions) => {
-        console.log(email)
         try {
             setLoading(true)
             await ctx.resetPassword(email)
-            console.log(email);
             actions.setSubmitting(false);
             actions.resetForm();
             setEmail(email)

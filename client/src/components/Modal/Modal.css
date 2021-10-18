@@ -85,6 +85,10 @@ span::selection {
 form {
     width: 100%;
     margin-bottom: 100px;
+
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
 }
 
 .input-wrapper {

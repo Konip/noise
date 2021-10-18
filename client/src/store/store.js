@@ -180,7 +180,7 @@ export default class Store {
         try {
             const response = await AuthService.getPlaylist(id);
             console.log(response.data);
-            this.setPlaylist(response.data.playlist)
+            this.setPlaylist(response.data?.playlist)
             return new Promise((resolve, reject) => {
                 resolve(response.data)
             })

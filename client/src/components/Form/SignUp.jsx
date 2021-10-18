@@ -18,7 +18,6 @@ function SignUp({ openModal, setEmail }) {
     const ctx = useContext(Context);
 
     const handleOnSubmit = async ({ email, password }, actions) => {
-        console.log(email, password)
         try {
             setLoading(true)
             await ctx.registration(email, password)

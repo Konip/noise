@@ -17,7 +17,6 @@ function Login({ setActive, openModal }) {
     const ctx = useContext(Context)
 
     const handleOnSubmit = async ({ email, password, toggle }, actions) => {
-        console.log(email, password, toggle)
         try {
             await ctx.login(email, password, toggle)
             actions.setSubmitting(false);
@@ -44,8 +43,8 @@ function Login({ setActive, openModal }) {
                         <div className="input-wrapper">
                             <div className="input-container">
                                 <Field className="modal__input" type="email" name="email" placeholder="Email" />
-                                <div className={ errors?.email ? "input-border-error" : "input-border"}></div>
-                                <div className={ errors?.incorrect ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.email ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.incorrect ? "input-border-error" : "input-border"}></div>
                                 {/* <div className={!_.isEmpty(errors) && errors.email ? "input-border-error" : "input-border"}></div>
                                 <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
                             </div>
@@ -54,8 +53,8 @@ function Login({ setActive, openModal }) {
                         <div className="input-wrapper">
                             <div className="input-container">
                                 <Field className="modal__input" type="password" name="password" placeholder="Password" />
-                                <div className={ errors?.password ? "input-border-error" : "input-border"}></div>
-                                <div className={ errors?.incorrect ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.password ? "input-border-error" : "input-border"}></div>
+                                <div className={errors?.incorrect ? "input-border-error" : "input-border"}></div>
                                 {/* <div className={!_.isEmpty(errors) && errors.password ? "input-border-error" : "input-border"}></div>
                                 <div className={!_.isEmpty(errors) && errors.incorrect ? "input-border-error" : "input-border"}></div> */}
                             </div>
