@@ -1,10 +1,11 @@
 import React from 'react';
 
-export function useOnClickOutside(ref, handler) {
+export function useOnClickOutside(ref, handler, exception) {
   React.useEffect(
     () => {
       const listener = (event) => {
-        if (!ref.current || ref.current.contains(event.target)) {
+        let res = event.target?.closest('svg')?.closest('div')?.contains(exception)
+        if (!ref.current || ref.current.contains(event.target) || res) {
           return;
         }
         handler(event);

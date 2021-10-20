@@ -148,11 +148,20 @@
     transition: 0.7s;
 }
 
-.icon {
+.icon-wrap {
     position: absolute;
     top: 25px;
     right: 20px;
+    margin-right: 13px;
+}
+
+.icon {
     opacity: 0.5;
+}
+
+.icon-active {
+    opacity: 1;
+    transition: 0.7s;
 }
 
 @media (max-width: 1390px) {
@@ -182,11 +191,11 @@
         flex-direction: unset;
         justify-content: unset;
         align-items: unset;
-        margin-left: 20px;
         margin-top: 20px;
     }
     .logo {
         margin-bottom: 20px;
+        margin-left: 20px;
     }
     .playList-active, .playList {
         display: none;

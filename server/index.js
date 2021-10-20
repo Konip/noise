@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser')
 const mongoose = require('mongoose');
 const router = require('./router/index')
 const errorMiddleware = require('./middlewares/error-middleware');
-// https://www.youtube.com/watch?v=fN25fMQZ2v0&list=LL&index=36
+
 const PORT = process.env.PORT || 5000;
 const app = express()
 

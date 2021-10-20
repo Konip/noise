@@ -188,6 +188,7 @@ input[type=range]::-ms-thumb {
     margin: 0 auto;
     flex-wrap: wrap;
     position: relative;
+    justify-content: center;
 }
 
 #pro {
@@ -326,4 +327,7 @@ audio::-webkit-media-controls-volume-slider-container {
     .body {
         padding-top: 120px;
     }
+}
+@media (max-width: 591px) {
+  
 }

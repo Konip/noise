@@ -14,7 +14,7 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
     const ref1 = React.useRef()
 
     useOnClickOutside(ref1, () => {
-        if (textInput) save()
+        if (textInput) rename()
     });
 
     React.useEffect(() => {
@@ -48,7 +48,7 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
         activateCard(e)
     }
 
-    async function save() {
+    async function rename() {
 
         setEditMode(false)
         setChangeName(false)
@@ -64,7 +64,7 @@ export default function FavoritesItem({ name, activateCard, setEditMode, changeN
     }
 
     async function handleKeyDown(e) {
-        if (e.key === 'Enter') save()
+        if (e.key === 'Enter') rename()
     }
 
     function openEditMode() {

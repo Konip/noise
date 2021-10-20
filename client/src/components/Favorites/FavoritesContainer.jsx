@@ -23,7 +23,7 @@ function FavoritesContainer({ playListActive, response, startPlaylist, activeFav
 
     useOnClickOutside(ref, () => {
         let res = document.querySelector(".favorites__btn-input")
-        if (res) save()
+        if (res && value?.length) save()
     });
 
     const { id } = ctx.user

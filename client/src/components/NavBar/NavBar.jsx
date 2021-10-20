@@ -18,7 +18,7 @@ export const NavBar = observer(
         const ctx = React.useContext(Context)
 
         React.useEffect(() => {
-            ctx.checkAuth() 
+            ctx.checkAuth()
         }, [])
 
         function logout() {
@@ -27,7 +27,6 @@ export const NavBar = observer(
         }
 
         return (
-            
             <div className='nav' onClick={() => setDropdown(false)}>
                 {
                     ctx.isAuth

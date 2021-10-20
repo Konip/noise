@@ -156,3 +156,21 @@
         padding-top: 30px;
     }
 }
+
+@media (max-width: 575px) {
+    .input-wrapp {
+        flex-direction: column;
+    }
+    .input-label__container {
+        align-items: center;
+    }
+    .basic__title {
+        text-align: center;
+    }
+    .input-label {
+        text-align: center;
+    }
+    .delete-wrapp {
+        text-align: center;
+    }
+}

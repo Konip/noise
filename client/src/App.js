@@ -20,16 +20,13 @@ function App() {
   // startTransition();
 
   const openModal = (activeModal, typeModal) => {
-    console.log(activeModal, typeModal);
     setModalActive(activeModal)
     setTypeModal(typeModal)
   }
 
   return (
     <div className="App">
-      <NavBar isAuth={isAuth} checkAuth={ctx.checkAuth}
-        logout={ctx.logout} openModal={openModal} setPage={setPage}
-        page={page}
+      <NavBar openModal={openModal} setPage={setPage} page={page}
       />
 
       <div style={page === 'body' ? { zIndex: '50', display: 'block' } : { zIndex: '1', display: 'none' }}>

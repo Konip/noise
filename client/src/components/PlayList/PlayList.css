@@ -9,10 +9,12 @@
     width: 534px;
     margin: 0 auto;
 }
-.playList__list{
+
+.playList__list {
     display: flex;
     height: 160px;
 }
+
 .playList__wrap {
     -webkit-font-smoothing: antialiased;
     text-size-adjust: 100%;
@@ -166,4 +168,17 @@
     width: 100%;
     height: 100%;
     display: none;
+}
+
+@media (max-width: 591px) {
+    .playListContainer {
+        padding-left: calc(((100vw - 290px) / 2) - 4px);
+        width: 100%;
+    }
+    .playList1{
+        width: 100%;
+    }
+    .playList__list{
+        overflow-x: scroll;
+    }
 }

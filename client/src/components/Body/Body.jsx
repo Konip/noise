@@ -256,10 +256,6 @@ export class Body extends Component {
 
                         document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
 
-                        if (count === 0) {
-                            alert('standardSoundsLoaded')
-                        }
-
                         this.setState(state => {
                             state.data[key] = {
                                 active: false,
@@ -299,15 +295,11 @@ export class Body extends Component {
                             gainNode.connect(constantNode)
                             constantNode.connect(aCtx.destination);
 
-                            // source.start(0)
-                            // source.start(0, source.buffer.duration - 5)
-                            // source.disconnect(gainNode);
                             document.querySelector(`[data-key=${key}]`).style.pointerEvents = 'auto';
                             count--
 
                             this.setState(state => {
                                 if (count === 0) {
-                                    alert('premiumSoundsLoaded')
                                     state.premiumSoundsLoaded = true
                                 }
                                 state.data[key] = {
