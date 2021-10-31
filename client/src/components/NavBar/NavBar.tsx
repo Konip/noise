@@ -13,9 +13,10 @@ interface NavBarProps {
     setPage(value: string): void
     openModal(value: boolean, value1: string): void
     page: string
+    modalActive: boolean
 }
 
-const NavBar: React.FC<NavBarProps> = ({ setPage, openModal, page }) => {
+const NavBar: React.FC<NavBarProps> = ({ setPage, openModal, page, modalActive }) => {
 
     const [dropdown, setDropdown] = React.useState<boolean>()
     const [buttons, setBtn] = React.useState(false)
@@ -25,6 +26,13 @@ const NavBar: React.FC<NavBarProps> = ({ setPage, openModal, page }) => {
     React.useEffect(() => {
         ctx.checkAuth()
     }, [])
+    React.useEffect(() => {
+        if (modalActive && width < 1000) {
+            (document?.querySelector('.sound') as HTMLDivElement).style.zIndex = '0';
+        } else if (!modalActive && width < 1000) {
+            (document?.querySelector('.sound') as HTMLDivElement).style.zIndex = '20';
+        }
+    }, [modalActive])
 
     function logout() {
         ctx.logout()
@@ -32,7 +40,9 @@ const NavBar: React.FC<NavBarProps> = ({ setPage, openModal, page }) => {
     }
 
     return (
-        <div className='nav' onClick={() => setDropdown(false)}>
+        <div className={modalActive ? 'nav-darkened' : 'nav'}
+            style={{ zIndex: !modalActive && width < 1000 ? 20 : 0 }}
+            onClick={() => setDropdown(false)}>
             {
                 ctx.isAuth
                     ?

@@ -6,6 +6,7 @@ import { Body } from './components/Body/Body';
 import Modal from './components/Modal/Modal';
 import NavBar from "./components/NavBar/NavBar";
 import { Context } from "./Context.js";
+import { startTransition } from "./utils/transition";
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
   const ctx = useContext(Context)
   const { isAuth, email }: { isAuth: boolean, email: string } = ctx
 
-  // startTransition();
+  startTransition();
 
   const openModal = (activeModal: boolean, typeModal: string) => {
     setModalActive(activeModal)
@@ -25,7 +26,7 @@ function App() {
 
   return (
     <div className="App" >
-      <NavBar openModal={openModal} setPage={setPage} page={page}
+      <NavBar openModal={openModal} setPage={setPage} page={page} modalActive={modalActive}
       />
 
       <div style={page === 'body' ? { zIndex: 50, display: 'block' } : { zIndex: 1, display: 'none' }}>
