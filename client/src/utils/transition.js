@@ -71,7 +71,7 @@ function calculateIncrement(distanceArray, fps, duration) {
     increment = [];
     for (var i = 0; i < distanceArray.length; i++) {
         var incr = Math.abs(Math.floor(distanceArray[i] / (fps * duration)));
-        if (incr == 0) {
+        if (incr === 0) {
             incr = 1;
         }
         increment.push(incr);
@@ -168,7 +168,7 @@ function transition() {
     }
 
 
-    if (increment[0] == 0 && increment[1] == 0 && increment[2] == 0) {
+    if (increment[0] === 0 && increment[1] === 0 && increment[2] === 0) {
         startTransition();
     }
 }
