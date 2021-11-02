@@ -52,10 +52,6 @@ const FavoritesContainer: React.FC<FavoritesContainerProps> = ({ playListActive,
         if (!soundsActive) {
             setActive(false)
         }
-        // if (activeFavorites) {
-        //     alert('activeFavorites')
-        //     document.getElementById(activeFavorites)!.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
-        // }
         if (!playlist && prev) {
             if (activeFavorites) document.getElementById(activeFavorites)!.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
             prev = ''

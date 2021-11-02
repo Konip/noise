@@ -21,7 +21,7 @@ const Menu: React.FC<MenuProps> = ({ setPage, logout, setDropdown, dropdown, pag
     }
 
     const openAccount = () => {
-        setPage('account')
+        setPage('account');
     }
 
     return (

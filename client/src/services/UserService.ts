@@ -27,7 +27,7 @@ export default class AuthService {
     }
 
     static async changeNamePlaylist(id: string, currentName: string, newName: string): Promise<AxiosResponse> {
-        return $api.post('/name', { id, currentName, newName })
+        return $api.post('/rename', { id, currentName, newName })
     }
 
     static async deletePlaylist(id: string, name: string): Promise<AxiosResponse> {

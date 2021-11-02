@@ -26,14 +26,7 @@ const NavBar: React.FC<NavBarProps> = ({ setPage, openModal, page, modalActive }
     React.useEffect(() => {
         ctx.checkAuth()
     }, [])
-    React.useEffect(() => {
-        if (modalActive && width < 1000) {
-            (document?.querySelector('.sound') as HTMLDivElement).style.zIndex = '0';
-        } else if (!modalActive && width < 1000) {
-            (document?.querySelector('.sound') as HTMLDivElement).style.zIndex = '20';
-        }
-    }, [modalActive])
-
+  
     function logout() {
         ctx.logout()
         setPage('body')
@@ -41,7 +34,6 @@ const NavBar: React.FC<NavBarProps> = ({ setPage, openModal, page, modalActive }
 
     return (
         <div className={modalActive ? 'nav-darkened' : 'nav'}
-            style={{ zIndex: !modalActive && width < 1000 ? 20 : 0 }}
             onClick={() => setDropdown(false)}>
             {
                 ctx.isAuth

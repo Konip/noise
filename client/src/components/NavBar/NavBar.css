@@ -1,13 +1,12 @@
-.nav,.nav-darkened  {
+.nav, .nav-darkened {
     display: flex;
     position: fixed;
     height: 100%;
     width: 150px;
     flex-direction: column;
     padding: 0 10px;
-  }
-
-
+    z-index: 1;
+}
 
 .logo {
     color: white;
@@ -160,7 +159,7 @@
 }
 
 @media (max-width: 1390px) {
-    .nav,.nav-darkened  {
+    .nav, .nav-darkened {
         width: 100px;
     }
 }
@@ -175,11 +174,14 @@
         padding: 10px 0px;
         box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 6px;
     }
-    .nav,.nav-darkened  {
+    .nav, .nav-darkened {
         width: 100%;
         height: unset;
         box-shadow: rgb(0 0 0 / 10%) 0px 1px 2px;
         height: 72px;
+    }
+    .nav {
+        z-index: 1;
     }
     .menu {
         position: relative;

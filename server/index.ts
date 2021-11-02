@@ -7,10 +7,12 @@ import errorMiddleware from './middlewares/error-middleware';
 import router from './router/index';
 
 const PORT = process.env.PORT || 5000;
-const app = express()
+const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.enable("trust proxy");
 app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL

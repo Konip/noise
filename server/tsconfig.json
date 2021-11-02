@@ -5,11 +5,14 @@
     "lib": [
       "es6"
     ],
+    "baseUrl": "./",
     "allowJs": true,
     "strict": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-  }
+    "skipLibCheck": true
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules"]
 }

@@ -20,7 +20,7 @@ class UserService {
         }
         const hashPassword = await bcrypt.hash(password, 3);
         const activationLink = v4()
-    
+
         let count = await UserModel.count();
         const number = count++
         const username = `noise${number}`
@@ -89,7 +89,7 @@ class UserService {
         return { ...tokens, user: userDto };
     }
 
-    async delete(id: string, password: string) {
+    async delete(id: string, password: string, refreshToken: string) {
         const user = await UserModel.findById(id);
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) {
@@ -97,6 +97,8 @@ class UserService {
             throw ApiError.BadRequest('Oops, wrong email or password');
         }
         await UserModel.deleteOne(user);
+        await tokenService.removeToken(refreshToken);
+        await PlaylistModel.findOneAndDelete({ user: id })
         return ({})
     }
 

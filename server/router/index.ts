@@ -17,10 +17,10 @@ router.get('/refresh', userController.refresh);
 router.post('/delete', userController.delete);
 router.post('/change', authMiddleware, userController.changeData);
 router.post('/password', authMiddleware, userController.changePassword);
-router.post('/reset', userController.resetPassword);
-router.post('/set', userController.savePlaylist);
-router.post('/get', userController.getPlaylist);
-router.post('/name', userController.changeNamePlaylist);
-router.post('/delPlaylist', userController.deletePlaylist);
+router.post('/reset',authMiddleware, userController.resetPassword);
+router.post('/set',authMiddleware, userController.savePlaylist);
+router.post('/get',authMiddleware, userController.getPlaylist);
+router.post('/rename',authMiddleware, userController.changeNamePlaylist);
+router.post('/delPlaylist',authMiddleware, userController.deletePlaylist);
 
 export default router

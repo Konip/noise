@@ -12,7 +12,8 @@ class UserController {
             }
             const { email, password }: { email: string, password: string } = req.body;
             const userData = await userService.registration(email, password);
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie('refreshToken', userData.refreshToken,
+                { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
             return res.json(userData);
         } catch (e) {
             next(e);
@@ -24,7 +25,8 @@ class UserController {
             const { email, password, toggle }:
                 { email: string, password: string, toggle: boolean } = req.body;
             const userData = await userService.login(email, password, toggle);
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie('refreshToken', userData.refreshToken,
+                { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
             return res.json(userData);
         } catch (e) {
             next(e);
@@ -56,7 +58,8 @@ class UserController {
         try {
             const { refreshToken }: { refreshToken: string } = req.cookies;
             const userData = await userService.refresh(refreshToken);
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie('refreshToken', userData.refreshToken,
+                { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
             return res.json(userData);
         } catch (e) {
             next(e);
@@ -66,7 +69,8 @@ class UserController {
     async delete(req: Request, res: Response, next: NextFunction) {
         try {
             const { id, password }: { id: string, password: string } = req.body;
-            const userData = await userService.delete(id, password);
+            const { refreshToken }: { refreshToken: string } = req.cookies;
+            const userData = await userService.delete(id, password, refreshToken);
             return res.json(userData);
         } catch (e) {
             next(e);

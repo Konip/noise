@@ -323,6 +323,7 @@ audio::-webkit-media-controls-volume-slider-container {
         right: 75px;
         width: 150px;
         position: fixed;
+        z-index: 1;
     }
     .body {
         padding-top: 120px;
