@@ -1,6 +1,4 @@
-# Noise
-
-Noise - это клон популярного генератора фоновых звуков Noisli
+#№ [Noise][web] - это клон популярного генератора фоновых звуков Noisli
 
 ### Stack:
 
@@ -13,3 +11,5 @@ Noise - это клон популярного генератора фоновы
  * Express.js
  * MongoDB
  * Mongoose.js
+
+[web]: https://awesome-montalcini-6692de.netlify.app/
