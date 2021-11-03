@@ -295,8 +295,8 @@ export class Body extends React.Component<BodyFormProps, BodyFormState>   {
         }
     }
 
-    componentDidUpdate(prevProps: Readonly<BodyFormProps>) {
-
+    componentDidUpdate(prevProps: Readonly<BodyFormProps>, prevState: Readonly<BodyFormState>) {
+    
         if (this.props.isAuth !== prevProps.isAuth) {
 
             let count: number = Object.keys(premium).length
@@ -339,7 +339,9 @@ export class Body extends React.Component<BodyFormProps, BodyFormState>   {
                         });
                 }
             } else if (this.state.premiumSoundsLoaded && !this.props.isAuth) {
-                this.resetSounds()
+                if (this.state.playListActive !== prevState.playListActive) {
+                    this.resetSounds()
+                }
             }
         }
     }
@@ -460,14 +462,14 @@ export class Body extends React.Component<BodyFormProps, BodyFormState>   {
     }
 
     resetSounds() {
-
+        
         const data = _.cloneDeep(this.state.data)
         const playListActive = _.cloneDeep(this.state.playListActive)
-        
+
         for (let key in playListActive) {
             let input = `input-${key}`
             data[key].active = false
-
+           
             data[key].source.disconnect(data[key].gainNode);
             (document.getElementById(`${input}`) as HTMLElement).style.visibility = 'hidden';
             (document.querySelector(`[data-key=${key}]`) as HTMLElement).classList.remove('active')
