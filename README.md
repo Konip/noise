@@ -4,8 +4,6 @@
 
  * Typescript
  * React
- * HTML
- * CSS
  * Mobx
  * Node.js
  * Express.js
