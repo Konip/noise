@@ -6,9 +6,9 @@ import AuthService from "../services/AuthService";
 import UserService from "../services/UserService";
 import { redraw } from '../utils/transition';
 
-export default class Store {
+
+export default class UserStore {
     user = {} as IUser;
-    playlist = {};
     isAuth = false;
 
     constructor() {
@@ -17,15 +17,11 @@ export default class Store {
 
     setAuth(bool: boolean) {
         this.isAuth = bool;
-        redraw(bool)
+        redraw(bool);
     }
 
     setUser(user: IUser) {
         this.user = user;
-    }
-
-    setPlaylist(playlist: object) {
-        this.playlist = playlist;
     }
 
     async login(email: string, password: string, toggle: boolean) {
@@ -35,13 +31,12 @@ export default class Store {
             this.setAuth(true);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
-                resolve(response)
+                resolve(response);
             })
         } catch (e: any) {
-            let error = e.response?.data?.message
-            console.log(error);
+            let error = e.response?.data?.message;
             return new Promise((resolve, reject) => {
-                reject(error)
+                reject(error);
             })
         }
     }
@@ -52,13 +47,12 @@ export default class Store {
             localStorage.setItem('token', response.data.accessToken);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
-                resolve(response)
+                resolve(response);
             })
         } catch (e: any) {
-            let error = e.response?.data?.message
-            console.log(error);
+            let error = e.response?.data?.message;
             return new Promise((resolve, reject) => {
-                reject(error)
+                reject(error);
             })
         }
     }
@@ -76,9 +70,9 @@ export default class Store {
 
     async checkAuth() {
         try {
-            const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true })
+            const response = await axios.get(`${API_URL}/refresh`, { withCredentials: true });
             localStorage.setItem('token', response.data.accessToken);
-            const { isActivated } = response.data.user
+            const { isActivated } = response.data.user;
             if (isActivated) {
                 this.setAuth(true);
             }
@@ -88,21 +82,20 @@ export default class Store {
         }
     }
 
-    async delete(id: string, password: string) {
+    async deleteUser(id: string, password: string) {
         try {
-            const response = await UserService.delete(id, password);
-            await AuthService.logout();
+            const response = await UserService.deleteUser(id, password);
             localStorage.removeItem('token');
             this.setAuth(false);
             this.setUser({} as IUser);
             return new Promise((resolve, reject) => {
-                resolve(response)
+                resolve(response);
             })
         } catch (e: any) {
             let error = e.response?.data?.message
             console.log(error);
             return new Promise((resolve, reject) => {
-                reject(error)
+                reject(error);
             })
         }
     }
@@ -112,13 +105,13 @@ export default class Store {
             const response = await UserService.changeData(email, firstName, lastName, username, id);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
-                resolve(response)
+                resolve(response);
             })
         } catch (e: any) {
-            let error = e.response?.data?.message
+            let error = e.response?.data?.message;
             console.log(error);
             return new Promise((resolve, reject) => {
-                reject(error)
+                reject(error);
             })
         }
     }
@@ -128,13 +121,13 @@ export default class Store {
             const response = await UserService.changePassword(currentPassword, newPassword, id);
             this.setUser(response.data.user);
             return new Promise((resolve, reject) => {
-                resolve(response)
+                resolve(response);
             })
         } catch (e: any) {
-            let error = e.response?.data?.message
+            let error = e.response?.data?.message;
             console.log(error);
             return new Promise((resolve, reject) => {
-                reject(error)
+                reject(error);
             })
         }
     }
@@ -143,77 +136,13 @@ export default class Store {
         try {
             const response = await UserService.resetPassword(email);
             return new Promise((resolve, reject) => {
-                resolve(response)
+                resolve(response);
             })
         } catch (e: any) {
-            let error = e.response?.data?.message
+            let error = e.response?.data?.message;
             console.log(error);
             return new Promise((resolve, reject) => {
-                reject(error)
-            })
-        }
-    }
-
-    async savePlaylist(playlist: object, id: string) {
-        try {
-            const response = await UserService.savePlaylist(playlist, id);
-            this.setPlaylist(response.data.playlist)
-            return new Promise((resolve, reject) => {
-                resolve(response.data.playlist)
-            })
-        } catch (e: any) {
-            let error = e.response?.data?.message
-            console.log(error);
-            return new Promise((resolve, reject) => {
-                reject(error)
-            })
-        }
-    }
-
-    async getPlaylist(id: string) {
-        try {
-            const response = await UserService.getPlaylist(id);
-            this.setPlaylist(response.data?.playlist)
-            return new Promise((resolve, reject) => {
-                resolve(response.data)
-            })
-        } catch (e: any) {
-            let error = e.response?.data?.message
-            console.log(error);
-            return new Promise((resolve, reject) => {
-                reject(error)
-            })
-        }
-    }
-
-    async changeNamePlaylist(id: string, currentName: string, newName: string) {
-        try {
-            const response = await UserService.changeNamePlaylist(id, currentName, newName);
-            this.setPlaylist(response.data)
-            return new Promise((resolve, reject) => {
-                resolve(response.data)
-            })
-        } catch (e: any) {
-            let error = e.response?.data?.message
-            console.log(error);
-            return new Promise((resolve, reject) => {
-                reject(error)
-            })
-        }
-    }
-
-    async deletePlaylist(id: string, name: string) {
-        try {
-            const response = await UserService.deletePlaylist(id, name);
-            this.setPlaylist(response.data)
-            return new Promise((resolve, reject) => {
-                resolve(response.status)
-            })
-        } catch (e: any) {
-            let error = e.response?.data?.message
-            console.log(error);
-            return new Promise((resolve, reject) => {
-                reject(error)
+                reject(error);
             })
         }
     }
