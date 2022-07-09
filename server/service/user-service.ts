@@ -3,19 +3,15 @@ import { v4 } from 'uuid';
 import UserDto from '../dtos/user-dto';
 import ApiError from '../exceptions/api-error';
 import PlaylistModel from '../models/playlist-models';
+import TokenModel from '../models/token-models';
 import UserModel from '../models/user-models';
 import mailService from './mail-service';
 import tokenService from './token-service';
-
-interface Iclone {
-    [key: string]: object
-}
 
 class UserService {
     async registration(email: string, password: string) {
         const candidate = await UserModel.findOne({ email })
         if (candidate) {
-            console.log(`Пользователь с почтовым адресом ${email} уже существует`)
             throw ApiError.BadRequest(`This email already exists`)
         }
         const hashPassword = await bcrypt.hash(password, 3);
@@ -47,17 +43,14 @@ class UserService {
     async login(email: string, password: string, toggle: boolean) {
         const user = await UserModel.findOne({ email });
         if (!user) {
-            console.log('Пользователь с таким email не найден');
             throw ApiError.BadRequest('Oops, wrong email or password');
         }
         const confirmed = await UserModel.findOne({ email })
         if (!confirmed.isActivated) {
-            console.log('Электронный адрес еще не подтвержден');
             throw ApiError.BadRequest('Email address hasnt been confirmed yet');
         }
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) {
-            console.log('Неверный пароль')
             throw ApiError.BadRequest('Oops, wrong email or password');
         }
         const userDto = new UserDto(user);
@@ -89,17 +82,16 @@ class UserService {
         return { ...tokens, user: userDto };
     }
 
-    async delete(id: string, password: string, refreshToken: string) {
+    async delete(id: string, password: string) {
         const user = await UserModel.findById(id);
         const isPassEquals = await bcrypt.compare(password, user.password);
         if (!isPassEquals) {
-            console.log('Неверный пароль')
             throw ApiError.BadRequest('Oops, wrong email or password');
         }
         await UserModel.deleteOne(user);
-        await tokenService.removeToken(refreshToken);
+        await TokenModel.findOneAndDelete({ user: id })
         await PlaylistModel.findOneAndDelete({ user: id })
-        return ({})
+        return 
     }
 
     async changeData(email: string, firstName: string, lastName: string, username: string, id: string) {
@@ -124,7 +116,6 @@ class UserService {
         const isPassEquals = await bcrypt.compare(currentPassword, userPass.password);
 
         if (!isPassEquals) {
-            console.log('Неверный пароль')
             throw ApiError.BadRequest('Enter correct password');
         }
         const hashPassword = await bcrypt.hash(newPassword, 3);
@@ -147,60 +138,6 @@ class UserService {
         await mailService.sendResetMail(email, password);
         const userDto = new UserDto(user);
         return { user: userDto };
-    }
-
-    async savePlaylist(playlist: any, id: string) {
-
-        const user = await PlaylistModel.findOne({ user: id });
-        let key = Object.keys(playlist)[0];
-
-        let playlistData;
-        if (!user) {
-            return await PlaylistModel.create({ user: id, playlist });
-        } else if (user.playlist[key]) {
-
-            user.playlist[key] = playlist[key];
-            user.markModified(`playlist.${key}`);
-            playlistData = await user.save();
-        } else {
-            user.playlist[key] = playlist[key];
-            user.markModified(`playlist.${key}`);
-            playlistData = await user.save();
-        }
-
-        return playlistData
-    }
-
-    async getPlaylist(id: string) {
-        const playlist = await PlaylistModel.findOne({ user: id });
-        return playlist
-    }
-
-    async changeNamePlaylist(id: string, currentName: string, newName: string) {
-        const user = await PlaylistModel.findOne({ user: id });
-        const clone: Iclone = {};
-        let key
-        for (key in user.playlist) {
-            if (user.playlist.hasOwnProperty(key) && key !== currentName) {
-                clone[key] = user.playlist[key];
-            } else clone[newName] = user.playlist[key];
-        }
-
-        PlaylistModel.updateOne({ user: id }, { playlist: clone }, {},
-            (err: any, ac: any) => {
-                if (err) console.log(err);
-            })
-        return clone
-    }
-
-    async deletePlaylist(id: string, name: string) {
-        let res = await PlaylistModel.findOneAndUpdate({ user: id },
-            { $unset: { [`playlist.${name}`]: "" } },
-            { new: true },
-            (err: any, ac: any) => {
-                if (err) console.log(err);
-            })
-        return res.playlist
     }
 }
 
