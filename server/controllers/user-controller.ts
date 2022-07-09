@@ -69,9 +69,8 @@ class UserController {
     async delete(req: Request, res: Response, next: NextFunction) {
         try {
             const { id, password }: { id: string, password: string } = req.body;
-            const { refreshToken }: { refreshToken: string } = req.cookies;
-            const userData = await userService.delete(id, password, refreshToken);
-            return res.json(userData);
+            await userService.delete(id, password);
+            return res.sendStatus(200);
         } catch (e) {
             next(e);
         }
@@ -108,47 +107,6 @@ class UserController {
             next(e);
         }
     }
-
-    async savePlaylist(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { playlist, id }: { playlist: any, id: string } = req.body;
-            const playlistData = await userService.savePlaylist(playlist, id);
-            return res.json(playlistData);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    async getPlaylist(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { id }: { id: string } = req.body;
-            const playlistData = await userService.getPlaylist(id);
-            return res.json(playlistData);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    async changeNamePlaylist(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { id, currentName, newName }: { id: string, currentName: string, newName: string } = req.body;
-            const playlistData = await userService.changeNamePlaylist(id, currentName, newName);
-            return res.json(playlistData);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    async deletePlaylist(req: Request, res: Response, next: NextFunction) {
-        try {
-            const { id, name }: { id: string, name: string } = req.body;
-            const playlistData = await userService.deletePlaylist(id, name);
-            return res.json(playlistData);
-        } catch (e) {
-            next(e);
-        }
-    }
 }
-
 
 export = new UserController();
